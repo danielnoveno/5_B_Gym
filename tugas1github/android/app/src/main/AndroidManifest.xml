@@ -1,6 +1,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
     <application
-        android:label="tugas1github"
+        android:label="guidedlayout2_1900"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity

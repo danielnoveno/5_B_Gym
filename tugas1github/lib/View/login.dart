@@ -26,6 +26,15 @@ class _LoginViewState extends State<LoginView> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
+              // Header 'SymsalaGym'
+              Padding(
+                padding: const EdgeInsets.only(bottom: 20),
+                child: Text(
+                  'SymsalaGym',
+                  style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+                ),
+              ),
+              // Username Input
               inputForm((p0) {
                 if (p0 == null || p0.isEmpty) {
                   return "Username tidak boleh kosong";
@@ -36,6 +45,7 @@ class _LoginViewState extends State<LoginView> {
                   hintTxt: "Username",
                   helperTxt: "Inputkan User yang telah didaftar",
                   iconData: Icons.person),
+              // Password Input
               inputForm((p0) {
                 if (p0 == null || p0.isEmpty) {
                   return "Password kosong";
@@ -47,6 +57,7 @@ class _LoginViewState extends State<LoginView> {
                   hintTxt: "Password",
                   helperTxt: "Inputkan Password",
                   iconData: Icons.password),
+              // Buttons Row
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
@@ -92,17 +103,21 @@ class _LoginViewState extends State<LoginView> {
                   ),
                 ],
               ),
-              // Tombol Login Google
+              // Login with Google Button
               ElevatedButton.icon(
-                icon: Icon(Icons.g_translate), // Google's G logo icon
+                icon: Icon(Icons.g_translate),
                 label: Text('Login dengan Google'),
-                onPressed: () {},
+                onPressed: () {
+                  // Handle Google login here
+                },
               ),
-              // Tombol Login Facebook
+              // Login with Facebook Button
               ElevatedButton.icon(
-                icon: Icon(Icons.facebook), // Facebook icon
+                icon: Icon(Icons.facebook),
                 label: Text('Login dengan Facebook'),
-                onPressed: () {},
+                onPressed: () {
+                  // Handle Facebook login here
+                },
               ),
             ],
           ),
