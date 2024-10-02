@@ -164,10 +164,10 @@
       "languageVersion": "3.5"
     }
   ],
-  "generated": "2024-09-11T08:04:38.806153Z",
+  "generated": "2024-10-02T07:30:17.742938Z",
   "generator": "pub",
-  "generatorVersion": "3.5.2",
+  "generatorVersion": "3.5.3",
   "flutterRoot": "file:///D:/flutter/src/flutter",
-  "flutterVersion": "3.24.2",
+  "flutterVersion": "3.24.3",
   "pubCache": "file:///C:/Users/ASUS/AppData/Local/Pub/Cache"
 }
