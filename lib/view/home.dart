@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:gd_widget2_b_11663/view/view_list.dart';
 
+//home dart
 class HomeView extends StatefulWidget {
   const HomeView({super.key});
 
