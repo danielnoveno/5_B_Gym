@@ -18,13 +18,52 @@ class _HomeViewState extends State<HomeView> {
     });
   }
 
-  static const List<Widget> _widgetOptions = <Widget>[
-    Center(child: Image(image: NetworkImage('https://picsum.photos/200/100'))),
-    ListNamaView(),
-    Center(
-      child: Text(
-        'Index 3: Profile',
+  static List<Widget> _widgetOptions = <Widget>[
+    SafeArea(
+      child: Center(
+        child: Column(
+          children: [
+            Container(
+              padding: const EdgeInsets.only(
+                  top: 20, left: 15, right: 15, bottom: 20),
+              decoration: const BoxDecoration(
+                color: Color(0xFF674AEF),
+                borderRadius: BorderRadius.only(
+                  bottomRight: Radius.circular(20),
+                  bottomLeft: Radius.circular(20),
+                ),
+              ),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  const Icon(
+                    Icons.dashboard,
+                    size: 30,
+                    color: Colors.white,
+                  ),
+                  const Text(
+                    'Hello, Jhon!',
+                    style: TextStyle(
+                      fontSize: 22,
+                      fontWeight: FontWeight.w600,
+                      color: Colors.white,
+                    ),
+                  ),
+                  const Icon(
+                    Icons.notifications,
+                    size: 30,
+                    color: Colors.white,
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
       ),
+    ),
+    const ListNamaView(),
+    const Center(
+      child: Text('Index 3: Profile'),
     ),
   ];
 
@@ -34,20 +73,24 @@ class _HomeViewState extends State<HomeView> {
       bottomNavigationBar: BottomNavigationBar(
         items: const [
           BottomNavigationBarItem(
+<<<<<<< Updated upstream
               icon: Icon(
                 Icons.home,
               ),
               label: 'Nama'),
+=======
+            icon: Icon(Icons.home),
+            label: 'Home',
+          ),
+>>>>>>> Stashed changes
           BottomNavigationBarItem(
-              icon: Icon(
-                Icons.list,
-              ),
-              label: 'List'),
+            icon: Icon(Icons.list),
+            label: 'List',
+          ),
           BottomNavigationBarItem(
-              icon: Icon(
-                Icons.person,
-              ),
-              label: 'Profile'),
+            icon: Icon(Icons.person),
+            label: 'Profile',
+          ),
         ],
         currentIndex: _selectedIndex,
         onTap: _onItemTapped,
