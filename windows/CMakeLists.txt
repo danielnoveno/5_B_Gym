@@ -1,10 +1,10 @@
 # Project-level configuration.
 cmake_minimum_required(VERSION 3.14)
-project(guidedlayout2_1664 LANGUAGES CXX)
+project(gd_widget2_b_11663 LANGUAGES CXX)
 
 # The name of the executable created for the application. Change this to change
 # the on-disk name of your application.
-set(BINARY_NAME "guidedlayout2_1664")
+set(BINARY_NAME "gd_widget2_b_11663")
 
 # Explicitly opt in to modern CMake behaviors to avoid warnings with recent
 # versions of CMake.
