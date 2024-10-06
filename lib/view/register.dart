@@ -11,7 +11,6 @@ class RegisterView extends StatefulWidget {
 }
 
 class _RegisterViewState extends State<RegisterView> {
-  //untuk validasi harws menggunikan Globalkey
   final _formKey = GlobalKey<FormState>();
   TextEditingController usernameController = TextEditingController();
   TextEditingController emailController = TextEditingController();
@@ -118,19 +117,20 @@ class _RegisterViewState extends State<RegisterView> {
                     Map<String, dynamic> formData = {};
                     formData['username'] = usernameController.text;
                     formData['password'] = passwordController.text;
-
                     Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (_) => LoginView(
-                                  data: formData,
-                                )));
+                      context,
+                      MaterialPageRoute(
+                        builder: (_) => LoginView(data: formData),
+                      ),
+                    );
                   }
                 },
-                child: const Text('Register'))
-          ],
+                child: const Text('Register'),
+              ),
+            ],
+          ),
         ),
       ),
-    ));
+    );
   }
 }
