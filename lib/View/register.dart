@@ -19,6 +19,7 @@ class _RegisterViewState extends State<RegisterView> {
     TextEditingController tinggiController = TextEditingController();
     TextEditingController beratController = TextEditingController();
     TextEditingController umurController = TextEditingController();
+    //update register
 
   @override
   Widget build(BuildContext context) {
