@@ -1,8 +1,10 @@
 name: gd_widget2_b_11663
-description: A new Flutter project.
+description: "A new Flutter project."
+publish_to: "none"
+version: 0.1.0
 
 environment:
-  sdk: "^3.5.0"
+  sdk: ^3.5.3
 
 dependencies:
   flutter:
