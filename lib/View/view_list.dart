@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:guidedlayout2_1664/data/people.dart';
+import 'package:gd_widget2_b_11663/data/people.dart';
 
 class ListNamaView extends StatelessWidget {
   const ListNamaView({super.key});
@@ -10,17 +10,13 @@ class ListNamaView extends StatelessWidget {
       appBar: AppBar(
         title: const Text("Daftar Nama"),
       ),
-      body: LayoutBuilder(
-        builder: (context, constraints) {
-          if (constraints.maxWidth > 600) {
-            //* Layar Lebar
-            return const WideLayout();
-          } else {
-            //* Layar Horizontal
-            return const NarrowLayout();
-          }
-        },
-      ),
+      body: LayoutBuilder(builder: (context, Constraints) {
+        if (Constraints.maxWidth > 600) {
+          return const WideLayout();
+        } else {
+          return const NarrowLayout();
+        }
+      }),
     );
   }
 }
@@ -31,12 +27,14 @@ class NarrowLayout extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return PeopleList(
-      onPersonTap: (person) => Navigator.of(context).push(MaterialPageRoute(
-        builder: (context) => Scaffold(
-          appBar: AppBar(),
-          body: PersonDetail(person),
+      onPersonTap: (person) => Navigator.of(context).push(
+        MaterialPageRoute(
+          builder: (context) => Scaffold(
+            appBar: AppBar(),
+            body: PersonDetail(person),
+          ),
         ),
-      )),
+      ),
     );
   }
 }
@@ -50,7 +48,6 @@ class WideLayout extends StatefulWidget {
 
 class _WideLayoutState extends State<WideLayout> {
   Person? _person;
-
   @override
   Widget build(BuildContext context) {
     return Row(
@@ -66,9 +63,7 @@ class _WideLayoutState extends State<WideLayout> {
         ),
         Expanded(
           flex: 3,
-          child: _person == null
-              ? const Placeholder()
-              : PersonDetail(_person!),
+          child: _person == null ? const Placeholder() : PersonDetail(_person!),
         ),
       ],
     );
@@ -81,61 +76,54 @@ class PeopleList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ListView(
-      children: [
-        for (var person in people)
-          ListTile(
+    return ListView(children: [
+      for (var person in people)
+        ListTile(
             leading: Image.network(person.picture),
             title: Text(person.name),
-            onTap: () => onPersonTap(person),
-          ),
-      ],
-    );
+            onTap: () => onPersonTap(person)),
+    ]);
   }
 }
 
 class PersonDetail extends StatelessWidget {
   final Person person;
-  const PersonDetail(this.person, {super.key}); // Corrected constructor
+  const PersonDetail(this.person, {super.key});
 
   @override
   Widget build(BuildContext context) {
-    return LayoutBuilder(
-      builder: (context, constraints) {
-        return Center(
-          child: constraints.maxHeight > 200
-              ? Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    MouseRegion(
-                      // ignore: avoid_print
-                      onHover: (_) => print("Hello World"),
-                      child: Text(person.name),
-                    ),
-                    Text(person.phone),
-                    ElevatedButton(
-                      onPressed: () {},
-                      child: const Text("Contact Me"),
-                    ),
-                  ],
-                )
-              : Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: [
-                    MouseRegion(
-                      // ignore: avoid_print
-                      onHover: (_) => print("Hello World"),
-                      child: Text(person.name),
-                    ),
-                    Text(person.phone),
-                    ElevatedButton(
-                      onPressed: () {},
-                      child: const Text("Contact Me"),
-                    ),
-                  ],
-                ),
-        );
-      },
-    );
+    return LayoutBuilder(builder: (BuildContext, BoxConstraints) {
+      return Center(
+        child: BoxConstraints.maxHeight > 200
+            ? Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  MouseRegion(
+                    onHover: (_) => {print("Hello World")},
+                    child: Text(person.name),
+                  ),
+                  Text(person.phone),
+                  ElevatedButton(
+                    onPressed: () {},
+                    child: const Text("Contact Me"),
+                  ),
+                ],
+              )
+            : Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [
+                  MouseRegion(
+                    onEnter: (_) => {print("Hello World")},
+                    child: Text(person.name),
+                  ),
+                  Text(person.phone),
+                  ElevatedButton(
+                    onPressed: () {},
+                    child: const Text("Contact Me"),
+                  ),
+                ],
+              ),
+      );
+    });
   }
 }
