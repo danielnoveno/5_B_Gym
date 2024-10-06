@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:gd_widget2_b_11663/view/home.dart';
 import 'package:gd_widget2_b_11663/view/register.dart';
 import 'package:gd_widget2_b_11663/component/form_component.dart';
+import 'package:url_launcher/url_launcher.dart';
 
-//update login
 class LoginView extends StatefulWidget {
   final Map? data;
   const LoginView({super.key, this.data});
@@ -20,107 +20,106 @@ class _LoginViewState extends State<LoginView> {
     TextEditingController usernameController = TextEditingController();
     TextEditingController passwordController = TextEditingController();
     Map? dataForm = widget.data;
+
     return Scaffold(
       body: SafeArea(
-        child: Form(
-          key: _formKey,
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              // Header 'SymsalaGym'
-              Padding(
-                padding: const EdgeInsets.only(bottom: 20),
-                child: Text(
+        child: Padding(
+          padding: const EdgeInsets.only(left: 0, right: 20.0),
+          child: Form(
+            key: _formKey,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                const Text(
                   'SymsalaGym',
                   style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
                 ),
-              ),
-              // Username Input
-              inputForm((p0) {
-                if (p0 == null || p0.isEmpty) {
-                  return "Username tidak boleh kosong";
-                }
-                return null;
-              },
+                inputForm(
+                  (p0) {
+                    if (p0 == null || p0.isEmpty) {
+                      return "Username tidak boleh kosong";
+                    }
+                    return null;
+                  },
                   controller: usernameController,
                   hintTxt: "Username",
                   helperTxt: "Inputkan User yang telah didaftar",
-                  iconData: Icons.person),
-              // Password Input
-              inputForm((p0) {
-                if (p0 == null || p0.isEmpty) {
-                  return "Password kosong";
-                }
-                return null;
-              },
+                  iconData: Icons.person,
+                ),
+                inputForm(
+                  (p0) {
+                    if (p0 == null || p0.isEmpty) {
+                      return "Password kosong";
+                    }
+                    return null;
+                  },
                   password: true,
                   controller: passwordController,
                   hintTxt: "Password",
                   helperTxt: "Inputkan Password",
-                  iconData: Icons.password),
-              // Buttons Row
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  ElevatedButton(
-                    onPressed: () {
-                      if (_formKey.currentState!.validate()) {
-                        if (dataForm!['username'] == usernameController.text &&
-                            dataForm['password'] == passwordController.text) {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (c) => const HomeView()));
-                        } else {
-                          showDialog(
-                              context: context,
-                              builder: (_) => AlertDialog(
-                                    title: const Text('Password Salah'),
-                                    content: TextButton(
-                                      onPressed: () => pushRegister(context),
-                                      child: const Text('Daftar Disini !!'),
-                                    ),
-                                    actions: <Widget>[
-                                      TextButton(
-                                        onPressed: () =>
-                                            Navigator.pop(context, 'Cancel'),
-                                        child: const Text('Cancel'),
+                  iconData: Icons.password,
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    ElevatedButton(
+                      onPressed: () {
+                        if (_formKey.currentState!.validate()) {
+                          if (dataForm!['username'] ==
+                                  usernameController.text &&
+                              dataForm['password'] == passwordController.text) {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (c) => const HomeView()));
+                          } else {
+                            showDialog(
+                                context: context,
+                                builder: (_) => AlertDialog(
+                                      title: const Text('Password Salah'),
+                                      content: TextButton(
+                                        onPressed: () => pushRegister(context),
+                                        child: const Text('Daftar Disini !!'),
                                       ),
-                                      TextButton(
-                                        onPressed: () =>
-                                            Navigator.pop(context, 'OK'),
-                                        child: const Text('OK'),
-                                      ),
-                                    ],
-                                  ));
+                                      actions: <Widget>[
+                                        TextButton(
+                                          onPressed: () =>
+                                              Navigator.pop(context, 'Cancel'),
+                                          child: const Text('Cancel'),
+                                        ),
+                                        TextButton(
+                                          onPressed: () =>
+                                              Navigator.pop(context, 'OK'),
+                                          child: const Text('OK'),
+                                        ),
+                                      ],
+                                    ));
+                          }
                         }
-                      }
-                    },
-                    child: const Text('Login'),
-                  ),
-                  TextButton(
-                    onPressed: () => pushRegister(context),
-                    child: const Text('Belum punya akun ?'),
-                  ),
-                ],
-              ),
-              // Login with Google Button
-              ElevatedButton.icon(
-                icon: Icon(Icons.g_translate),
-                label: Text('Login dengan Google'),
-                onPressed: () {
-                  // Handle Google login here
-                },
-              ),
-              // Login with Facebook Button
-              ElevatedButton.icon(
-                icon: Icon(Icons.facebook),
-                label: Text('Login dengan Facebook'),
-                onPressed: () {
-                  // Handle Facebook login here
-                },
-              ),
-            ],
+                      },
+                      child: const Text('Login'),
+                    ),
+                    TextButton(
+                      onPressed: () => pushRegister(context),
+                      child: const Text('Belum punya akun ?'),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 20),
+                ElevatedButton.icon(
+                  icon: const Icon(Icons.g_translate),
+                  label: const Text('Login dengan Google'),
+                  onPressed: () =>
+                      _launchURL('https://accounts.google.com/signin'),
+                ),
+                const SizedBox(height: 10),
+                ElevatedButton.icon(
+                  icon: const Icon(Icons.facebook),
+                  label: const Text('Login dengan Facebook'),
+                  onPressed: () => _launchURL('https://www.facebook.com/login'),
+                ),
+              ],
+            ),
           ),
         ),
       ),
@@ -133,5 +132,13 @@ class _LoginViewState extends State<LoginView> {
         MaterialPageRoute(
           builder: (_) => const RegisterView(),
         ));
+  }
+
+  void _launchURL(String url) async {
+    if (await canLaunch(url)) {
+      await launch(url);
+    } else {
+      throw 'Could not launch $url';
+    }
   }
 }
