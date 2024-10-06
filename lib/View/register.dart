@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:guidedlayout2_1664/View/login.dart';
-import 'package:guidedlayout2_1664/component/form_component.dart';
+import 'package:gd_widget2_b_11663/view/login.dart';
+import 'package:gd_widget2_b_11663/component/form_component.dart';
 
 class RegisterView extends StatefulWidget {
   const RegisterView({super.key});
@@ -65,7 +65,7 @@ class _RegisterViewState extends State<RegisterView> {
                 //*Pola validasi lebih detail bisa menggunakan regex
                 ((p0){
                 if(p0 == null || p0.isEmpty)
-                {
+                {A
                 return 'Passowrd tidak boleh kosong';
                 }
                 if(p0.length<5)
