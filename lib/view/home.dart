@@ -73,16 +73,9 @@ class _HomeViewState extends State<HomeView> {
       bottomNavigationBar: BottomNavigationBar(
         items: const [
           BottomNavigationBarItem(
-<<<<<<< Updated upstream
-              icon: Icon(
-                Icons.home,
-              ),
-              label: 'Nama'),
-=======
             icon: Icon(Icons.home),
             label: 'Home',
           ),
->>>>>>> Stashed changes
           BottomNavigationBarItem(
             icon: Icon(Icons.list),
             label: 'List',
