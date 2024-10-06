@@ -3,6 +3,7 @@ import 'package:guidedlayout2_1900/View/home.dart';
 import 'package:guidedlayout2_1900/View/register.dart';
 import 'package:guidedlayout2_1900/component/form_component.dart';
 
+//update register
 class LoginView extends StatefulWidget {
   final Map? data;
   const LoginView({super.key, this.data});
