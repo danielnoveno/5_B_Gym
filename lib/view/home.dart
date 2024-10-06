@@ -139,7 +139,7 @@ class HomeView extends StatelessWidget {
                                 decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(20),
                                   color: Colors.white,
-                                  boxShadow: [
+                                  boxShadow: [  
                                     BoxShadow(
                                       color: Colors.black26,
                                       spreadRadius: 1,
