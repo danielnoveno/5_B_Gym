@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:gd_widget2_b_11663/view/home.dart';
+import 'package:gd_widget2_b_11663/view/1home.dart';
 import 'package:gd_widget2_b_11663/view/register.dart';
 import 'package:gd_widget2_b_11663/component/form_component.dart';
 import 'package:url_launcher/url_launcher.dart';
