@@ -19,10 +19,13 @@ collection
 file:///C:/Users/acer/AppData/Local/Pub/Cache/hosted/pub.dev/collection-1.18.0/
 file:///C:/Users/acer/AppData/Local/Pub/Cache/hosted/pub.dev/collection-1.18.0/lib/
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
 cupertino_icons
 3.1
 file:///C:/Users/acer/AppData/Local/Pub/Cache/hosted/pub.dev/cupertino_icons-1.0.8/
 file:///C:/Users/acer/AppData/Local/Pub/Cache/hosted/pub.dev/cupertino_icons-1.0.8/lib/
+=======
+>>>>>>> Stashed changes
 =======
 >>>>>>> Stashed changes
 fake_async
@@ -98,7 +101,11 @@ vm_service
 file:///C:/Users/acer/AppData/Local/Pub/Cache/hosted/pub.dev/vm_service-14.2.5/
 file:///C:/Users/acer/AppData/Local/Pub/Cache/hosted/pub.dev/vm_service-14.2.5/lib/
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
 guidedlayout2_1900
+=======
+gd_widget2_b_11663
+>>>>>>> Stashed changes
 =======
 gd_widget2_b_11663
 >>>>>>> Stashed changes
