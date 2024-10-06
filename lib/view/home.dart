@@ -36,7 +36,7 @@ class _HomeViewState extends State<HomeView> {
               icon: Icon(
                 Icons.home,
               ),
-              label: 'Nama'),
+              label: 'Home'),
           BottomNavigationBarItem(
               icon: Icon(
                 Icons.list,
