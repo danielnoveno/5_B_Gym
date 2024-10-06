@@ -1,3 +1,9 @@
+name: gd_widget2_b_11663
+description: A new Flutter project.
+
+environment:
+  sdk: "^3.5.0"
+
 dependencies:
   flutter:
     sdk: flutter
@@ -9,4 +15,3 @@ dev_dependencies:
 
 flutter:
   uses-material-design: true
-
