@@ -11,13 +11,8 @@ class MainApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-<<<<<<< Updated upstream
-    return MaterialApp(
-      home: LoginView("helo world"),
-=======
     return const MaterialApp(
       home: LoginView("Hello World"),
->>>>>>> Stashed changes
     );
   }
 }
