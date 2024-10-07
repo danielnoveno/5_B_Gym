@@ -112,7 +112,7 @@ class _LoginViewState extends State<LoginView> {
                   // Handle Google login here
                 },
               ),
-              // Login with Facebook Button
+              // Login with Facebook Button // tambah ini
               ElevatedButton.icon(
                 icon: Icon(Icons.facebook),
                 label: Text('Login dengan Facebook'),
