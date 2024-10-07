@@ -8,6 +8,7 @@ class Trainer {
       this.name, this.beratBadan, this.tinggi, this.phone, this.picture);
 }
 
+//tambah trainer.dart
 final List<Trainer> trainer = _trainer
     .map((e) => Trainer(
         e['name'] as String,
