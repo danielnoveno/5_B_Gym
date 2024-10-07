@@ -5,7 +5,7 @@ import 'package:gd_widget2_b_11663/component/form_component.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class LoginView extends StatefulWidget {
-  final Map? data;
+  final Map? data; // meminta data ? artinya bisa null
   const LoginView({super.key, this.data});
 
   @override
@@ -17,8 +17,11 @@ class _LoginViewState extends State<LoginView> {
 
   @override
   Widget build(BuildContext context) {
+    // fungsi untuk mendapatkan data dari inputan form field username dan password
     TextEditingController usernameController = TextEditingController();
     TextEditingController passwordController = TextEditingController();
+
+    // digunakan untuk memindahkan data, untuk passing
     Map? dataForm = widget.data;
 
     return Scaffold(
@@ -128,10 +131,9 @@ class _LoginViewState extends State<LoginView> {
 
   void pushRegister(BuildContext context) {
     Navigator.push(
-        context,
-        MaterialPageRoute(
-          builder: (_) => const RegisterView(),
-        ));
+      context,
+      MaterialPageRoute(builder: (_) => const RegisterView()),
+    );
   }
 
   void _launchURL(String url) async {
