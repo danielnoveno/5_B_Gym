@@ -203,9 +203,7 @@ class _HomeViewState extends State<HomeView> {
   static List<Widget> _widgetOptions = <Widget>[
     const HomeViewContent(), // masukkan disini
     const ListNamaView(),
-    const Center(
-      child: Text('Index 3: Profile'),
-    ),
+    const profileView()
   ];
 
   @override
