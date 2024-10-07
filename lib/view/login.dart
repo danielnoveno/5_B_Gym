@@ -1,7 +1,3 @@
-import 'package:flutter/material.dart';
-import 'package:gd_widget2_b_11663/view/home.dart';
-import 'package:gd_widget2_b_11663/view/register.dart';
-import 'package:gd_widget2_b_11663/component/form_component.dart';
 
 //update login
 class LoginView extends StatefulWidget {
