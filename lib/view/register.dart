@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:gd_widget2_b_11663/view/login.dart';
 import 'package:gd_widget2_b_11663/component/form_component.dart';
 
+//update register.dart
 class RegisterView extends StatefulWidget {
   const RegisterView({super.key});
 
@@ -19,21 +20,25 @@ class _RegisterViewState extends State<RegisterView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SafeArea(
-        child: Form(
-          key: _formKey,
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              inputForm((p0) {
-                if (p0 == null || p0.isEmpty) {
-                  return 'Username tidak boleh kosong!';
-                }
-                if (p0.toLowerCase() == 'anjing') {
-                  return 'Tidak boleh menggunakan kata kasar';
-                }
-                return null;
-              },
+        body: SafeArea(
+      child: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.only(left: 0, right: 20.0),
+          child: Form(
+            key: _formKey,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                inputForm(
+                  (p0) {
+                    if (p0 == null || p0.isEmpty) {
+                      return 'Username Tidak Boleh Kosong';
+                    }
+                    if (p0.toLowerCase() == 'anjing') {
+                      return 'Tidak Boleh Menggunakan kata kasar';
+                    }
+                    return null;
+                  },
                   controller: usernameController,
                   hintTxt: "Username",
                   helperTxt: "Ucup Serucup",
@@ -73,28 +78,66 @@ class _RegisterViewState extends State<RegisterView> {
               },
                   controller: notelpController,
                   hintTxt: "No Telp",
-                  helperTxt: "081234567897",
-                  iconData: Icons.phone_android),
-              ElevatedButton(
-                onPressed: () {
-                  if (_formKey.currentState!.validate()) {
-                    Map<String, dynamic> formData = {};
-                    formData['username'] = usernameController.text;
-                    formData['password'] = passwordController.text;
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (_) => LoginView(data: formData),
-                      ),
-                    );
-                  }
-                },
-                child: const Text('Register'),
-              ),
-            ],
+                  helperTxt: "08xxxxxxxxxx",
+                  iconData: Icons.phone_android,
+                ),
+                inputForm(
+                  (p0) {
+                    if (p0 == null || p0.isEmpty) {
+                      return 'Tinggi Tidak Boleh Kosong';
+                    }
+                    return null;
+                  },
+                  controller: tinggiController,
+                  hintTxt: "Tinggi badan dalam cm",
+                  helperTxt: "xxx",
+                  iconData: Icons.height,
+                ),
+                inputForm(
+                  (p0) {
+                    if (p0 == null || p0.isEmpty) {
+                      return 'Berat Tidak Boleh Kosong';
+                    }
+                    return null;
+                  },
+                  controller: beratController,
+                  hintTxt: "Berat badan dalam kg",
+                  helperTxt: "xx",
+                  iconData: Icons.nature_people,
+                ),
+                inputForm(
+                  (p0) {
+                    if (p0 == null || p0.isEmpty) {
+                      return 'Umur Tidak Boleh Kosong';
+                    }
+                    return null;
+                  },
+                  controller: umurController,
+                  hintTxt: "Umur",
+                  helperTxt: "xx",
+                  iconData: Icons.emoji_people_outlined,
+                ),
+                ElevatedButton(
+                  onPressed: () {
+                    if (_formKey.currentState!.validate()) {
+                      Map<String, dynamic> formData = {};
+                      formData['username'] = usernameController.text;
+                      formData['password'] = passwordController.text;
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (_) => LoginView(data: formData),
+                        ),
+                      );
+                    }
+                  },
+                  child: const Text('Register'),
+                ),
+              ],
+            ),
           ),
         ),
       ),
-    );
+    ));
   }
 }

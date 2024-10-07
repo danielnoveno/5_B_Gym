@@ -1,12 +1,17 @@
 name: gd_widget2_b_11663
-description: A new Flutter project.
+description: "A new Flutter project."
+publish_to: "none"
+version: 0.1.0
 
 environment:
-  sdk: "^3.5.0"
+  sdk: ^3.5.3
 
 dependencies:
   flutter:
     sdk: flutter
+  google_sign_in: ^5.2.1
+  flutter_facebook_auth: ^5.0.6
+  url_launcher: ^6.0.20
 
 dev_dependencies:
   flutter_test:
@@ -15,3 +20,6 @@ dev_dependencies:
 
 flutter:
   uses-material-design: true
+
+  assets:
+    - images/
