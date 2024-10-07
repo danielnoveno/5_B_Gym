@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:gd_widget2_b_11663/view/view_list.dart';
-<<<<<<< Updated upstream
-=======
 import 'package:gd_widget2_b_11663/view/isi_home.dart';
->>>>>>> Stashed changes
 import 'package:gd_widget2_b_11663/view/profile.dart';
 
 class HomeView extends StatefulWidget {
@@ -22,17 +19,10 @@ class _HomeViewState extends State<HomeView> {
     });
   }
 
-<<<<<<< Updated upstream
-  static const List<Widget> _widgetOptions = <Widget>[
-    Center(child: Image(image: NetworkImage('https://picsum.photos/200/100'))),
-    ListNamaView(),
-    profileView(),
-=======
   static List<Widget> _widgetOptions = <Widget>[
     const HomeViewContent(), // masukkan disini
     const ListNamaView(),
     profileView()
->>>>>>> Stashed changes
   ];
 
   @override
