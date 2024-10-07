@@ -10,6 +10,7 @@ class ListNamaView extends StatelessWidget {
       appBar: AppBar(
         title: const Text("Daftar Nama"),
       ),
+      // backgroundColor: const Color.fromARGB(255, 0, 0, 0),
       body: LayoutBuilder(builder: (context, Constraints) {
         if (Constraints.maxWidth > 600) {
           return const WideLayout();
@@ -99,11 +100,18 @@ class TrainerDetail extends StatelessWidget {
             ? Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
+                  Image.network(
+                    trainer.picture,
+                    width: 100, // You can adjust the size as needed
+                    height: 100,
+                  ),
                   MouseRegion(
                     onHover: (_) => {print("Hello World")},
                     child: Text(trainer.name),
                   ),
-                  Text(trainer.phone),
+                  Text("Berat Badan : ${trainer.phone}"),
+                  Text("Tinggi: ${trainer.tinggi}"),
+                  Text("${trainer.beratBadan}"),
                   ElevatedButton(
                     onPressed: () {},
                     child: const Text("Contact Me"),
