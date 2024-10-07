@@ -16,9 +16,6 @@ class _RegisterViewState extends State<RegisterView> {
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
   TextEditingController notelpController = TextEditingController();
-  TextEditingController tinggiController = TextEditingController();
-  TextEditingController beratController = TextEditingController();
-  TextEditingController umurController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -44,47 +41,41 @@ class _RegisterViewState extends State<RegisterView> {
                   },
                   controller: usernameController,
                   hintTxt: "Username",
-                  helperTxt: "Adel Rai",
-                  iconData: Icons.person,
-                ),
-                inputForm(
-                  (p0) {
-                    if (p0 == null || p0.isEmpty) {
-                      return 'Email tidak boleh kosong';
-                    }
-                    if (!p0.contains('@')) {
-                      return 'Email harus menggunakan @';
-                    }
-                    return null;
-                  },
+                  helperTxt: "Ucup Serucup",
+                  iconData: Icons.person),
+              inputForm((p0) {
+                if (p0 == null || p0.isEmpty) {
+                  return 'Email tidak boleh kosong!';
+                }
+                if (!p0.contains('@')) {
+                  return 'Email harus menggunakan @';
+                }
+                return null;
+              },
                   controller: emailController,
                   hintTxt: "Email",
-                  helperTxt: "adelrai@gmail.com",
-                  iconData: Icons.email,
-                ),
-                inputForm(
-                  (p0) {
-                    if (p0 == null || p0.isEmpty) {
-                      return 'Password tidak boleh kosong';
-                    }
-                    if (p0.length < 5) {
-                      return 'Password minimal 5 digit';
-                    }
-                    return null;
-                  },
+                  helperTxt: "ucup@gmail.com",
+                  iconData: Icons.email),
+              inputForm((p0) {
+                if (p0 == null || p0.isEmpty) {
+                  return 'Password tidak boleh kosong!';
+                }
+                if (p0.length < 5) {
+                  return 'Password minimal 5 digit';
+                }
+                return null;
+              },
                   controller: passwordController,
                   hintTxt: "Password",
                   helperTxt: "xxxxxxx",
                   iconData: Icons.password,
-                  password: true,
-                ),
-                inputForm(
-                  (p0) {
-                    if (p0 == null || p0.isEmpty) {
-                      return 'Nomor Telepon tidak boleh kosong';
-                    }
-                    return null;
-                  },
+                  password: true),
+              inputForm((p0) {
+                if (p0 == null || p0.isEmpty) {
+                  return 'Nomor Telepon tidak boleh kosong!';
+                }
+                return null;
+              },
                   controller: notelpController,
                   hintTxt: "No Telp",
                   helperTxt: "08xxxxxxxxxx",
