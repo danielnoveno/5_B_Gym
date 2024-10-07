@@ -129,13 +129,13 @@
     },
     {
       "name": "google_sign_in_android",
-      "rootUri": "file:///C:/Users/ASUS/AppData/Local/Pub/Cache/hosted/pub.dev/google_sign_in_android-6.1.32",
+      "rootUri": "file:///C:/Users/ASUS/AppData/Local/Pub/Cache/hosted/pub.dev/google_sign_in_android-6.1.33",
       "packageUri": "lib/",
       "languageVersion": "3.5"
     },
     {
       "name": "google_sign_in_ios",
-      "rootUri": "file:///C:/Users/ASUS/AppData/Local/Pub/Cache/hosted/pub.dev/google_sign_in_ios-5.7.7",
+      "rootUri": "file:///C:/Users/ASUS/AppData/Local/Pub/Cache/hosted/pub.dev/google_sign_in_ios-5.7.8",
       "packageUri": "lib/",
       "languageVersion": "3.3"
     },
@@ -338,7 +338,7 @@
       "languageVersion": "3.5"
     }
   ],
-  "generated": "2024-10-07T16:24:20.490959Z",
+  "generated": "2024-10-07T16:31:02.610592Z",
   "generator": "pub",
   "generatorVersion": "3.5.3",
   "flutterRoot": "file:///D:/flutter/src/flutter",
