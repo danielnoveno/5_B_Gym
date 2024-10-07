@@ -16,7 +16,7 @@ class _RegisterViewState extends State<RegisterView> {
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
   TextEditingController notelpController = TextEditingController();
-  //tambah ini
+  //tambah ini tes
   TextEditingController tinggiController = TextEditingController();
   TextEditingController beratController = TextEditingController();
   TextEditingController umurController = TextEditingController();
