@@ -1,6 +1,5 @@
 async
 2.18
-
 file:///C:/Users/ASUS/AppData/Local/Pub/Cache/hosted/pub.dev/async-2.11.0/
 file:///C:/Users/ASUS/AppData/Local/Pub/Cache/hosted/pub.dev/async-2.11.0/lib/
 boolean_selector
@@ -219,7 +218,6 @@ flutter_test
 3.3
 file:///D:/flutter/src/flutter/packages/flutter_test/
 file:///D:/flutter/src/flutter/packages/flutter_test/lib/
-
 flutter_web_plugins
 3.2
 file:///D:/flutter/src/flutter/packages/flutter_web_plugins/

@@ -326,7 +326,6 @@
       "languageVersion": "3.3"
     },
     {
-
       "name": "web",
       "rootUri": "file:///C:/Users/ASUS/AppData/Local/Pub/Cache/hosted/pub.dev/web-1.1.0",
       "packageUri": "lib/",
@@ -339,7 +338,7 @@
       "languageVersion": "3.5"
     }
   ],
-  "generated": "2024-10-07T15:03:49.592404Z",
+  "generated": "2024-10-07T15:57:11.986287Z",
   "generator": "pub",
   "generatorVersion": "3.5.3",
   "flutterRoot": "file:///D:/flutter/src/flutter",
