@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:gd_widget2_b_11663/view/login.dart';
 import 'package:gd_widget2_b_11663/component/form_component.dart';
 
-//update register.dart
+//update register.dart v2
 class RegisterView extends StatefulWidget {
   const RegisterView({super.key});
 
