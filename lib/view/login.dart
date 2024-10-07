@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 
 //update login
 class LoginView extends StatefulWidget {
