@@ -8,7 +8,7 @@ class Trainer {
       this.name, this.beratBadan, this.tinggi, this.phone, this.picture);
 }
 
-//tambah trainer.dart
+//tambah trainer.dart /edit folder view
 final List<Trainer> trainer = _trainer
     .map((e) => Trainer(
         e['name'] as String,
