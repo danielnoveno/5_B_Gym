@@ -326,6 +326,7 @@
       "languageVersion": "3.3"
     },
     {
+
       "name": "web",
       "rootUri": "file:///C:/Users/ASUS/AppData/Local/Pub/Cache/hosted/pub.dev/web-1.1.0",
       "packageUri": "lib/",

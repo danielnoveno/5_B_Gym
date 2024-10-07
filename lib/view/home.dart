@@ -18,7 +18,6 @@ class _HomeViewState extends State<HomeView> {
       _selectedIndex = index;
     });
   }
-
   static const List<Widget> _widgetOptions = <Widget>[
     HomeViewContent(),
     // ListNamaView(),
