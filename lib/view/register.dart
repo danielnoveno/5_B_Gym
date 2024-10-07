@@ -127,7 +127,7 @@ class _RegisterViewState extends State<RegisterView> {
                 },
                 child: const Text('Register'),
               ),
-            ],
+            ),
           ),
         ),
       ),
