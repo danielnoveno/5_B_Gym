@@ -12,7 +12,7 @@ const SizedBox kSizeBox = SizedBox(
   child: Divider(
     color: Colors.teal,
     thickness: 1.5,
-    ),
+  ),
 );
 
 const kTextStyle1 = TextStyle(

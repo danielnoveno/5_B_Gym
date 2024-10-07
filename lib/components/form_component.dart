@@ -2,24 +2,24 @@ import 'package:flutter/material.dart';
 
 Padding inputForm(Function(String?) validasi,
     {required TextEditingController controller,
-    required String hintTxt,
+    required String hinTxt,
     required String helperTxt,
-    required IconData iconData,
+    required IconData,
     bool password = false}) {
   return Padding(
     padding: const EdgeInsets.only(left: 20, top: 10),
     child: SizedBox(
-        width: 450,
+        width: 350,
         child: TextFormField(
           validator: (value) => validasi(value),
           autofocus: true,
           controller: controller,
           obscureText: password,
           decoration: InputDecoration(
-              hintText: hintTxt,
+              hintText: hinTxt,
               border: const OutlineInputBorder(),
               helperText: helperTxt,
-              prefixIcon: Icon(iconData)),
+              prefixIcon: Icon(IconData)),
         )),
   );
 }
