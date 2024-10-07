@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
+<<<<<<< Updated upstream
 import 'package:gd_widget2_b_11663/view/constant.dart';
+=======
+import 'package:gd_widget2_b_11663/View/constant.dart';
+>>>>>>> Stashed changes
 
 class profileView extends StatelessWidget {
   const profileView({super.key});
