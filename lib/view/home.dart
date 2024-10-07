@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:gd_widget2_b_11663/view/view_list.dart';
 import 'package:gd_widget2_b_11663/view/isi_home.dart';
+import 'package:gd_widget2_b_11663/view/profile.dart';
 
 // class HomeView extends StatelessWidget { // masukkan ke cennter
 //   const HomeView({super.key});
