@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:gd_widget2_b_11663/view/view_list.dart';
+import 'package:gd_widget2_b_11663/view/view_listgym.dart';
 import 'package:gd_widget2_b_11663/view/profile.dart';
 import 'package:gd_widget2_b_11663/view/isi_home.dart';
 
@@ -21,7 +21,7 @@ class _HomeViewState extends State<HomeView> {
 
   static const List<Widget> _widgetOptions = <Widget>[
     HomeViewContent(),
-    // ListNamaView(),
+    ListNamaView(),
     profileView(),
   ];
 
