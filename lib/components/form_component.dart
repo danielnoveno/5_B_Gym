@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 
 Padding inputForm(Function(String?) validasi,
     {required TextEditingController controller,
-    required String hinTxt,
+    required String hintTxt,
     required String helperTxt,
-    required IconData,
+    required IconData iconData,
     bool password = false}) {
   return Padding(
     padding: const EdgeInsets.only(left: 20, top: 10),
@@ -16,10 +16,10 @@ Padding inputForm(Function(String?) validasi,
           controller: controller,
           obscureText: password,
           decoration: InputDecoration(
-              hintText: hinTxt,
+              hintText: hintTxt,
               border: const OutlineInputBorder(),
               helperText: helperTxt,
-              prefixIcon: Icon(IconData)),
+              prefixIcon: Icon(iconData)),
         )),
   );
 }

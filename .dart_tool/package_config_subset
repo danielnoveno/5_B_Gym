@@ -1,6 +1,5 @@
 async
 2.18
-
 file:///C:/Users/ASUS/AppData/Local/Pub/Cache/hosted/pub.dev/async-2.11.0/
 file:///C:/Users/ASUS/AppData/Local/Pub/Cache/hosted/pub.dev/async-2.11.0/lib/
 boolean_selector
@@ -73,12 +72,12 @@ file:///C:/Users/ASUS/AppData/Local/Pub/Cache/hosted/pub.dev/google_sign_in-5.4.
 file:///C:/Users/ASUS/AppData/Local/Pub/Cache/hosted/pub.dev/google_sign_in-5.4.4/lib/
 google_sign_in_android
 3.5
-file:///C:/Users/ASUS/AppData/Local/Pub/Cache/hosted/pub.dev/google_sign_in_android-6.1.32/
-file:///C:/Users/ASUS/AppData/Local/Pub/Cache/hosted/pub.dev/google_sign_in_android-6.1.32/lib/
+file:///C:/Users/ASUS/AppData/Local/Pub/Cache/hosted/pub.dev/google_sign_in_android-6.1.33/
+file:///C:/Users/ASUS/AppData/Local/Pub/Cache/hosted/pub.dev/google_sign_in_android-6.1.33/lib/
 google_sign_in_ios
 3.3
-file:///C:/Users/ASUS/AppData/Local/Pub/Cache/hosted/pub.dev/google_sign_in_ios-5.7.7/
-file:///C:/Users/ASUS/AppData/Local/Pub/Cache/hosted/pub.dev/google_sign_in_ios-5.7.7/lib/
+file:///C:/Users/ASUS/AppData/Local/Pub/Cache/hosted/pub.dev/google_sign_in_ios-5.7.8/
+file:///C:/Users/ASUS/AppData/Local/Pub/Cache/hosted/pub.dev/google_sign_in_ios-5.7.8/lib/
 google_sign_in_platform_interface
 3.0
 file:///C:/Users/ASUS/AppData/Local/Pub/Cache/hosted/pub.dev/google_sign_in_platform_interface-2.4.5/
@@ -219,7 +218,6 @@ flutter_test
 3.3
 file:///D:/flutter/src/flutter/packages/flutter_test/
 file:///D:/flutter/src/flutter/packages/flutter_test/lib/
-
 flutter_web_plugins
 3.2
 file:///D:/flutter/src/flutter/packages/flutter_web_plugins/
