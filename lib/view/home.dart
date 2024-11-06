@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:gd_widget2_b_11663/view/view_list.dart';
+import 'package:gd_widget2_b_11663/view/view_listgym.dart';
+import 'package:gd_widget2_b_11663/view/profile.dart';
+import 'package:gd_widget2_b_11663/view/isi_home.dart';
 
-//update home
 class HomeView extends StatefulWidget {
   const HomeView({super.key});
 
@@ -19,13 +20,9 @@ class _HomeViewState extends State<HomeView> {
   }
 
   static const List<Widget> _widgetOptions = <Widget>[
-    Center(child: Image(image: NetworkImage('https://picsum.photos/200/100'))),
+    HomeViewContent(),
     ListNamaView(),
-    Center(
-      child: Text(
-        'Index 3: Profile',
-      ),
-    ),
+    profileView(),
   ];
 
   @override
@@ -37,7 +34,7 @@ class _HomeViewState extends State<HomeView> {
               icon: Icon(
                 Icons.home,
               ),
-              label: 'Nama'),
+              label: 'Home'),
           BottomNavigationBarItem(
               icon: Icon(
                 Icons.list,

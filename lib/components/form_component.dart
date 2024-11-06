@@ -9,7 +9,7 @@ Padding inputForm(Function(String?) validasi,
   return Padding(
     padding: const EdgeInsets.only(left: 20, top: 10),
     child: SizedBox(
-        width: 450,
+        width: 350,
         child: TextFormField(
           validator: (value) => validasi(value),
           autofocus: true,
