@@ -2,70 +2,127 @@ import 'package:flutter/material.dart';
 import 'package:gd_widget2_b_11663/view/home.dart';
 import 'package:gd_widget2_b_11663/view/register.dart';
 import 'package:gd_widget2_b_11663/components/form_component.dart';
+import 'package:gd_widget2_b_11663/service/directToLink.dart';
 
 //update login
 class LoginView extends StatefulWidget {
   final Map? data;
   const LoginView({super.key, this.data});
-
+  
   @override
   State<LoginView> createState() => _LoginViewState();
 }
 
+List<String> dropdownItems = [
+  'Pengguna', 
+  'Trainer',
+];
+
+String? selectedValue;
+
 class _LoginViewState extends State<LoginView> {
   final _formKey = GlobalKey<FormState>();
-
+  final TextEditingController emailController = TextEditingController();
+  final TextEditingController passwordController = TextEditingController();
+  String? selectedValue; // Holds the selected dropdown value
+  
   @override
   Widget build(BuildContext context) {
-    TextEditingController usernameController = TextEditingController();
-    TextEditingController passwordController = TextEditingController();
     Map? dataForm = widget.data;
     return Scaffold(
+      backgroundColor: Colors.black,
       body: SafeArea(
         child: Form(
           key: _formKey,
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
+              Padding(
+                  padding: const EdgeInsets.only(top: 20),
+                  child: Image.asset(
+                    'images/gym.png', // Replace with your image path
+                    height: 100, // Adjust the size
+                    width: 100, // Adjust the size
+                  ),
+                ),
               // Header 'SymsalaGym'
               Padding(
                 padding: const EdgeInsets.only(bottom: 20),
                 child: Text(
-                  'SymsalaGym',
-                  style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+                  'SYMSALA GYM',
+                  style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold, color: const Color.fromARGB(174, 194, 73, 255)),
                 ),
               ),
-              // Username Input
+              // Email Input
               inputForm((p0) {
                 if (p0 == null || p0.isEmpty) {
-                  return "Username tidak boleh kosong";
+                  return "Email tidak boleh kosong";
                 }
                 return null;
               },
-                  controller: usernameController,
-                  hintTxt: "Username",
-                  helperTxt: "Inputkan User yang telah didaftar",
-                  iconData: Icons.person),
+              controller: emailController,
+              hintTxt: "Email",
+              helperTxt: "Inputkan Email yang telah didaftarkan",
+              iconData: Icons.email),
+              
               // Password Input
               inputForm((p0) {
                 if (p0 == null || p0.isEmpty) {
-                  return "Password kosong";
+                  return "Sandi kosong";
                 }
                 return null;
               },
-                  password: true,
-                  controller: passwordController,
-                  hintTxt: "Password",
-                  helperTxt: "Inputkan Password",
-                  iconData: Icons.password),
-              // Buttons Row
+              password: true,
+              controller: passwordController,
+              hintTxt: "Password",
+              helperTxt: "Inputkan Password yang telah didaftarkan",
+              iconData: Icons.password),
+              // Dropdown Input
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 16.0),
+                child: Container(
+                  width: 350, // Ensure this matches the width of other inputs
+                  child: DropdownButtonFormField<String>(
+                    value: selectedValue,
+                    items: dropdownItems.map((item) {
+                      return DropdownMenuItem(
+                        value: item,
+                        child: Text(item),
+                      );
+                    }).toList(),
+                    onChanged: (value) {
+                      setState(() {
+                        selectedValue = value;
+                      });
+                    },
+                    style: const TextStyle(color: Colors.white),
+                    decoration: InputDecoration(
+                      hintText: 'Peran',
+                      hintStyle:  const TextStyle(color: Colors.white),
+                      helperText: 'Masukkan Peran Anda',
+                      helperStyle: const TextStyle(color: Colors.white),
+                      filled: true,
+                      fillColor: Color(0xFF636363),
+                      prefixIcon: Icon(Icons.person, color: Colors.white), // Adds icon inside the field
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(20),
+                      ),
+                        focusedBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(20),
+                        borderSide: BorderSide(color: Colors.white),
+                      ),
+                    ),
+                    validator: (value) => value == null ? 'Please select an option' : null,
+                  ),
+                ),
+              ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
                   ElevatedButton(
                     onPressed: () {
                       if (_formKey.currentState!.validate()) {
-                        if (dataForm!['username'] == usernameController.text &&
+                        if (dataForm!['email'] == emailController.text &&
                             dataForm['password'] == passwordController.text) {
                           Navigator.push(
                               context,
@@ -96,30 +153,66 @@ class _LoginViewState extends State<LoginView> {
                         }
                       }
                     },
-                    child: const Text('Login'),
-                  ),
-                  TextButton(
-                    onPressed: () => pushRegister(context),
-                    child: const Text('Belum punya akun ?'),
+                    child: const Text(
+                      'Masuk',
+                      style: TextStyle(color: Colors.white)
+                      ),
+                      style: ElevatedButton.styleFrom(
+                          backgroundColor: const Color.fromARGB(
+                              175, 194, 73, 255), // Set button color to purple
+                          padding: const EdgeInsets.symmetric(
+                              vertical: 10,
+                              horizontal: 135), // Adjust padding for height
+                          shape: RoundedRectangleBorder(
+                            borderRadius:
+                                BorderRadius.circular(14), // Rounded corners
+                          ),
+                    ) ,
                   ),
                 ],
               ),
-              // Login with Google Button
-              ElevatedButton.icon(
-                icon: Icon(Icons.g_translate),
-                label: Text('Login dengan Google'),
-                onPressed: () {
-                  // Handle Google login here
-                },
-              ),
-              // Login with Facebook Button // tambah ini
-              ElevatedButton.icon(
-                icon: Icon(Icons.facebook),
-                label: Text('Login dengan Facebook'),
-                onPressed: () {
-                  // Handle Facebook login here
-                },
-              ),
+              Padding(
+                  padding: const EdgeInsets.only(bottom: 20, top: 20, left: 15),
+                  child: Text(
+                    '━━━━━━━ OR ━━━━━━━',
+                    style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold, color: Colors.white),
+                    ),
+                  ),
+                  Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    ElevatedButton.icon(
+                      icon: Icon(Icons.g_mobiledata, size: 24),
+                      label: Text(''),
+                      onPressed: () {
+                        Direct.launchURL(
+                            'https://g.co/kgs/R9fTeVW'); // Handle Google login here
+                      },
+                    ),
+                    SizedBox(width: 10),
+                    ElevatedButton.icon(
+                      icon: Icon(Icons.apple, size: 24),
+                      label: Text(''),
+                      onPressed: () {
+                        Direct.launchURL(
+                            'https://www.apple.com/id/'); // Handle Apple login here
+                      },
+                    ),
+                    SizedBox(width: 10),
+                    ElevatedButton.icon(
+                      icon: Icon(Icons.facebook, size: 24),
+                      label: Text(''),
+                      onPressed: () {
+                        Direct.launchURL(
+                          'https://www.facebook.com/?locale=id_ID');// Handle Facebook login here
+                      },
+                    ),
+                  ],
+                ),
+                  TextButton(
+                    onPressed: () => pushRegister(context),
+                    child: const Text('Belum punya akun? Daftar disini'),
+                  ),
             ],
           ),
         ),

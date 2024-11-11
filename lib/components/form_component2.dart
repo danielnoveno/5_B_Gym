@@ -7,7 +7,7 @@ Padding inputForm(Function(String?) validasi,
     required IconData iconData,
     bool password = false}) {
   return Padding(
-    padding: const EdgeInsets.only(left: 3, top: 10),
+    padding: const EdgeInsets.only(left: 25, top: 10),
     child: SizedBox(
         width: 350,
         child: TextFormField(
