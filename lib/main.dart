@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:gd_widget2_b_11663/view/login.dart';
+import 'package:gd_widget2_b_11663/view/home.dart';
 
 void main() {
   runApp(const MainApp());
@@ -15,4 +16,3 @@ class MainApp extends StatelessWidget {
     );
   }
 }
-

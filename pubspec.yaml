@@ -23,3 +23,9 @@ flutter:
 
   assets:
     - images/
+    - images/home-image/
+    - images/home-image/membership/
+    - images/home-image/personal-trainer/
+    - images/home-image/healthy-club/
+    - images/home-image/alat-gym/
+    - icons/icons-home/
