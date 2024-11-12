@@ -7,7 +7,7 @@ Padding inputForm(Function(String?) validasi,
     required IconData iconData,
     bool password = false}) {
   return Padding(
-    padding: const EdgeInsets.only(left: 25, top: 10),
+    padding: const EdgeInsets.only(left: 3, top: 10),
     child: SizedBox(
         width: 350,
         child: TextFormField(
@@ -18,8 +18,9 @@ Padding inputForm(Function(String?) validasi,
           style: const TextStyle(color: Colors.white),
           decoration: InputDecoration(
               hintText: hintTxt,
-              hintStyle: const TextStyle(color: Colors.white), // Hint text color
-              helperStyle: const TextStyle(color: Colors.white), 
+              hintStyle:
+                  const TextStyle(color: Colors.white), // Hint text color
+              helperStyle: const TextStyle(color: Colors.white),
               border: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(20),
               ),

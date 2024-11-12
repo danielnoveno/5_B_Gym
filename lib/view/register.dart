@@ -25,6 +25,22 @@ class _RegisterViewState extends State<RegisterView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: const Text(
+          'Kembali',
+          style: TextStyle(color: Colors.white),
+        ),
+        backgroundColor: Colors.black,
+        leading: IconButton(
+          icon: Icon(
+            Icons.arrow_back,
+            color: Colors.white,
+          ),
+          onPressed: () {
+            Navigator.pop(context);
+          },
+        ),
+      ), // The back button will appear automatically if you use an AppBar.
       backgroundColor: Colors.black,
       body: SafeArea(
         child: SingleChildScrollView(
@@ -37,17 +53,20 @@ class _RegisterViewState extends State<RegisterView> {
                   padding: const EdgeInsets.only(top: 20),
                   child: Image.asset(
                     'images/gym.png', // Replace with your image path
-                    height: 100, // Adjust the size
-                    width: 100, // Adjust the size
+                    height: 120, // Adjust the size
+                    width: 120, // Adjust the size
                   ),
                 ),
                 Padding(
-                padding: const EdgeInsets.only(bottom: 20),
-                child: Text(
-                  'SYMSALA GYM',
-                  style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold, color: const Color.fromARGB(174, 194, 73, 255)),
+                  padding: const EdgeInsets.only(bottom: 20),
+                  child: Text(
+                    'SYMSALA GYM',
+                    style: TextStyle(
+                        fontSize: 30,
+                        fontWeight: FontWeight.bold,
+                        color: const Color.fromARGB(174, 194, 73, 255)),
+                  ),
                 ),
-              ),
                 inputForm(
                   (p0) {
                     if (p0 == null || p0.isEmpty) {
@@ -155,42 +174,54 @@ class _RegisterViewState extends State<RegisterView> {
                   iconData: Icons.date_range,
                 ),
                 Padding(
-                  padding: const EdgeInsets.only(left: 25, top: 10),
-                  child: Container(
-                    width: 350, // Ensure this matches the width of other inputs
-                    child: DropdownButtonFormField<String>(
-                      value: selectedValue,
-                      items: dropdownItems.map((item) {
-                        return DropdownMenuItem(
-                          value: item,
-                          child: Text(item),
-                        );
-                      }).toList(),
-                      onChanged: (value) {
-                        setState(() {
-                          selectedValue = value;
-                        });
-                      },
-                      style: const TextStyle(color: Colors.white),
-                      decoration: InputDecoration(
-                        hintText: 'Peran',
-                        hintStyle: const TextStyle(color: Colors.white),
-                        helperText: 'Masukkan Peran Anda',
-                        helperStyle: const TextStyle(color: Colors.white),
-                        filled: true,
-                        fillColor: Color(0xFF636363),
-                        prefixIcon: Icon(Icons.person,
-                            color: Colors.white), // Adds icon inside the field
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(20),
+                  padding: const EdgeInsets.symmetric(vertical: 16.0),
+                  child: SizedBox(
+                    width: 350, // Adjust width to match other fields
+                    child: DropdownButtonHideUnderline(
+                      child: DropdownButtonFormField<String>(
+                        value: selectedValue,
+                        dropdownColor:
+                            Color(0xFF636363), // Set dropdown background color
+                        items: dropdownItems.map((item) {
+                          return DropdownMenuItem(
+                            value: item,
+                            child: Text(
+                              item,
+                              style: TextStyle(
+                                  color: Colors
+                                      .white), // Set item text color to white
+                            ),
+                          );
+                        }).toList(),
+                        onChanged: (value) {
+                          setState(() {
+                            selectedValue = value;
+                          });
+                        },
+                        style: const TextStyle(
+                            color: Colors
+                                .white), // Set selected text color to white
+                        decoration: InputDecoration(
+                          hintText: 'Peran',
+                          hintStyle: const TextStyle(color: Colors.white),
+                          helperText: 'Masukkan Peran Anda',
+                          helperStyle: const TextStyle(color: Colors.white),
+                          filled: true,
+                          fillColor:
+                              Color(0xFF636363), // Field background color
+                          prefixIcon: Icon(Icons.person,
+                              color: Colors.white), // Icon color
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(20),
+                          ),
+                          focusedBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(20),
+                            borderSide: BorderSide(color: Colors.white),
+                          ),
                         ),
-                        focusedBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(20),
-                          borderSide: BorderSide(color: Colors.white),
-                        ),
+                        validator: (value) =>
+                            value == null ? 'Please select an option' : null,
                       ),
-                      validator: (value) =>
-                          value == null ? 'Please select an option' : null,
                     ),
                   ),
                 ),
@@ -225,7 +256,7 @@ class _RegisterViewState extends State<RegisterView> {
                 Padding(
                   padding: const EdgeInsets.only(bottom: 20, top: 20, left: 15),
                   child: Text(
-                    '━━━━━━━ OR ━━━━━━━',
+                    '━━━━━━━━━ OR ━━━━━━━━━',
                     style: TextStyle(
                         fontSize: 24,
                         fontWeight: FontWeight.bold,
@@ -258,7 +289,7 @@ class _RegisterViewState extends State<RegisterView> {
                       label: Text(''),
                       onPressed: () {
                         Direct.launchURL(
-                          'https://www.facebook.com/?locale=id_ID');// Handle Facebook login here
+                            'https://www.facebook.com/?locale=id_ID'); // Handle Facebook login here
                       },
                     ),
                   ],

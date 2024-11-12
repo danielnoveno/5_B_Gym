@@ -8,13 +8,13 @@ import 'package:gd_widget2_b_11663/service/directToLink.dart';
 class LoginView extends StatefulWidget {
   final Map? data;
   const LoginView({super.key, this.data});
-  
+
   @override
   State<LoginView> createState() => _LoginViewState();
 }
 
 List<String> dropdownItems = [
-  'Pengguna', 
+  'Pengguna',
   'Trainer',
 ];
 
@@ -25,160 +25,179 @@ class _LoginViewState extends State<LoginView> {
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
   String? selectedValue; // Holds the selected dropdown value
-  
+
   @override
   Widget build(BuildContext context) {
     Map? dataForm = widget.data;
     return Scaffold(
       backgroundColor: Colors.black,
       body: SafeArea(
-        child: Form(
-          key: _formKey,
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Padding(
+        child: SingleChildScrollView(
+          child: Form(
+            key: _formKey,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Padding(
                   padding: const EdgeInsets.only(top: 20),
                   child: Image.asset(
                     'images/gym.png', // Replace with your image path
-                    height: 100, // Adjust the size
-                    width: 100, // Adjust the size
+                    height: 160, // Adjust the size
+                    width: 160, // Adjust the size
                   ),
                 ),
-              // Header 'SymsalaGym'
-              Padding(
-                padding: const EdgeInsets.only(bottom: 20),
-                child: Text(
-                  'SYMSALA GYM',
-                  style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold, color: const Color.fromARGB(174, 194, 73, 255)),
+                // Header 'SymsalaGym'
+                Padding(
+                  padding: const EdgeInsets.only(bottom: 20),
+                  child: Text(
+                    'SYMSALA GYM',
+                    style: TextStyle(
+                        fontSize: 24,
+                        fontWeight: FontWeight.bold,
+                        color: const Color.fromARGB(174, 194, 73, 255)),
+                  ),
                 ),
-              ),
-              // Email Input
-              inputForm((p0) {
-                if (p0 == null || p0.isEmpty) {
-                  return "Email tidak boleh kosong";
-                }
-                return null;
-              },
-              controller: emailController,
-              hintTxt: "Email",
-              helperTxt: "Inputkan Email yang telah didaftarkan",
-              iconData: Icons.email),
-              
-              // Password Input
-              inputForm((p0) {
-                if (p0 == null || p0.isEmpty) {
-                  return "Sandi kosong";
-                }
-                return null;
-              },
-              password: true,
-              controller: passwordController,
-              hintTxt: "Password",
-              helperTxt: "Inputkan Password yang telah didaftarkan",
-              iconData: Icons.password),
-              // Dropdown Input
-              Padding(
-                padding: const EdgeInsets.symmetric(vertical: 16.0),
-                child: Container(
-                  width: 350, // Ensure this matches the width of other inputs
-                  child: DropdownButtonFormField<String>(
-                    value: selectedValue,
-                    items: dropdownItems.map((item) {
-                      return DropdownMenuItem(
-                        value: item,
-                        child: Text(item),
-                      );
-                    }).toList(),
-                    onChanged: (value) {
-                      setState(() {
-                        selectedValue = value;
-                      });
-                    },
-                    style: const TextStyle(color: Colors.white),
-                    decoration: InputDecoration(
-                      hintText: 'Peran',
-                      hintStyle:  const TextStyle(color: Colors.white),
-                      helperText: 'Masukkan Peran Anda',
-                      helperStyle: const TextStyle(color: Colors.white),
-                      filled: true,
-                      fillColor: Color(0xFF636363),
-                      prefixIcon: Icon(Icons.person, color: Colors.white), // Adds icon inside the field
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(20),
-                      ),
-                        focusedBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(20),
-                        borderSide: BorderSide(color: Colors.white),
+                // Email Input
+                inputForm((p0) {
+                  if (p0 == null || p0.isEmpty) {
+                    return "Email tidak boleh kosong";
+                  }
+                  return null;
+                },
+                    controller: emailController,
+                    hintTxt: "Email",
+                    helperTxt: "Inputkan Email yang telah didaftarkan",
+                    iconData: Icons.email),
+
+                // Password Input
+                inputForm((p0) {
+                  if (p0 == null || p0.isEmpty) {
+                    return "Sandi kosong";
+                  }
+                  return null;
+                },
+                    password: true,
+                    controller: passwordController,
+                    hintTxt: "Password",
+                    helperTxt: "Inputkan Password yang telah didaftarkan",
+                    iconData: Icons.password),
+                // Dropdown Input
+                Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 16.0),
+                  child: SizedBox(
+                    width: 350, // Adjust width to match other fields
+                    child: DropdownButtonHideUnderline(
+                      child: DropdownButtonFormField<String>(
+                        value: selectedValue,
+                        dropdownColor:
+                            Color(0xFF636363), // Set dropdown background color
+                        items: dropdownItems.map((item) {
+                          return DropdownMenuItem(
+                            value: item,
+                            child: Text(
+                              item,
+                              style: TextStyle(
+                                  color: Colors
+                                      .white), // Set item text color to white
+                            ),
+                          );
+                        }).toList(),
+                        onChanged: (value) {
+                          setState(() {
+                            selectedValue = value;
+                          });
+                        },
+                        style: const TextStyle(
+                            color: Colors
+                                .white), // Set selected text color to white
+                        decoration: InputDecoration(
+                          hintText: 'Peran',
+                          hintStyle: const TextStyle(color: Colors.white),
+                          helperText: 'Masukkan Peran Anda',
+                          helperStyle: const TextStyle(color: Colors.white),
+                          filled: true,
+                          fillColor:
+                              Color(0xFF636363), // Field background color
+                          prefixIcon: Icon(Icons.person,
+                              color: Colors.white), // Icon color
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(20),
+                          ),
+                          focusedBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(20),
+                            borderSide: BorderSide(color: Colors.white),
+                          ),
+                        ),
+                        validator: (value) =>
+                            value == null ? 'Please select an option' : null,
                       ),
                     ),
-                    validator: (value) => value == null ? 'Please select an option' : null,
                   ),
                 ),
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  ElevatedButton(
-                    onPressed: () {
-                      if (_formKey.currentState!.validate()) {
-                        if (dataForm!['email'] == emailController.text &&
-                            dataForm['password'] == passwordController.text) {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (c) => const HomeView()));
-                        } else {
-                          showDialog(
-                              context: context,
-                              builder: (_) => AlertDialog(
-                                    title: const Text('Password Salah'),
-                                    content: TextButton(
-                                      onPressed: () => pushRegister(context),
-                                      child: const Text('Daftar Disini !!'),
-                                    ),
-                                    actions: <Widget>[
-                                      TextButton(
-                                        onPressed: () =>
-                                            Navigator.pop(context, 'Cancel'),
-                                        child: const Text('Cancel'),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    ElevatedButton(
+                      onPressed: () {
+                        if (_formKey.currentState!.validate()) {
+                          if (dataForm!['email'] == emailController.text &&
+                              dataForm['password'] == passwordController.text) {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (c) => const HomeView()));
+                          } else {
+                            showDialog(
+                                context: context,
+                                builder: (_) => AlertDialog(
+                                      title: const Text('Password Salah'),
+                                      content: TextButton(
+                                        onPressed: () => pushRegister(context),
+                                        child: const Text('Daftar Disini !!'),
                                       ),
-                                      TextButton(
-                                        onPressed: () =>
-                                            Navigator.pop(context, 'OK'),
-                                        child: const Text('OK'),
-                                      ),
-                                    ],
-                                  ));
+                                      actions: <Widget>[
+                                        TextButton(
+                                          onPressed: () =>
+                                              Navigator.pop(context, 'Cancel'),
+                                          child: const Text('Cancel'),
+                                        ),
+                                        TextButton(
+                                          onPressed: () =>
+                                              Navigator.pop(context, 'OK'),
+                                          child: const Text('OK'),
+                                        ),
+                                      ],
+                                    ));
+                          }
                         }
-                      }
-                    },
-                    child: const Text(
-                      'Masuk',
-                      style: TextStyle(color: Colors.white)
-                      ),
+                      },
+                      child: const Text('Masuk',
+                          style: TextStyle(color: Colors.white)),
                       style: ElevatedButton.styleFrom(
-                          backgroundColor: const Color.fromARGB(
-                              175, 194, 73, 255), // Set button color to purple
-                          padding: const EdgeInsets.symmetric(
-                              vertical: 10,
-                              horizontal: 135), // Adjust padding for height
-                          shape: RoundedRectangleBorder(
-                            borderRadius:
-                                BorderRadius.circular(14), // Rounded corners
-                          ),
-                    ) ,
-                  ),
-                ],
-              ),
-              Padding(
+                        backgroundColor: const Color.fromARGB(
+                            175, 194, 73, 255), // Set button color to purple
+                        padding: const EdgeInsets.symmetric(
+                            vertical: 10,
+                            horizontal: 135), // Adjust padding for height
+                        shape: RoundedRectangleBorder(
+                          borderRadius:
+                              BorderRadius.circular(14), // Rounded corners
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+                Padding(
                   padding: const EdgeInsets.only(bottom: 20, top: 20, left: 15),
                   child: Text(
                     '━━━━━━━ OR ━━━━━━━',
-                    style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold, color: Colors.white),
-                    ),
+                    style: TextStyle(
+                        fontSize: 24,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.white),
                   ),
-                  Row(
+                ),
+                Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     ElevatedButton.icon(
@@ -204,16 +223,17 @@ class _LoginViewState extends State<LoginView> {
                       label: Text(''),
                       onPressed: () {
                         Direct.launchURL(
-                          'https://www.facebook.com/?locale=id_ID');// Handle Facebook login here
+                            'https://www.facebook.com/?locale=id_ID'); // Handle Facebook login here
                       },
                     ),
                   ],
                 ),
-                  TextButton(
-                    onPressed: () => pushRegister(context),
-                    child: const Text('Belum punya akun? Daftar disini'),
-                  ),
-            ],
+                TextButton(
+                  onPressed: () => pushRegister(context),
+                  child: const Text('Belum punya akun? Daftar disini'),
+                ),
+              ],
+            ),
           ),
         ),
       ),
