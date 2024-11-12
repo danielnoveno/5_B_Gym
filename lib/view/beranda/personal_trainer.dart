@@ -1,29 +1,59 @@
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class PersonalTrainerView extends StatelessWidget {
   PersonalTrainerView({super.key});
 
-  // Data for images, titles, and durations
+  // Data for images, titles, durations, emails, and descriptions
   final List<List<String>> imgDataList = [
     [
       "images/home-image/personal-trainer/Trainer1.png",
       "images/home-image/personal-trainer/Trainer2.png",
       "images/home-image/personal-trainer/Trainer3.png",
+      "images/home-image/personal-trainer/Trainer4.png",
     ],
   ];
 
   final List<List<String>> dataTitlesList = [
-    ["Trainer 1", "Trainer 2", "Trainer 3"],
+    [
+      "Brandom Salim Tangan",
+      "Rizky Dwi Saputra",
+      "Bimo Aryo Prakoso",
+      "Siti Nurjanah",
+    ],
   ];
 
-  final List<List<String>> dataDurationsList = [
-    ["Personal Training", "Personal Training", "Personal Training"],
+  final List<List<String>> dataSpesialis = [
+    [
+      "Berat badan",
+      "Masa otot",
+      "Masa otot",
+      "Stamina badan",
+    ],
+  ];
+
+  final List<List<String>> dataInstagram = [
+    [
+      "brandomsalim",
+      "rizkiyy",
+      "bimkoso",
+      "si_janah",
+    ],
+  ];
+
+  final List<List<String>> dataDescriptionsList = [
+    [
+      "Dengan 5 tahun pengalaman di industri kebugaran, saya adalah personal trainer yang berkomitmen untuk membantu klien mencapai tujuan kebugaran mereka. Spesialisasi saya yaitu menurunkan berat badan.",
+      "Memiliki pengalaman selama 2 tahun dibidang industri kebugaran, memiliki semangat yang tinggi untuk membantu klien mencapai badan impiannya. Saya biasanya dipercayai untuk meningkatkan masa otot.",
+      "Telah menekuni industri kebugaran selama 4 tahun, memiliki simpati yang tinggi terhadap progress dan semangat klien. Saya biasa dipercayai untuk meningkatkan masa otot.",
+      "Saya berpengalaman 4 tahun dibidang industri kebugaran, saya banyal dipercayai untuk menurunkan berat badan dan meningkatkan stamina.",
+    ],
   ];
 
   @override
   Widget build(BuildContext context) {
     return ListView.builder(
-      padding: const EdgeInsets.symmetric(horizontal: 16),
+      padding: const EdgeInsets.symmetric(horizontal: 5),
       itemCount: imgDataList.length, // Use length of imgDataList for iteration
       itemBuilder: (context, index) {
         return Column(
@@ -32,25 +62,50 @@ class PersonalTrainerView extends StatelessWidget {
             int i = entry.key;
             String image = entry.value;
             String title = dataTitlesList[index][i];
-            String duration = dataDurationsList[index][i];
+            String duration = dataSpesialis[index][i];
+            String email = dataInstagram[index][i]; // Fetch email dynamically
+            String description =
+                dataDescriptionsList[index][i]; // Fetch description dynamically
 
-            return _buildCard(
+            return PersonalTrainerCard(
               title: title,
               duration: duration,
               imagePath: image,
+              email: email, // Pass email as argument
+              description: description, // Pass description as argument
             );
           }).toList(),
         );
       },
     );
   }
+}
 
-  // Reusable card-building widget function
-  Widget _buildCard({
-    required String title,
-    required String duration,
-    required String imagePath,
-  }) {
+class PersonalTrainerCard extends StatefulWidget {
+  final String title;
+  final String duration;
+  final String imagePath;
+  final String email;
+  final String description;
+
+  PersonalTrainerCard({
+    required this.title,
+    required this.duration,
+    required this.imagePath,
+    required this.email,
+    required this.description,
+  });
+
+  @override
+  _PersonalTrainerCardState createState() => _PersonalTrainerCardState();
+}
+
+class _PersonalTrainerCardState extends State<PersonalTrainerCard> {
+  // Variable to store the selected session for this card
+  String selectedSession = "4 Sesi"; // Initial selection
+
+  @override
+  Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 5.0),
       child: Card(
@@ -69,7 +124,7 @@ class PersonalTrainerView extends StatelessWidget {
                   ClipRRect(
                     borderRadius: BorderRadius.circular(50.0),
                     child: Image.asset(
-                      imagePath,
+                      widget.imagePath,
                       height: 60,
                       width: 60,
                       fit: BoxFit.cover,
@@ -80,7 +135,7 @@ class PersonalTrainerView extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        title,
+                        widget.title,
                         style: const TextStyle(
                           fontSize: 18,
                           fontWeight: FontWeight.bold,
@@ -97,7 +152,7 @@ class PersonalTrainerView extends StatelessWidget {
                       ),
                       const SizedBox(height: 4),
                       Text(
-                        duration,
+                        widget.duration,
                         style: const TextStyle(
                           fontSize: 14,
                           color: Colors.grey,
@@ -109,13 +164,14 @@ class PersonalTrainerView extends StatelessWidget {
               ),
               const SizedBox(height: 16),
 
-              // Description and specialization
-              const Text(
-                "Dengan 5 tahun pengalaman di industri kebugaran...",
-                style: TextStyle(
+              // Justified description for each trainer
+              Text(
+                widget.description,
+                style: const TextStyle(
                   color: Colors.grey,
                   fontSize: 14,
                 ),
+                textAlign: TextAlign.justify, // Justified text alignment
               ),
               const SizedBox(height: 8),
 
@@ -124,18 +180,23 @@ class PersonalTrainerView extends StatelessWidget {
                 children: [
                   Row(
                     children: const [
-                      Icon(Icons.calendar_today, color: Colors.white),
+                      Icon(Icons.chat, color: Colors.white),
                       SizedBox(width: 4),
                       Text("23", style: TextStyle(color: Colors.white)),
                     ],
                   ),
                   const SizedBox(width: 10),
                   Row(
-                    children: const [
-                      Icon(Icons.alternate_email, color: Colors.white),
-                      SizedBox(width: 4),
-                      Text("@brandonsalim",
-                          style: TextStyle(color: Colors.white)),
+                    children: [
+                      FaIcon(
+                        FontAwesomeIcons.instagram,
+                        color: Colors.white,
+                        size: 22, // Set the size of the icon
+                      ),
+                      const SizedBox(width: 4),
+                      Text(widget.email,
+                          style: const TextStyle(
+                              color: Colors.white)), // Dynamic email
                     ],
                   ),
                 ],
@@ -147,15 +208,20 @@ class PersonalTrainerView extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   DropdownButton<String>(
-                    value: "4 Sesi",
-                    items: ["4 Sesi", "8 Sesi", "12 Sesi"]
+                    value: selectedSession, // Display the selected session
+                    items: ["4 Sesi", "8 Sesi", "12 Sesi", "Unlimited Sebulan"]
                         .map((String value) => DropdownMenuItem<String>(
                               value: value,
                               child: Text(value,
                                   style: TextStyle(color: Colors.grey)),
                             ))
                         .toList(),
-                    onChanged: (value) {},
+                    onChanged: (value) {
+                      setState(() {
+                        selectedSession =
+                            value!; // Update the selected session for this card
+                      });
+                    },
                     dropdownColor: Colors.grey[800],
                   ),
                   ElevatedButton(
@@ -166,7 +232,10 @@ class PersonalTrainerView extends StatelessWidget {
                         borderRadius: BorderRadius.circular(20),
                       ),
                     ),
-                    child: const Text("Pilih"),
+                    child: const Text(
+                      "Pilih",
+                      style: TextStyle(color: Colors.white),
+                    ),
                   ),
                 ],
               ),

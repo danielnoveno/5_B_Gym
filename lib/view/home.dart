@@ -31,9 +31,10 @@ class _HomeViewState extends State<HomeView> {
     return Scaffold(
       backgroundColor: Colors.transparent,
       bottomNavigationBar: Container(
-        margin: const EdgeInsets.all(16.0), // Add margin around the container
+        margin: const EdgeInsets.symmetric(
+            horizontal: 8.0, vertical: 12.0), // Add margin around the container
         padding: const EdgeInsets.symmetric(
-            vertical: 8.0), // Padding for inner spacing
+            horizontal: 12.0, vertical: 5.0), // Padding for inner spacing
         decoration: BoxDecoration(
           color: Color(0xFF222222), // Background color
           borderRadius: BorderRadius.circular(24.0), // Rounded corners

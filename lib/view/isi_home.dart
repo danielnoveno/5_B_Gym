@@ -44,7 +44,7 @@ class _HomeViewContentState extends State<HomeViewContent> {
             // Header Section dengan greeting, icons, dan promotional card
             Padding(
               padding:
-                  const EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
+                  const EdgeInsets.symmetric(horizontal: 12.0, vertical: 10.0),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -133,7 +133,7 @@ class _HomeViewContentState extends State<HomeViewContent> {
             // Horizontal Scrollable Menu
             Padding(
               padding:
-                  const EdgeInsets.symmetric(horizontal: 20.0, vertical: 2.0),
+                  const EdgeInsets.symmetric(horizontal: 12.0, vertical: 2.0),
               child: SingleChildScrollView(
                 scrollDirection: Axis.horizontal,
                 child: Row(

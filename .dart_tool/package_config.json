@@ -122,6 +122,12 @@
       "languageVersion": "3.2"
     },
     {
+      "name": "font_awesome_flutter",
+      "rootUri": "file:///C:/Users/ASUS/AppData/Local/Pub/Cache/hosted/pub.dev/font_awesome_flutter-10.8.0",
+      "packageUri": "lib/",
+      "languageVersion": "3.0"
+    },
+    {
       "name": "google_sign_in",
       "rootUri": "file:///C:/Users/ASUS/AppData/Local/Pub/Cache/hosted/pub.dev/google_sign_in-5.4.4",
       "packageUri": "lib/",
@@ -338,7 +344,7 @@
       "languageVersion": "3.5"
     }
   ],
-  "generated": "2024-11-11T16:03:15.825149Z",
+  "generated": "2024-11-12T16:19:18.358208Z",
   "generator": "pub",
   "generatorVersion": "3.5.4",
   "flutterRoot": "file:///D:/flutter/src/flutter",
