@@ -3,7 +3,7 @@
     <application
         android:label="gd_widget2_b_11663"
         android:name="${applicationName}"
-        android:icon="@mipmap/ic_launcher">
+        android:icon="@mipmap/logo_icon_symsalagym">
         <activity
             android:name=".MainActivity"
             android:exported="true"

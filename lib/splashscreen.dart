@@ -9,21 +9,22 @@ class SplashScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AnimatedSplashScreen(
-      splash: SingleChildScrollView(
-        // Wrap the Column with SingleChildScrollView
-        child: Column(
-          mainAxisAlignment:
-              MainAxisAlignment.center, // Ensures the splash is centered
-          children: [
-            Center(
-              child: LottieBuilder.asset("lottie/Splashscreen.json"),
+      splash: Column(
+        children: [
+          // Use Expanded or Flexible to make the animation fit the screen
+          Expanded(
+            child: LottieBuilder.asset(
+              "lottie/Flow-2.json", repeat: false, // Play only once
+              reverse: false,
             ),
-          ],
-        ),
+          ),
+        ],
       ),
       nextScreen: LoginView(),
-      splashIconSize: 400,
-      backgroundColor: Colors.blue,
+      splashIconSize: 900, // Adjust splash icon size
+      backgroundColor: Colors.black,
+      duration:
+          1800, // Adjust this value to make sure the animation has enough time to play
     );
   }
 }
