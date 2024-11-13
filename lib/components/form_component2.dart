@@ -18,8 +18,9 @@ Padding inputForm(Function(String?) validasi,
           style: const TextStyle(color: Colors.white),
           decoration: InputDecoration(
               hintText: hintTxt,
-              hintStyle: const TextStyle(color: Colors.white), // Hint text color
-              helperStyle: const TextStyle(color: Colors.white), 
+              hintStyle:
+                  const TextStyle(color: Colors.white), // Hint text color
+              helperStyle: const TextStyle(color: Colors.white),
               border: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(20),
               ),
