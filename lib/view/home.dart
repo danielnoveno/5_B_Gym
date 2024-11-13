@@ -23,7 +23,7 @@ class _HomeViewState extends State<HomeView> {
     HomeViewContent(), // Beranda
     Placeholder(), // Latihan (replace with actual widget later)
     Placeholder(), // Jadwal (replace with actual widget later)
-    profileView(), // Akun
+    ProfileView(), // Akun
   ];
 
   @override
