@@ -1,88 +1,92 @@
 import 'package:flutter/material.dart';
-import 'package:gd_widget2_b_11663/view/constant.dart';
+import 'package:gd_widget2_b_11663/components/card_component.dart';
+import 'package:gd_widget2_b_11663/components/button_component.dart';
 
-class profileView extends StatelessWidget {
-  const profileView({super.key});
+class ProfileView extends StatelessWidget {
+  const ProfileView({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Scaffold(
-          appBar: AppBar(
-            title: Text('Profile'),
-            leading: (IconButton(
-              onPressed: () {
-                Navigator.pop(context);
-              },
-              icon: Icon(Icons.arrow_back),
-            )),
-          ),
-          backgroundColor: const Color.fromARGB(255, 0, 0, 0),
-          body: Center(
-            child: Column(
-              children: [
-                Container(
-                  margin: EdgeInsets.only(top: 50),
-                  child: Row(
-                    children: [
-                      kSizeBox2,
-                      CircleAvatar(
-                          radius: 50,
-                          backgroundImage: AssetImage('images/download.jpeg')),
-                      kSizeBox2,
-                      Container(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text('User', style: kTextSytle4),
-                            Text('@user92u38128y', style: kTextStyle5),
-                          ],
-                        ),
-                      )
-                    ],
+    return Scaffold(
+      backgroundColor: Colors.black,
+      body: SafeArea(
+        child: SingleChildScrollView(
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              const SizedBox(height: 20),
+              Container(
+                width: double.infinity,
+                padding: const EdgeInsets.symmetric(horizontal: 20),
+                child: const Text(
+                  'My Profile',
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 30,
+                    fontWeight: FontWeight.bold,
                   ),
                 ),
-                Container(
-                  margin: EdgeInsets.only(top: 50),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    children: [
-                      Row(
-                        children: [
-                          Text('4', style: kTextStyle3),
-                          SizedBox(width: 4), // Add spacing between text
-                          Text('Posts', style: kTextStyle3),
-                        ],
-                      ),
-                      Row(
-                        children: [
-                          Text('3', style: kTextStyle3),
-                          SizedBox(width: 4), // Add spacing between text
-                          Text('Followers', style: kTextStyle3),
-                        ],
-                      ),
-                      Row(
-                        children: [
-                          Text('10', style: kTextStyle3),
-                          SizedBox(width: 4), // Add spacing between text
-                          Text('Following', style: kTextStyle3),
-                        ],
-                      ),
-                    ],
-                  ),
+              ),
+              const SizedBox(height: 10),
+              CircleAvatar(
+                radius: 80,
+                backgroundImage: AssetImage("images/FotoProfil.png"),
+              ),
+              const SizedBox(height: 10),
+              const Text(
+                'Mariwow',
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 25,
+                  fontWeight: FontWeight.bold,
                 ),
-                kSizeBox,
-              ],
-            ),
+              ),
+              const SizedBox(height: 15),
+              const Text(
+                'marimar@gmail.com',
+                style: TextStyle(
+                  color: Colors.grey,
+                  fontSize: 16,
+                ),
+              ),
+              const SizedBox(height: 5),
+              const Text(
+                '08123123123',
+                style: TextStyle(
+                  color: Colors.grey,
+                  fontSize: 16,
+                ),
+              ),
+              const SizedBox(height: 20),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  infoCard1('75 Kg', 'Weight'),
+                  const SizedBox(width: 1),
+                  infoCard3('180 Cm', 'Height'),
+                  const SizedBox(width: 1),
+                  infoCard2('24 Yr', 'Age'),
+                ],
+              ),
+              const SizedBox(height: 10),
+              profileButton(context, 'Edit Profile'),
+              profileButton(context, 'Riwayat'),
+              profileButton(context, 'Penilaian'),
+              const SizedBox(height: 20),
+              TextButton.icon(
+                onPressed: () {},
+                icon: const Icon(Icons.logout, color: Colors.red),
+                label: const Text(
+                  'Log Out',
+                  style: TextStyle(color: Colors.red),
+                ),
+              ),
+              const SizedBox(height: 20),
+            ],
           ),
-          floatingActionButton: FloatingActionButton.extended(
-            onPressed: () {
-              Navigator.pop(context);
-            },
-            label: Text('kembali'),
-            icon: const Icon(Icons.arrow_back),
-            backgroundColor: const Color.fromARGB(255, 85, 0, 159),
-          )),
+        ),
+      ),
     );
   }
 }
