@@ -1,34 +1,20 @@
 import 'package:flutter/material.dart';
-import 'package:animated_splash_screen/animated_splash_screen.dart';
-import 'package:lottie/lottie.dart';
+// import 'package:tubes_pbp_gym/view/login.dart';
+import 'package:tubes_pbp_gym/view/home.dart';
+import 'package:tubes_pbp_gym/splashscreen.dart';
 import 'package:tubes_pbp_gym/view/login.dart';
 
-class SplashScreen extends StatelessWidget {
-  const SplashScreen({super.key});
+void main() {
+  runApp(const MainApp());
+}
+
+class MainApp extends StatelessWidget {
+  const MainApp({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return AnimatedSplashScreen(
-      splash: SingleChildScrollView(
-        // Wrap content in a SingleChildScrollView
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            // Ensure the Lottie animation fits within the available space
-            Center(
-              child: LottieBuilder.asset(
-                "lottie/Splashscreen.json",
-                width: MediaQuery.of(context).size.width * 0.7, // Adjust width
-                height:
-                    MediaQuery.of(context).size.height * 0.4, // Adjust height
-              ),
-            ),
-          ],
-        ),
-      ),
-      nextScreen: LoginView(),
-      splashIconSize: 400,
-      backgroundColor: Colors.blue,
+    return const MaterialApp(
+      home: SplashScreen(),
     );
   }
 }

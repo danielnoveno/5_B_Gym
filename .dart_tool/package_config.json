@@ -63,7 +63,7 @@
     },
     {
       "name": "facebook_auth_desktop",
-      "rootUri": "file:///C:/Users/Windows/AppData/Local/Pub/Cache/hosted/pub.dev/facebook_auth_desktop-0.0.9",
+      "rootUri": "file:///C:/Users/Windows/AppData/Local/Pub/Cache/hosted/pub.dev/facebook_auth_desktop-2.1.1",
       "packageUri": "lib/",
       "languageVersion": "3.3"
     },
@@ -111,19 +111,19 @@
     },
     {
       "name": "flutter_facebook_auth",
-      "rootUri": "file:///C:/Users/Windows/AppData/Local/Pub/Cache/hosted/pub.dev/flutter_facebook_auth-5.0.11",
+      "rootUri": "file:///C:/Users/Windows/AppData/Local/Pub/Cache/hosted/pub.dev/flutter_facebook_auth-7.1.1",
       "packageUri": "lib/",
       "languageVersion": "3.3"
     },
     {
       "name": "flutter_facebook_auth_platform_interface",
-      "rootUri": "file:///C:/Users/Windows/AppData/Local/Pub/Cache/hosted/pub.dev/flutter_facebook_auth_platform_interface-4.1.1",
+      "rootUri": "file:///C:/Users/Windows/AppData/Local/Pub/Cache/hosted/pub.dev/flutter_facebook_auth_platform_interface-6.1.2",
       "packageUri": "lib/",
       "languageVersion": "3.3"
     },
     {
       "name": "flutter_facebook_auth_web",
-      "rootUri": "file:///C:/Users/Windows/AppData/Local/Pub/Cache/hosted/pub.dev/flutter_facebook_auth_web-4.1.1",
+      "rootUri": "file:///C:/Users/Windows/AppData/Local/Pub/Cache/hosted/pub.dev/flutter_facebook_auth_web-6.1.2",
       "packageUri": "lib/",
       "languageVersion": "3.3"
     },
@@ -135,7 +135,7 @@
     },
     {
       "name": "flutter_secure_storage",
-      "rootUri": "file:///C:/Users/Windows/AppData/Local/Pub/Cache/hosted/pub.dev/flutter_secure_storage-8.1.0",
+      "rootUri": "file:///C:/Users/Windows/AppData/Local/Pub/Cache/hosted/pub.dev/flutter_secure_storage-9.2.2",
       "packageUri": "lib/",
       "languageVersion": "2.12"
     },
@@ -165,7 +165,7 @@
     },
     {
       "name": "flutter_secure_storage_windows",
-      "rootUri": "file:///C:/Users/Windows/AppData/Local/Pub/Cache/hosted/pub.dev/flutter_secure_storage_windows-2.1.1",
+      "rootUri": "file:///C:/Users/Windows/AppData/Local/Pub/Cache/hosted/pub.dev/flutter_secure_storage_windows-3.1.2",
       "packageUri": "lib/",
       "languageVersion": "2.12"
     },
@@ -219,7 +219,7 @@
     },
     {
       "name": "http",
-      "rootUri": "file:///C:/Users/Windows/AppData/Local/Pub/Cache/hosted/pub.dev/http-0.13.6",
+      "rootUri": "file:///C:/Users/Windows/AppData/Local/Pub/Cache/hosted/pub.dev/http-1.2.2",
       "packageUri": "lib/",
       "languageVersion": "3.3"
     },
@@ -340,6 +340,36 @@
     {
       "name": "path",
       "rootUri": "file:///C:/Users/Windows/AppData/Local/Pub/Cache/hosted/pub.dev/path-1.9.0",
+      "packageUri": "lib/",
+      "languageVersion": "3.0"
+    },
+    {
+      "name": "path_provider",
+      "rootUri": "file:///C:/Users/Windows/AppData/Local/Pub/Cache/hosted/pub.dev/path_provider-2.1.5",
+      "packageUri": "lib/",
+      "languageVersion": "3.4"
+    },
+    {
+      "name": "path_provider_android",
+      "rootUri": "file:///C:/Users/Windows/AppData/Local/Pub/Cache/hosted/pub.dev/path_provider_android-2.2.12",
+      "packageUri": "lib/",
+      "languageVersion": "3.5"
+    },
+    {
+      "name": "path_provider_foundation",
+      "rootUri": "file:///C:/Users/Windows/AppData/Local/Pub/Cache/hosted/pub.dev/path_provider_foundation-2.4.0",
+      "packageUri": "lib/",
+      "languageVersion": "3.2"
+    },
+    {
+      "name": "path_provider_linux",
+      "rootUri": "file:///C:/Users/Windows/AppData/Local/Pub/Cache/hosted/pub.dev/path_provider_linux-2.2.1",
+      "packageUri": "lib/",
+      "languageVersion": "2.19"
+    },
+    {
+      "name": "path_provider_platform_interface",
+      "rootUri": "file:///C:/Users/Windows/AppData/Local/Pub/Cache/hosted/pub.dev/path_provider_platform_interface-2.1.2",
       "packageUri": "lib/",
       "languageVersion": "3.0"
     },
@@ -494,7 +524,7 @@
       "languageVersion": "3.5"
     }
   ],
-  "generated": "2024-11-13T22:23:24.797012Z",
+  "generated": "2024-11-13T23:17:17.279360Z",
   "generator": "pub",
   "generatorVersion": "3.5.4",
   "flutterRoot": "file:///D:/flutter/src/flutter",
