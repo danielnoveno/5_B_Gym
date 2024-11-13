@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:gd_widget2_b_11663/view/beranda/card_membership/solo.dart'; // Importing the PackageCard
+import 'package:tubes_pbp_gym/view/beranda/card_membership/solo.dart'; // Importing the PackageCard
 
 class CouplePage extends StatelessWidget {
   @override

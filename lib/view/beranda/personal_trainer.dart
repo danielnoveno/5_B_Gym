@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:gd_widget2_b_11663/view/beranda/review_trainer/index_review.dart';
+import 'package:tubes_pbp_gym/view/beranda/review_trainer/index_review.dart';
 
 class PersonalTrainerView extends StatelessWidget {
   PersonalTrainerView({super.key});
