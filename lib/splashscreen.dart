@@ -10,18 +10,13 @@ class SplashScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return AnimatedSplashScreen(
       splash: SingleChildScrollView(
-        // Wrap content in a SingleChildScrollView
+        // Wrap the Column with SingleChildScrollView
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
+          mainAxisAlignment:
+              MainAxisAlignment.center, // Ensures the splash is centered
           children: [
-            // Ensure the Lottie animation fits within the available space
             Center(
-              child: LottieBuilder.asset(
-                "lottie/Splashscreen.json",
-                width: MediaQuery.of(context).size.width * 0.7, // Adjust width
-                height:
-                    MediaQuery.of(context).size.height * 0.4, // Adjust height
-              ),
+              child: LottieBuilder.asset("lottie/Splashscreen.json"),
             ),
           ],
         ),
