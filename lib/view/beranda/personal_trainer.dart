@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:gd_widget2_b_11663/view/beranda/review_trainer/index_review.dart';
 
 class PersonalTrainerView extends StatelessWidget {
   PersonalTrainerView({super.key});
@@ -54,7 +55,7 @@ class PersonalTrainerView extends StatelessWidget {
   Widget build(BuildContext context) {
     return ListView.builder(
       padding: const EdgeInsets.symmetric(horizontal: 5),
-      itemCount: imgDataList.length, // Use length of imgDataList for iteration
+      itemCount: imgDataList.length,
       itemBuilder: (context, index) {
         return Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -63,16 +64,15 @@ class PersonalTrainerView extends StatelessWidget {
             String image = entry.value;
             String title = dataTitlesList[index][i];
             String duration = dataSpesialis[index][i];
-            String email = dataInstagram[index][i]; // Fetch email dynamically
-            String description =
-                dataDescriptionsList[index][i]; // Fetch description dynamically
+            String email = dataInstagram[index][i];
+            String description = dataDescriptionsList[index][i];
 
             return PersonalTrainerCard(
               title: title,
               duration: duration,
               imagePath: image,
-              email: email, // Pass email as argument
-              description: description, // Pass description as argument
+              email: email,
+              description: description,
             );
           }).toList(),
         );
@@ -101,8 +101,7 @@ class PersonalTrainerCard extends StatefulWidget {
 }
 
 class _PersonalTrainerCardState extends State<PersonalTrainerCard> {
-  // Variable to store the selected session for this card
-  String selectedSession = "4 Sesi"; // Initial selection
+  String selectedSession = "4 Sesi";
 
   @override
   Widget build(BuildContext context) {
@@ -118,7 +117,6 @@ class _PersonalTrainerCardState extends State<PersonalTrainerCard> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              // Image section for profile photo
               Row(
                 children: [
                   ClipRRect(
@@ -144,7 +142,7 @@ class _PersonalTrainerCardState extends State<PersonalTrainerCard> {
                       ),
                       const SizedBox(height: 4),
                       Text(
-                        "25 Tahun", // Example age (you can replace this with actual data)
+                        "25 Tahun",
                         style: const TextStyle(
                           fontSize: 14,
                           color: Colors.grey,
@@ -163,27 +161,33 @@ class _PersonalTrainerCardState extends State<PersonalTrainerCard> {
                 ],
               ),
               const SizedBox(height: 16),
-
-              // Justified description for each trainer
               Text(
                 widget.description,
                 style: const TextStyle(
                   color: Colors.grey,
                   fontSize: 14,
                 ),
-                textAlign: TextAlign.justify, // Justified text alignment
+                textAlign: TextAlign.justify,
               ),
               const SizedBox(height: 8),
-
-              // Icons for social media and experience
               Row(
                 children: [
-                  Row(
-                    children: const [
-                      Icon(Icons.chat, color: Colors.white),
-                      SizedBox(width: 4),
-                      Text("23", style: TextStyle(color: Colors.white)),
-                    ],
+                  GestureDetector(
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => ReadReview(),
+                        ),
+                      );
+                    },
+                    child: Row(
+                      children: const [
+                        Icon(Icons.chat, color: Colors.white),
+                        SizedBox(width: 4),
+                        Text("23", style: TextStyle(color: Colors.white)),
+                      ],
+                    ),
                   ),
                   const SizedBox(width: 10),
                   Row(
@@ -191,24 +195,21 @@ class _PersonalTrainerCardState extends State<PersonalTrainerCard> {
                       FaIcon(
                         FontAwesomeIcons.instagram,
                         color: Colors.white,
-                        size: 22, // Set the size of the icon
+                        size: 22,
                       ),
                       const SizedBox(width: 4),
                       Text(widget.email,
-                          style: const TextStyle(
-                              color: Colors.white)), // Dynamic email
+                          style: const TextStyle(color: Colors.white)),
                     ],
                   ),
                 ],
               ),
               const SizedBox(height: 16),
-
-              // Dropdown and "Pilih" button
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   DropdownButton<String>(
-                    value: selectedSession, // Display the selected session
+                    value: selectedSession,
                     items: ["4 Sesi", "8 Sesi", "12 Sesi", "Unlimited Sebulan"]
                         .map((String value) => DropdownMenuItem<String>(
                               value: value,
@@ -218,8 +219,7 @@ class _PersonalTrainerCardState extends State<PersonalTrainerCard> {
                         .toList(),
                     onChanged: (value) {
                       setState(() {
-                        selectedSession =
-                            value!; // Update the selected session for this card
+                        selectedSession = value!;
                       });
                     },
                     dropdownColor: Colors.grey[800],
