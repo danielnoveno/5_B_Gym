@@ -135,7 +135,7 @@ class _EditProfileState extends State<EditProfile> {
                         Navigator.pop(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => const profileView()),
+                              builder: (context) => const ProfileView()),
                         );
                       },
                       icon:
@@ -143,14 +143,12 @@ class _EditProfileState extends State<EditProfile> {
                       label: const Text('Simpan',
                           style: TextStyle(color: Colors.white)),
                       style: ElevatedButton.styleFrom(
-                        backgroundColor: const Color.fromARGB(
-                            175, 194, 73, 255),
+                        backgroundColor:
+                            const Color.fromARGB(175, 194, 73, 255),
                         padding: const EdgeInsets.symmetric(
-                            vertical: 10,
-                            horizontal: 135),
+                            vertical: 10, horizontal: 135),
                         shape: RoundedRectangleBorder(
-                          borderRadius:
-                              BorderRadius.circular(14),
+                          borderRadius: BorderRadius.circular(14),
                         ),
                       ),
                     ),
