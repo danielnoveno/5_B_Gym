@@ -12,5 +12,6 @@
     "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
   "[dart]": { "editor.defaultFormatter": "Dart-Code.dart-code" },
-  "editor.formatOnSave": true
+  "editor.formatOnSave": true,
+  "cmake.sourceDirectory": "D:/Github/1_A_Gym/5_B_Gym/windows/runner"
 }
