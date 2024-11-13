@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 
-import 'package:gd_widget2_b_11663/view/beranda/card_healthy_club/1_sesi.dart';
-import 'package:gd_widget2_b_11663/view/beranda/card_healthy_club/4_sesi.dart';
-import 'package:gd_widget2_b_11663/view/beranda/card_healthy_club/8_sesi.dart';
-import 'package:gd_widget2_b_11663/view/beranda/card_healthy_club/unlimited.dart';
+import 'package:tubes_pbp_gym/view/beranda/card_healthy_club/1_sesi.dart';
+import 'package:tubes_pbp_gym/view/beranda/card_healthy_club/4_sesi.dart';
+import 'package:tubes_pbp_gym/view/beranda/card_healthy_club/8_sesi.dart';
+import 'package:tubes_pbp_gym/view/beranda/card_healthy_club/unlimited.dart';
 
 class HealthyClubView extends StatelessWidget {
   HealthyClubView({super.key});

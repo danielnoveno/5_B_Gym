@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:gd_widget2_b_11663/components/card_component.dart';
-import 'package:gd_widget2_b_11663/components/button_component.dart';
+import 'package:tubes_pbp_gym/components/card_component.dart';
+import 'package:tubes_pbp_gym/components/button_component.dart';
 
 class ProfileView extends StatelessWidget {
   const ProfileView({super.key});

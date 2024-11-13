@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:gd_widget2_b_11663/view/home.dart';
-import 'package:gd_widget2_b_11663/view/register.dart';
-import 'package:gd_widget2_b_11663/components/form_component.dart';
-import 'package:gd_widget2_b_11663/service/directToLink.dart';
+import 'package:tubes_pbp_gym/view/home.dart';
+import 'package:tubes_pbp_gym/view/register.dart';
+import 'package:tubes_pbp_gym/components/form_component.dart';
+import 'package:tubes_pbp_gym/service/directToLink.dart';
 
 class LoginView extends StatefulWidget {
   final Map? data;

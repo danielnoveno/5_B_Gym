@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:gd_widget2_b_11663/view/view_listgym.dart';
-import 'package:gd_widget2_b_11663/view/profile.dart';
-import 'package:gd_widget2_b_11663/view/isi_home.dart';
+import 'package:tubes_pbp_gym/view/view_listgym.dart';
+import 'package:tubes_pbp_gym/view/profile.dart';
+import 'package:tubes_pbp_gym/view/isi_home.dart';
 
 class HomeView extends StatefulWidget {
   const HomeView({super.key});
