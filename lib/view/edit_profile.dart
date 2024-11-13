@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:gd_widget2_b_11663/components/form_edit.dart';
-import 'package:gd_widget2_b_11663/view/profile.dart';
+import 'package:tubes_pbp_gym/components/form_edit.dart';
+import 'package:tubes_pbp_gym/view/profile.dart';
 import 'dart:io';
 import 'package:image_picker/image_picker.dart';
 

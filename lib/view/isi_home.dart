@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:gd_widget2_b_11663/view/beranda/membersip.dart';
-import 'package:gd_widget2_b_11663/view/beranda/personal_trainer.dart';
-import 'package:gd_widget2_b_11663/view/beranda/healthy_club.dart';
-import 'package:gd_widget2_b_11663/view/beranda/alat_gym.dart';
+import 'package:tubes_pbp_gym/view/beranda/membersip.dart';
+import 'package:tubes_pbp_gym/view/beranda/personal_trainer.dart';
+import 'package:tubes_pbp_gym/view/beranda/healthy_club.dart';
+import 'package:tubes_pbp_gym/view/beranda/alat_gym.dart';
 
 class HomeViewContent extends StatefulWidget {
   const HomeViewContent({super.key});
@@ -32,7 +32,7 @@ class _HomeViewContentState extends State<HomeViewContent> {
 
   @override
   Widget build(BuildContext context) {
-    var height = MediaQuery.of(context).size.height;
+    // var height = MediaQuery.of(context).size.height;
     var width = MediaQuery.of(context).size.width;
 
     return SafeArea(

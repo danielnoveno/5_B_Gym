@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
-import 'package:gd_widget2_b_11663/view/beranda/card_membership/solo.dart';
-import 'package:gd_widget2_b_11663/view/beranda/card_membership/couple.dart';
-import 'package:gd_widget2_b_11663/view/beranda/card_membership/group.dart';
+import 'package:tubes_pbp_gym/view/beranda/card_membership/solo.dart';
+import 'package:tubes_pbp_gym/view/beranda/card_membership/couple.dart';
+import 'package:tubes_pbp_gym/view/beranda/card_membership/group.dart';
 
 class MembershipView extends StatelessWidget {
   MembershipView({super.key});
