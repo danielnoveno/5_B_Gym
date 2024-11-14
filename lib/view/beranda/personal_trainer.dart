@@ -1,80 +1,26 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:tubes_pbp_gym/view/beranda/review_trainer/index_review.dart';
+import 'package:tubes_pbp_gym/data/trainer.dart';
 
 class PersonalTrainerView extends StatelessWidget {
-  PersonalTrainerView({super.key});
-
-  // Data for images, titles, durations, emails, and descriptions
-  final List<List<String>> imgDataList = [
-    [
-      "images/home-image/personal-trainer/Trainer1.png",
-      "images/home-image/personal-trainer/Trainer2.png",
-      "images/home-image/personal-trainer/Trainer3.png",
-      "images/home-image/personal-trainer/Trainer4.png",
-    ],
-  ];
-
-  final List<List<String>> dataTitlesList = [
-    [
-      "Brandom Salim Tangan",
-      "Rizky Dwi Saputra",
-      "Bimo Aryo Prakoso",
-      "Siti Nurjanah",
-    ],
-  ];
-
-  final List<List<String>> dataSpesialis = [
-    [
-      "Berat badan",
-      "Masa otot",
-      "Masa otot",
-      "Stamina badan",
-    ],
-  ];
-
-  final List<List<String>> dataInstagram = [
-    [
-      "brandomsalim",
-      "rizkiyy",
-      "bimkoso",
-      "si_janah",
-    ],
-  ];
-
-  final List<List<String>> dataDescriptionsList = [
-    [
-      "Dengan 5 tahun pengalaman di industri kebugaran, saya adalah personal trainer yang berkomitmen untuk membantu klien mencapai tujuan kebugaran mereka. Spesialisasi saya yaitu menurunkan berat badan.",
-      "Memiliki pengalaman selama 2 tahun dibidang industri kebugaran, memiliki semangat yang tinggi untuk membantu klien mencapai badan impiannya. Saya biasanya dipercayai untuk meningkatkan masa otot.",
-      "Telah menekuni industri kebugaran selama 4 tahun, memiliki simpati yang tinggi terhadap progress dan semangat klien. Saya biasa dipercayai untuk meningkatkan masa otot.",
-      "Saya berpengalaman 4 tahun dibidang industri kebugaran, saya banyal dipercayai untuk menurunkan berat badan dan meningkatkan stamina.",
-    ],
-  ];
+  final List<Trainer> trainers = trainer;
 
   @override
   Widget build(BuildContext context) {
     return ListView.builder(
       padding: const EdgeInsets.symmetric(horizontal: 5),
-      itemCount: imgDataList.length,
+      itemCount: trainers.length,
       itemBuilder: (context, index) {
-        return Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: imgDataList[index].asMap().entries.map((entry) {
-            int i = entry.key;
-            String image = entry.value;
-            String title = dataTitlesList[index][i];
-            String duration = dataSpesialis[index][i];
-            String email = dataInstagram[index][i];
-            String description = dataDescriptionsList[index][i];
+        final Trainer trainer = trainers[index];
 
-            return PersonalTrainerCard(
-              title: title,
-              duration: duration,
-              imagePath: image,
-              email: email,
-              description: description,
-            );
-          }).toList(),
+        return PersonalTrainerCard(
+          title: trainer.title,
+          duration: trainer.duration,
+          imagePath: trainer.imagePath,
+          email: trainer.email,
+          description: trainer.description,
+          specialization: trainer.specialization, // Add specialization
         );
       },
     );
@@ -87,6 +33,7 @@ class PersonalTrainerCard extends StatefulWidget {
   final String imagePath;
   final String email;
   final String description;
+  final String specialization; // Add specialization
 
   PersonalTrainerCard({
     required this.title,
@@ -94,6 +41,7 @@ class PersonalTrainerCard extends StatefulWidget {
     required this.imagePath,
     required this.email,
     required this.description,
+    required this.specialization, // Add specialization
   });
 
   @override
@@ -142,7 +90,7 @@ class _PersonalTrainerCardState extends State<PersonalTrainerCard> {
                       ),
                       const SizedBox(height: 4),
                       Text(
-                        "25 Tahun",
+                        widget.duration, // Display specialization
                         style: const TextStyle(
                           fontSize: 14,
                           color: Colors.grey,
@@ -150,7 +98,7 @@ class _PersonalTrainerCardState extends State<PersonalTrainerCard> {
                       ),
                       const SizedBox(height: 4),
                       Text(
-                        widget.duration,
+                        widget.specialization,
                         style: const TextStyle(
                           fontSize: 14,
                           color: Colors.grey,

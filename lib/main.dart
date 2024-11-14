@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 // import 'package:tubes_pbp_gym/view/login.dart';
 import 'package:tubes_pbp_gym/view/home.dart';
 import 'package:tubes_pbp_gym/splashscreen.dart';
-import 'package:tubes_pbp_gym/view/login.dart';
+// import 'package:tubes_pbp_gym/view/login.dart';
 
 void main() {
   runApp(const MainApp());
