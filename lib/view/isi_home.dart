@@ -3,6 +3,7 @@ import 'package:gd_widget2_b_11663/view/beranda/membersip.dart';
 import 'package:gd_widget2_b_11663/view/beranda/personal_trainer.dart';
 import 'package:gd_widget2_b_11663/view/beranda/healthy_club.dart';
 import 'package:gd_widget2_b_11663/view/beranda/alat_gym.dart';
+import 'package:gd_widget2_b_11663/view/beranda/cart.dart';
 
 class HomeViewContent extends StatefulWidget {
   const HomeViewContent({super.key});
@@ -77,7 +78,16 @@ class _HomeViewContentState extends State<HomeViewContent> {
                         children: [
                           _buildCircleIcon(Icons.notifications),
                           const SizedBox(width: 10),
-                          _buildCircleIcon(Icons.shopping_cart),
+                          GestureDetector(
+                            onTap: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => CartPage()),
+                              );
+                            },
+                            child: _buildCircleIcon(Icons.shopping_cart),
+                          ),
                         ],
                       ),
                     ],
