@@ -17,10 +17,18 @@ dependencies:
   font_awesome_flutter: ^10.0.0
   animated_splash_screen: ^1.3.0
   lottie: ^3.0.0
+  flutter_launcher_icons: ^0.14.1
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
+
+flutter_icons:
+  android: true
+  ios: true
+  image_path: "icons/icon_symsalagym.png"
+  adaptive_icon_background: "#09060B"
+  adaptive_icon_foreground: "icons/logo_foreground.png"
 
 flutter:
   uses-material-design: true
