@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:tubes_pbp_gym/view/login.dart';
 import 'package:tubes_pbp_gym/components/form_component2.dart';
 import 'package:tubes_pbp_gym/service/directToLink.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
 
 class RegisterView extends StatefulWidget {
   const RegisterView({super.key});
