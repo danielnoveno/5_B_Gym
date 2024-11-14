@@ -140,8 +140,11 @@ class _LoginViewState extends State<LoginView> {
                     ElevatedButton(
                       onPressed: () {
                         if (_formKey.currentState!.validate()) {
-                          if (dataForm!['email'] == emailController.text &&
-                              dataForm['password'] == passwordController.text) {
+                          if (dataForm != null && dataForm['email'] == emailController.text &&
+    dataForm['password'] == passwordController.text) {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(content: Text('Login berhasil')),
+                            );
                             Navigator.push(
                                 context,
                                 MaterialPageRoute(
