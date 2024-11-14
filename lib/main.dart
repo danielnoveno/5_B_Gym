@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 // import 'package:tubes_pbp_gym/view/login.dart';
-// import 'package:tubes_pbp_gym/view/home.dart';
+import 'package:tubes_pbp_gym/view/home.dart';
 import 'package:tubes_pbp_gym/splashscreen.dart';
 // import 'package:tubes_pbp_gym/view/login.dart';
 
@@ -14,7 +14,7 @@ class MainApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return const MaterialApp(
-      home: SplashScreen(),
+      home: HomeView(),
     );
   }
 }
