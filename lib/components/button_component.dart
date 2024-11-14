@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:gd_widget2_b_11663/view/edit_profile.dart';
+import 'package:tubes_pbp_gym/view/edit_profile.dart';
 
 Widget profileButton(BuildContext context, String label) {
   return Padding(

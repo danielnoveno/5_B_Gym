@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:gd_widget2_b_11663/data/trainer.dart';
+import 'package:tubes_pbp_gym/data/trainer.dart';
 
 class ListNamaView extends StatelessWidget {
   const ListNamaView({super.key});
