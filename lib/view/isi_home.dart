@@ -1,99 +1,126 @@
 import 'package:flutter/material.dart';
+import 'package:tubes_pbp_gym/view/beranda/membersip.dart';
+import 'package:tubes_pbp_gym/view/beranda/personal_trainer.dart';
+import 'package:tubes_pbp_gym/view/beranda/healthy_club.dart';
+import 'package:tubes_pbp_gym/view/beranda/alat_gym.dart';
 
-class HomeViewContent extends StatelessWidget {
+class HomeViewContent extends StatefulWidget {
   const HomeViewContent({super.key});
 
   @override
+  _HomeViewContentState createState() => _HomeViewContentState();
+}
+
+class _HomeViewContentState extends State<HomeViewContent> {
+  int _activeMenuIndex = 0;
+
+  // Helper method untuk menampilkan tampilan sesuai kategori yang aktif
+  Widget _getViewForActiveMenu() {
+    switch (_activeMenuIndex) {
+      case 0:
+        return MembershipView(); // Menampilkan MembershipView
+      case 1:
+        return PersonalTrainerView(); // Menampilkan PersonalTrainerView
+      case 2:
+        return HealthyClubView(); // Menampilkan HealthyClubView
+      case 3:
+        return GymEquipmentView(); // Menampilkan GymEquipmentView
+      default:
+        return const Center(child: Text('No View Available'));
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
-    var height = MediaQuery.of(context).size.height;
+    // var height = MediaQuery.of(context).size.height;
     var width = MediaQuery.of(context).size.width;
-
-    List imgData = [
-      "images/barbel1.jpg",
-      "images/fit-stats.jpg",
-      "images/health-club.jpg",
-      "images/kekar.jpg",
-      "images/physical.jpg",
-      "images/progress.jpg"
-    ];
-
-    List dataTitles = [
-      "Alat Olahraga",
-      "Progress",
-      "Kelas Olahraga",
-      "Membership",
-      "Trainer",
-      "Record",
-    ];
 
     return SafeArea(
       child: Container(
-        color: const Color(0xFFFC8500),
+        color: Colors.black,
         width: width,
         child: Column(
           children: [
-            Container(
-              height: height * 0.25,
-              width: width,
+            // Header Section dengan greeting, icons, dan promotional card
+            Padding(
+              padding:
+                  const EdgeInsets.symmetric(horizontal: 12.0, vertical: 10.0),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Padding(
-                    padding: const EdgeInsets.only(
-                      top: 30,
-                      left: 20,
-                      right: 20,
-                    ),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        InkWell(
-                          onTap: () {},
-                          child: const Icon(
-                            Icons.sort,
-                            color: Colors.white,
-                            size: 40,
-                          ),
-                        ),
-                        Container(
-                          height: 50,
-                          width: 50,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(30),
-                            color: Colors.white,
-                            image: const DecorationImage(
-                              image: AssetImage("images/gym.png"),
+                  // Greeting dan Icons
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: const [
+                          Text(
+                            "Halo, Mariwow!",
+                            style: TextStyle(
+                              fontSize: 24,
+                              color: Colors.white,
+                              fontWeight: FontWeight.bold,
                             ),
                           ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(
-                      top: 20,
-                      left: 20,
-                      right: 20,
-                    ),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: const [
-                        Text(
-                          "Home",
-                          style: TextStyle(
-                            fontSize: 30,
-                            color: Colors.white,
-                            fontWeight: FontWeight.w500,
-                            letterSpacing: 1,
+                          SizedBox(height: 4),
+                          Text(
+                            "Sekecil apapun progressnya tetap progress",
+                            style: TextStyle(
+                              fontSize: 14,
+                              color: Colors.white70,
+                            ),
                           ),
+                        ],
+                      ),
+                      Row(
+                        children: [
+                          _buildCircleIcon(Icons.notifications),
+                          const SizedBox(width: 10),
+                          _buildCircleIcon(Icons.shopping_cart),
+                        ],
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 16),
+
+                  // Promotional Card
+                  Container(
+                    decoration: BoxDecoration(
+                      color: Color(0xFF673296),
+                      borderRadius: BorderRadius.circular(16),
+                    ),
+                    padding: const EdgeInsets.all(16.0),
+                    child: Row(
+                      children: [
+                        Image.asset(
+                          "images/home-image/Crevelone.png",
+                          height: 100,
+                          width: 100,
+                          fit: BoxFit.cover,
                         ),
-                        SizedBox(height: 5),
-                        Text(
-                          "Last Update: 6 Sep 2024",
-                          style: TextStyle(
-                            fontSize: 16,
-                            color: Colors.white70,
-                            letterSpacing: 1,
+                        const SizedBox(width: 16),
+                        Expanded(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: const [
+                              Text(
+                                "Pure Creatine",
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                              SizedBox(height: 8),
+                              Text(
+                                "Tingkatkan repetisimu dengan crevolene",
+                                style: TextStyle(
+                                  color: Colors.white70,
+                                  fontSize: 14,
+                                ),
+                              ),
+                            ],
                           ),
                         ),
                       ],
@@ -102,65 +129,74 @@ class HomeViewContent extends StatelessWidget {
                 ],
               ),
             ),
-            Expanded(
-              child: Container(
-                decoration: const BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.only(
-                    topLeft: Radius.circular(50),
-                    topRight: Radius.circular(50),
-                  ),
-                ),
-                width: width,
-                padding: const EdgeInsets.only(bottom: 20, top: 20),
-                child: GridView.builder(
-                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 2,
-                    childAspectRatio: 1.1,
-                    mainAxisSpacing: 25,
-                  ),
-                  shrinkWrap: true,
-                  itemCount: imgData.length,
-                  itemBuilder: (context, index) {
-                    return InkWell(
-                      onTap: () {},
-                      child: Container(
-                        margin: const EdgeInsets.symmetric(
-                            vertical: 8, horizontal: 20),
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(20),
-                          color: Colors.white,
-                          boxShadow: const [
-                            BoxShadow(
-                              color: Colors.black26,
-                              spreadRadius: 1,
-                              blurRadius: 6,
-                            ),
-                          ],
-                        ),
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          children: [
-                            Image.asset(
-                              imgData[index],
-                              width: 100,
-                            ),
-                            Text(
-                              dataTitles[index],
-                              style: const TextStyle(
-                                fontSize: 20,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    );
-                  },
+
+            // Horizontal Scrollable Menu
+            Padding(
+              padding:
+                  const EdgeInsets.symmetric(horizontal: 12.0, vertical: 2.0),
+              child: SingleChildScrollView(
+                scrollDirection: Axis.horizontal,
+                child: Row(
+                  children: [
+                    _buildMenuButton("Membership", 0),
+                    _buildMenuButton("Personal Trainer", 1),
+                    _buildMenuButton("Healthy Club", 2),
+                    _buildMenuButton("Alat Gym", 3),
+                  ],
                 ),
               ),
             ),
+
+            SizedBox(height: 10),
+
+            // Menampilkan tampilan sesuai kategori yang dipilih
+            Expanded(
+              child: _getViewForActiveMenu(),
+            ),
           ],
+        ),
+      ),
+    );
+  }
+
+  // Helper method untuk membuat tombol dengan ikon bundar
+  Widget _buildCircleIcon(IconData icon) {
+    return Container(
+      padding: const EdgeInsets.all(8),
+      decoration: const BoxDecoration(
+        color: Color(0xFF673296),
+        shape: BoxShape.circle,
+      ),
+      child: Icon(
+        icon,
+        color: Colors.white,
+        size: 24,
+      ),
+    );
+  }
+
+  // Helper method untuk membuat tombol menu dengan state aktif
+  Widget _buildMenuButton(String label, int index) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 5.0),
+      child: ElevatedButton(
+        onPressed: () {
+          setState(() {
+            _activeMenuIndex = index; // Set active menu index saat ditekan
+          });
+        },
+        style: ElevatedButton.styleFrom(
+          backgroundColor: _activeMenuIndex == index
+              ? Color(0xFF673296) // Jika aktif, background menjadi ungu
+              : Color(
+                  0xFF404040), // Jika tidak aktif, background menjadi abu-abu
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(20),
+          ),
+        ),
+        child: Text(
+          label,
+          style: const TextStyle(color: Colors.white),
         ),
       ),
     );

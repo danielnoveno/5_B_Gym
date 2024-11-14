@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:gd_widget2_b_11663/data/trainer.dart';
+import 'package:tubes_pbp_gym/data/trainer.dart';
 
 class ListNamaView extends StatelessWidget {
   const ListNamaView({super.key});
@@ -81,8 +81,8 @@ class TrainerList extends StatelessWidget {
     return ListView(children: [
       for (var trainer in trainer)
         ListTile(
-            leading: Image.network(trainer.picture),
-            title: Text(trainer.name),
+            leading: Image.network(trainer.imagePath),
+            title: Text(trainer.title),
             onTap: () => onTrainerTap(trainer)),
     ]);
   }
@@ -101,17 +101,17 @@ class TrainerDetail extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Image.network(
-                    trainer.picture,
+                    trainer.imagePath,
                     width: 100, // You can adjust the size as needed
                     height: 100,
                   ),
                   MouseRegion(
                     onHover: (_) => {print("Hello World")},
-                    child: Text(trainer.name),
+                    child: Text(trainer.title),
                   ),
-                  Text("Berat Badan : ${trainer.phone}"),
-                  Text("Tinggi: ${trainer.tinggi}"),
-                  Text("${trainer.beratBadan}"),
+                  Text("Berat Badan : ${trainer.email}"),
+                  Text("Tinggi: ${trainer.description}"),
+                  Text("${trainer.description}"),
                   ElevatedButton(
                     onPressed: () {},
                     child: const Text("Contact Me"),
@@ -123,9 +123,9 @@ class TrainerDetail extends StatelessWidget {
                 children: [
                   MouseRegion(
                     onEnter: (_) => {print("Hello World")},
-                    child: Text(trainer.name),
+                    child: Text(trainer.title),
                   ),
-                  Text(trainer.phone),
+                  Text(trainer.email),
                   ElevatedButton(
                     onPressed: () {},
                     child: const Text("Contact Me"),
