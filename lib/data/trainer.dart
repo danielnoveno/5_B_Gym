@@ -22,59 +22,62 @@ final List<Trainer> trainer = _trainer
 
 final List<Map<String, String>> _trainer = [
   {
-    "title": "Angelina Derrel",
-    "duration": "2 years",
+    "title": "Brandom Salim Tangan",
+    "duration": "25 Tahun",
     "imagePath": "images/home-image/personal-trainer/Trainer1.png",
-    "email": "angelina@kengen.com",
-    "description": "Expert in functional training and bodyweight exercises.",
-    "specialization": "Functional Training"
-  },
-  {
-    "title": "Stewart",
-    "duration": "1.5 years",
-    "imagePath": "images/home-image/personal-trainer/Trainer2.png",
-    "email": "stewart@ontality.com",
+    "email": "@brandomsalim",
     "description":
-        "Focuses on strength training and high-intensity interval training.",
-    "specialization": "Strength Training"
+        "Dengan 5 tahun pengalaman di industri kebugaran, saya adalah personal trainer yang berkomitmen untuk membantu klien mencapai tujuan kebugaran mereka. Spesialisasi saya yaitu menurunkan berat badan.",
+    "specialization": "Turun berat badan"
   },
   {
-    "title": "Noveno",
-    "duration": "3 years",
+    "title": "Rizky Dwi Saputra",
+    "duration": "23 Tahun",
+    "imagePath": "images/home-image/personal-trainer/Trainer2.png",
+    "email": "rizkiyy",
+    "description":
+        "Memiliki pengalaman selama 2 tahun dibidang industri kebugaran, memiliki semangat yang tinggi untuk membantu klien mencapai badan impiannya. Saya biasanya dipercayai untuk meningkatkan masa otot.",
+    "specialization": "Peningaktan masa otot"
+  },
+  {
+    "title": "Bimo Aryo Prakoso ",
+    "duration": "24 Tahun",
     "imagePath": "images/home-image/personal-trainer/Trainer3.png",
-    "email": "novenoo@splinx.com",
+    "email": "@bimkoso",
     "description":
-        "Specializes in cardiovascular health and endurance training.",
-    "specialization": "Cardiovascular Health"
+        "Telah menekuni industri kebugaran selama 4 tahun, memiliki simpati yang tinggi terhadap progress dan semangat klien. Saya biasa dipercayai untuk meningkatkan masa otot.",
+    "specialization": "Peningaktan masa otot"
   },
   {
-    "title": "Mario",
-    "duration": "5 years",
+    "title": "Siti Nurjanah",
+    "duration": "26 Tahun",
     "imagePath": "images/home-image/personal-trainer/Trainer4.png",
-    "email": "mariomario@buzzworks.com",
-    "description": "Experienced in holistic fitness and lifestyle coaching.",
-    "specialization": "Holistic Fitness"
+    "email": "@si_janah",
+    "description":
+        "Saya berpengalaman 4 tahun dibidang industri kebugaran, saya banyal dipercayai untuk menurunkan berat badan dan meningkatkan stamina, terutama untuk kaum wanita.",
+    "specialization": "Peningkatan stamina"
   },
   {
-    "title": "Russel",
-    "duration": "2.5 years",
+    "title": "Happy Yaya",
+    "duration": "22 Tahun",
     "imagePath": "images/home-image/personal-trainer/Trainer1.png",
-    "email": "russelll@temorak.com",
-    "description": "Expert in flexibility and mobility improvement programs.",
-    "specialization": "Flexibility & Mobility"
+    "email": "@yehappy",
+    "description":
+        "Telah menekuni industri kebugaran selama 4 tahun, memiliki simpati yang tinggi terhadap progress dan semangat klien. Saya biasa dipercayai untuk meningkatkan masa otot.",
+    "specialization": "Flexibility & mobility otot"
   },
   {
-    "title": "Lara Smith",
-    "duration": "4 years",
+    "title": "Dika Smith",
+    "duration": "24 Tahun",
     "imagePath": "images/home-image/personal-trainer/Trainer2.png",
-    "email": "lara.smith@fitnesspro.com",
+    "email": "@dikasmh",
     "description":
         "Specializes in weight loss programs and nutrition coaching.",
     "specialization": "Weight Loss & Nutrition"
   },
   {
     "title": "Samuel Peterson",
-    "duration": "3 years",
+    "duration": "23 Tahun",
     "imagePath": "images/home-image/personal-trainer/Trainer3.png",
     "email": "samuel.peterson@fitnessco.com",
     "description": "Focuses on muscle building and hypertrophy training.",
@@ -82,7 +85,7 @@ final List<Map<String, String>> _trainer = [
   },
   {
     "title": "Rebecca Chen",
-    "duration": "5 years",
+    "duration": "25 years",
     "imagePath": "images/home-image/personal-trainer/Trainer4.png",
     "email": "rebecca.chen@fitpro.com",
     "description": "Specializes in rehabilitation and post-injury recovery.",

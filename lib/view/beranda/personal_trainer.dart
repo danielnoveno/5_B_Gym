@@ -90,7 +90,7 @@ class _PersonalTrainerCardState extends State<PersonalTrainerCard> {
                       ),
                       const SizedBox(height: 4),
                       Text(
-                        widget.specialization, // Display specialization
+                        widget.duration, // Display specialization
                         style: const TextStyle(
                           fontSize: 14,
                           color: Colors.grey,
@@ -98,7 +98,7 @@ class _PersonalTrainerCardState extends State<PersonalTrainerCard> {
                       ),
                       const SizedBox(height: 4),
                       Text(
-                        widget.duration,
+                        widget.specialization,
                         style: const TextStyle(
                           fontSize: 14,
                           color: Colors.grey,
