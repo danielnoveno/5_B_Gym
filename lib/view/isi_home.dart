@@ -84,9 +84,16 @@ class _HomeViewContentState extends State<HomeViewContent> {
                             );
                           }),
                           const SizedBox(width: 10),
-                          _buildCircleIcon(Icons.shopping_cart, () {
-                            //
-                          }),
+                          GestureDetector(
+                            onTap: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => CartPage()),
+                              );
+                            },
+                            child: _buildCircleIcon(Icons.shopping_cart),
+                          ),
                         ],
                       ),
                     ],
