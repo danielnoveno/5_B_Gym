@@ -7,7 +7,19 @@ class CartProvider with ChangeNotifier {
   List<CartItem> get cartItems => _cartItems;
 
   void addItem(CartItem item) {
-    _cartItems.add(item);
+    // Periksa apakah item sudah ada di keranjang berdasarkan 'title' atau kriteria lain yang cocok
+    final existingItemIndex =
+        _cartItems.indexWhere((cartItem) => cartItem.price == item.price);
+
+    if (existingItemIndex != -1) {
+      // Jika item sudah ada, update kuantitasnya
+      _cartItems[existingItemIndex].quantity += 1;
+    } else {
+      // Jika item belum ada, tambahkan item baru ke keranjang
+      item.quantity = 1; // Setel kuantitas awal menjadi 1
+      _cartItems.add(item);
+    }
+
     notifyListeners();
   }
 
@@ -16,7 +28,7 @@ class CartProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  void updateSelection(int index, bool isSelected) {
+  void updateSelection(int index, bool isSelected)   {
     _cartItems[index].isSelected = isSelected;
     notifyListeners();
   }
@@ -34,4 +46,3 @@ class CartProvider with ChangeNotifier {
     notifyListeners();
   }
 }
-

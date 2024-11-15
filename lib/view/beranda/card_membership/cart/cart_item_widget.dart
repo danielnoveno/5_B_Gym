@@ -32,22 +32,27 @@ class CartItemWidget extends StatelessWidget {
             value: item.isSelected,
             onChanged: onCheckboxChanged,
           ),
-          Image.asset(
-            item.image,
-            width: 50,
-            height: 50,
-            fit: BoxFit.cover,
+          // Membungkus gambar dengan ClipRRect untuk memberikan sudut rounded
+          ClipRRect(
+            borderRadius: BorderRadius.circular(8.0), // Menentukan radius sudut
+            child: Image.asset(
+              item.image,
+              width: 50,
+              height: 50,
+              fit: BoxFit.cover,
+            ),
           ),
           SizedBox(width: 16),
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
+                // Menambahkan maxLines dan overflow untuk menghindari pemotongan
                 Text(
-                  item.title,
+                  item.membershipTitle,
                   style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-                  overflow: TextOverflow.ellipsis,
-                  maxLines: 1,
+                  overflow: TextOverflow.visible, // Menyembunyikan ellipsis
+                  maxLines: 2, // Menambahkan 2 baris untuk judul panjang
                 ),
                 SizedBox(height: 4),
                 Text(item.price,
@@ -57,31 +62,37 @@ class CartItemWidget extends StatelessWidget {
           ),
           Row(
             children: [
-              // Tombol pengurangan (minus) hanya aktif jika quantity > 0
-              IconButton(
-                icon: Icon(Icons.remove,
-                    color: item.quantity > 0 ? Colors.black : Colors.grey),
-                onPressed: item.quantity > 0
-                    ? () {
-                        onQuantityChanged(item.quantity - 1);
-                      }
-                    : null,
+              Padding(
+                padding: const EdgeInsets.only(left: 16),
+                child: Row(
+                  children: [
+                    IconButton(
+                      icon: Icon(Icons.remove,
+                          color:
+                              item.quantity > 0 ? Colors.black : Colors.grey),
+                      onPressed: item.quantity > 0
+                          ? () {
+                              onQuantityChanged(item.quantity - 1);
+                            }
+                          : null,
+                    ),
+                    Text('${item.quantity}',
+                        style: TextStyle(
+                            fontSize: 16, fontWeight: FontWeight.bold)),
+                    IconButton(
+                      icon: Icon(Icons.add, color: Colors.black),
+                      onPressed: () {
+                        onQuantityChanged(item.quantity + 1);
+                      },
+                    ),
+                  ],
+                ),
               ),
-              Text('${item.quantity}',
-                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
-              // Tombol penambahan (plus)
-              IconButton(
-                icon: Icon(Icons.add, color: Colors.black),
-                onPressed: () {
-                  onQuantityChanged(item.quantity + 1);
-                },
-              ),
-              // Tombol hapus jika quantity == 0
               if (item.quantity == 0) ...[
                 SizedBox(width: 8),
                 IconButton(
                   icon: Icon(Icons.delete, color: Colors.red),
-                  onPressed: onRemoveItem, // Hapus item dari keranjang
+                  onPressed: onRemoveItem,
                 ),
               ],
             ],

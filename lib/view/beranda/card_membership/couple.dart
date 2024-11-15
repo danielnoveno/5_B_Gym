@@ -83,9 +83,10 @@ class PackageCard extends StatelessWidget {
               onPressed: () {
                 // Create a new CartItem
                 final cartItem = CartItem(
-                  package.title,
-                  package.total,
-                  'images/home-image/membership/couple.png',
+                  title: package.title,
+                  price: package.price,
+                  image: 'images/home-image/membership/couple.png',
+                  membershipTitle: 'Membership - Couple ${package.title}',
                 );
 
                 // Get the CartProvider from the context and add the item to the cart

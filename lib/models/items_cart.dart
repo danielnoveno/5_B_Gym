@@ -2,9 +2,16 @@ class CartItem {
   final String title;
   final String price;
   final String image;
-  bool isSelected;
   int quantity;
+  bool isSelected;
+  final String membershipTitle;
 
-  CartItem(this.title, this.price, this.image,
-      {this.isSelected = false, this.quantity = 1});
+  CartItem({
+    required this.title,
+    required this.price,
+    required this.image,
+    this.quantity = 1,
+    this.isSelected = false,
+    required this.membershipTitle,
+  });
 }
