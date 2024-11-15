@@ -27,8 +27,8 @@ class HealthyClub8Sesi extends StatelessWidget {
               width: double.infinity,
               padding: EdgeInsets.all(16.0),
               decoration: BoxDecoration(
-                color:
-                    Colors.black87, // Set the background color of the container
+                color: Color(
+                    0xFF2B2B2B), // Set the background color of the container
                 borderRadius: BorderRadius.circular(16),
               ),
               child: Column(
