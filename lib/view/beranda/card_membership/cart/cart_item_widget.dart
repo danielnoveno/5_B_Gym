@@ -22,9 +22,6 @@ class CartItemWidget extends StatelessWidget {
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(8),
-        boxShadow: [
-          BoxShadow(color: Colors.grey.shade300, blurRadius: 4, spreadRadius: 2)
-        ],
       ),
       child: Row(
         children: [
