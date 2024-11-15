@@ -4,6 +4,7 @@ import 'package:tubes_pbp_gym/view/beranda/personal_trainer.dart';
 import 'package:tubes_pbp_gym/view/beranda/healthy_club.dart';
 import 'package:tubes_pbp_gym/view/beranda/alat_gym.dart';
 import 'package:tubes_pbp_gym/view/beranda/notifikasi.dart';
+import 'package:tubes_pbp_gym/view/beranda/cart.dart';
 
 class HomeViewContent extends StatefulWidget {
   const HomeViewContent({super.key});
@@ -84,16 +85,14 @@ class _HomeViewContentState extends State<HomeViewContent> {
                             );
                           }),
                           const SizedBox(width: 10),
-                          GestureDetector(
-                            onTap: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => CartPage()),
-                              );
-                            },
-                            child: _buildCircleIcon(Icons.shopping_cart),
-                          ),
+                          _buildCircleIcon(Icons.shopping_cart, () {
+                            // Arahkan ke halaman notifikasi
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => CartPage()),
+                            );
+                          }),
                         ],
                       ),
                     ],
