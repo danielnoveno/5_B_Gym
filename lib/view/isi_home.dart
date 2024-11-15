@@ -3,6 +3,7 @@ import 'package:tubes_pbp_gym/view/beranda/membersip.dart';
 import 'package:tubes_pbp_gym/view/beranda/personal_trainer.dart';
 import 'package:tubes_pbp_gym/view/beranda/healthy_club.dart';
 import 'package:tubes_pbp_gym/view/beranda/alat_gym.dart';
+import 'package:tubes_pbp_gym/view/beranda/notifikasi.dart';
 
 class HomeViewContent extends StatefulWidget {
   const HomeViewContent({super.key});
@@ -32,7 +33,6 @@ class _HomeViewContentState extends State<HomeViewContent> {
 
   @override
   Widget build(BuildContext context) {
-    // var height = MediaQuery.of(context).size.height;
     var width = MediaQuery.of(context).size.width;
 
     return SafeArea(
@@ -75,9 +75,18 @@ class _HomeViewContentState extends State<HomeViewContent> {
                       ),
                       Row(
                         children: [
-                          _buildCircleIcon(Icons.notifications),
+                          _buildCircleIcon(Icons.notifications, () {
+                            // Arahkan ke halaman notifikasi
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => NotificationScreen()),
+                            );
+                          }),
                           const SizedBox(width: 10),
-                          _buildCircleIcon(Icons.shopping_cart),
+                          _buildCircleIcon(Icons.shopping_cart, () {
+                            //
+                          }),
                         ],
                       ),
                     ],
@@ -160,17 +169,20 @@ class _HomeViewContentState extends State<HomeViewContent> {
   }
 
   // Helper method untuk membuat tombol dengan ikon bundar
-  Widget _buildCircleIcon(IconData icon) {
-    return Container(
-      padding: const EdgeInsets.all(8),
-      decoration: const BoxDecoration(
-        color: Color(0xFF673296),
-        shape: BoxShape.circle,
-      ),
-      child: Icon(
-        icon,
-        color: Colors.white,
-        size: 24,
+  Widget _buildCircleIcon(IconData icon, VoidCallback onTap) {
+    return GestureDetector(
+      onTap: onTap,
+      child: Container(
+        padding: const EdgeInsets.all(8),
+        decoration: const BoxDecoration(
+          color: Color(0xFF673296),
+          shape: BoxShape.circle,
+        ),
+        child: Icon(
+          icon,
+          color: Colors.white,
+          size: 24,
+        ),
       ),
     );
   }
