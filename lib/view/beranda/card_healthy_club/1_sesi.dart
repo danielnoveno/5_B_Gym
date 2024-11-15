@@ -1,34 +1,45 @@
 import 'package:flutter/material.dart';
 
-class HealthyClub1Sesi extends StatelessWidget {
+class HealthyClub1Sesi extends StatefulWidget {
+  @override
+  _HealthyClub1SesiState createState() => _HealthyClub1SesiState();
+}
+
+class _HealthyClub1SesiState extends State<HealthyClub1Sesi> {
+  final List<String> olahragaOptions = [
+    'Pilihan Olahraga',
+    'Zumba',
+    'Yoga',
+    'HIIT',
+    'Spinning',
+    'Pilates',
+  ];
+  String selectedOlahraga = 'Pilihan Olahraga';
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor:
-          Colors.black, // Set the background color of the entire page to black
+      backgroundColor: Colors.black,
       appBar: AppBar(
         title: Text(
           '1 Sesi',
-          style: TextStyle(color: Colors.white), // Make the title white
+          style: TextStyle(color: Colors.white),
         ),
         leading: IconButton(
-          icon: Icon(Icons.arrow_back,
-              color: Colors.white), // Make the back icon white
+          icon: Icon(Icons.arrow_back, color: Colors.white),
           onPressed: () => Navigator.of(context).pop(),
         ),
-        backgroundColor: Colors.black, // Set the app bar background to black
+        backgroundColor: Colors.black,
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: SingleChildScrollView(
-          // Wrap the body in a SingleChildScrollView to allow scrolling
           child: Center(
             child: Container(
               width: double.infinity,
               padding: EdgeInsets.all(16.0),
               decoration: BoxDecoration(
-                color:
-                    Colors.black87, // Set the background color of the container
+                color: Color(0xFF2B2B2B),
                 borderRadius: BorderRadius.circular(16),
               ),
               child: Column(
@@ -51,23 +62,60 @@ class HealthyClub1Sesi extends StatelessWidget {
                     style: TextStyle(
                       fontSize: 24,
                       fontWeight: FontWeight.bold,
-                      color: Colors.white, // Make the price text white
+                      color: Colors.white,
                     ),
                   ),
                   Divider(color: Colors.grey),
                   SizedBox(height: 8),
                   FeatureItem(
-                    text: 'Diskon 20.000 dari harga normal per-sesi',
+                    text: 'Durasi kelas selama 1 jam',
                   ),
                   FeatureItem(
-                    text:
-                        'Fleksibilitas mengikuti kelas olahraga mana saja dalam waktu 1 bulan',
+                    text: 'Akses ke satu kelas olahraga pilihan',
                   ),
-                  FeatureItem(text: 'Zumba'),
-                  FeatureItem(text: 'Yoga'),
-                  FeatureItem(text: 'HIIT'),
-                  FeatureItem(text: 'Spinning'),
-                  FeatureItem(text: 'Pilates'),
+                  SizedBox(height: 16),
+                  DropdownButtonFormField<String>(
+                    value: selectedOlahraga,
+                    items: olahragaOptions.map((String value) {
+                      return DropdownMenuItem<String>(
+                        value: value,
+                        child: Text(
+                          value,
+                          style: TextStyle(color: Colors.white),
+                        ),
+                      );
+                    }).toList(),
+                    onChanged: (newValue) {
+                      setState(() {
+                        selectedOlahraga = newValue!;
+                      });
+                    },
+                    dropdownColor: Color(
+                        0xFF2B2B2B), // Background color of the dropdown menu
+                    decoration: InputDecoration(
+                      filled: true,
+                      fillColor: Color(0xFF673296),
+                      contentPadding:
+                          EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(16),
+                        borderSide: BorderSide(
+                            color: Colors.white), // Border color for dropdown
+                      ),
+                      enabledBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(16),
+                        borderSide: BorderSide(color: Colors.white),
+                      ),
+                      focusedBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(16),
+                        borderSide: BorderSide(color: Colors.white),
+                      ),
+                    ),
+                    iconEnabledColor:
+                        Colors.white, // Color of the dropdown icon
+                    style: TextStyle(
+                        color: Colors.white), // Text color in the dropdown
+                  ),
                   SizedBox(height: 16),
                   SizedBox(
                     width: double.infinity,
@@ -79,9 +127,10 @@ class HealthyClub1Sesi extends StatelessWidget {
                         ),
                       ),
                       onPressed: () {},
-                      child: Text('Masukan Keranjang',
-                          style: TextStyle(
-                              color: Colors.white)), // Make button text white
+                      child: Text(
+                        'Masukan Keranjang',
+                        style: TextStyle(color: Colors.white),
+                      ),
                     ),
                   ),
                 ],
@@ -111,8 +160,9 @@ class FeatureItem extends StatelessWidget {
             child: Text(
               text,
               style: TextStyle(
-                  fontSize: 16,
-                  color: Colors.white), // Make the feature text white
+                fontSize: 16,
+                color: Colors.white,
+              ),
             ),
           ),
         ],
