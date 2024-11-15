@@ -84,7 +84,7 @@ class PackageCard extends StatelessWidget {
                 // Create a new CartItem
                 final cartItem = CartItem(
                   title: package.title,
-                  price: package.price,
+                  price: package.total,
                   image: 'images/home-image/membership/couple.png',
                   membershipTitle: 'Membership - Couple ${package.title}',
                 );
