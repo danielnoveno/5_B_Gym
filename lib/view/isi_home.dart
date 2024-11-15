@@ -95,46 +95,82 @@ class _HomeViewContentState extends State<HomeViewContent> {
 
                   // Promotional Card
                   Container(
-                    decoration: BoxDecoration(
+                    width: 382,
+                    height: 150,
+                    padding: const EdgeInsets.only(left: 16, right: 16),
+                    clipBehavior: Clip.antiAlias,
+                    decoration: ShapeDecoration(
                       color: Color(0xFF673296),
-                      borderRadius: BorderRadius.circular(16),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(20),
+                      ),
                     ),
-                    padding: const EdgeInsets.all(16.0),
-                    child: Row(
+                    child: Stack(
                       children: [
-                        Image.asset(
-                          "images/home-image/Crevelone.png",
-                          height: 100,
-                          width: 100,
-                          fit: BoxFit.cover,
-                        ),
-                        const SizedBox(width: 16),
-                        Expanded(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: const [
-                              Text(
-                                "Pure Creatine",
-                                style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 20,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                              SizedBox(height: 8),
-                              Text(
-                                "Tingkatkan repetisimu dengan crevolene",
-                                style: TextStyle(
-                                  color: Colors.white70,
-                                  fontSize: 14,
-                                ),
-                              ),
-                            ],
+                        // Oval shapes in the background
+                        Positioned(
+                          right: 0,
+                          top: -10,
+                          child: Container(
+                            width: 139,
+                            height: 128,
+                            decoration: ShapeDecoration(
+                              color: Colors.black.withOpacity(0.08),
+                              shape: OvalBorder(),
+                            ),
                           ),
+                        ),
+                        Positioned(
+                          right: 0,
+                          top: 63.76,
+                          child: Container(
+                            width: 139,
+                            height: 127.52,
+                            decoration: ShapeDecoration(
+                              color: Colors.black.withOpacity(0.08),
+                              shape: OvalBorder(),
+                            ),
+                          ),
+                        ),
+                        // Content of the card
+                        Row(
+                          children: [
+                            Image.asset(
+                              "images/home-image/Crevelone.png",
+                              height: 100,
+                              width: 100,
+                              fit: BoxFit.cover,
+                            ),
+                            const SizedBox(width: 16),
+                            Expanded(
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: const [
+                                  Text(
+                                    "Pure Creatine",
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 20,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                  SizedBox(height: 8),
+                                  Text(
+                                    "Tingkatkan repetisimu dengan crevolene",
+                                    style: TextStyle(
+                                      color: Colors.white70,
+                                      fontSize: 14,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ],
                         ),
                       ],
                     ),
-                  ),
+                  )
                 ],
               ),
             ),
