@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:tubes_pbp_gym/view/beranda/card_membership/cart/bottom_bar.dart';
-import 'package:tubes_pbp_gym/view/beranda/card_membership/cart/cart_item_widget.dart';
+import 'package:tubes_pbp_gym/view/beranda/cart/bottom_bar.dart';
+import 'package:tubes_pbp_gym/view/beranda/cart/cart_item_widget.dart';
 import 'package:tubes_pbp_gym/providers/cart_provider.dart';
 import 'package:provider/provider.dart';
 

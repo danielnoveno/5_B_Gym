@@ -7,7 +7,7 @@ class CartProvider with ChangeNotifier {
   List<CartItem> get cartItems => _cartItems;
 
   void addItem(CartItem item) {
-    // Periksa apakah item sudah ada di keranjang berdasarkan 'title' atau kriteria lain yang cocok
+    // Periksa apakah item sudah ada di keranjang berdasarkan 'price' atau kriteria lain yang cocok
     final existingItemIndex =
         _cartItems.indexWhere((cartItem) => cartItem.price == item.price);
 
@@ -28,7 +28,7 @@ class CartProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  void updateSelection(int index, bool isSelected)   {
+  void updateSelection(int index, bool isSelected) {
     _cartItems[index].isSelected = isSelected;
     notifyListeners();
   }

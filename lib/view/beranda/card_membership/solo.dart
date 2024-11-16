@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:tubes_pbp_gym/data/membership_data.dart';
 import 'package:tubes_pbp_gym/models/membership_package.dart';
 import 'package:tubes_pbp_gym/models/items_cart.dart';
-import 'package:tubes_pbp_gym/view/beranda/card_membership/cart/cart.dart';
+import 'package:tubes_pbp_gym/view/beranda/cart/cart.dart';
 import 'package:provider/provider.dart';
 import 'package:tubes_pbp_gym/providers/cart_provider.dart';
 
