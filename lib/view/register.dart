@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:gd_widget2_b_11663/view/login.dart';
-import 'package:gd_widget2_b_11663/components/form_component2.dart';
-import 'package:gd_widget2_b_11663/service/directToLink.dart';
+import 'package:tubes_pbp_gym/view/login.dart';
+import 'package:tubes_pbp_gym/components/form_component2.dart';
+import 'package:tubes_pbp_gym/service/directToLink.dart';
 
-// Update register.dart v2
+
 class RegisterView extends StatefulWidget {
   const RegisterView({super.key});
 
@@ -18,9 +18,9 @@ class _RegisterViewState extends State<RegisterView> {
   TextEditingController passwordController = TextEditingController();
   TextEditingController notelpController = TextEditingController();
   TextEditingController tglLahirController = TextEditingController();
-  // TextEditingController tinggiController = TextEditingController();
-  // TextEditingController beratController = TextEditingController();
-  // TextEditingController umurController = TextEditingController();
+
+  String? selectedValue;
+  List<String> dropdownItems = ['Pengguna', 'Trainer'];
 
   @override
   Widget build(BuildContext context) {
@@ -40,7 +40,7 @@ class _RegisterViewState extends State<RegisterView> {
             Navigator.pop(context);
           },
         ),
-      ), // The back button will appear automatically if you use an AppBar.
+      ),
       backgroundColor: Colors.black,
       body: SafeArea(
         child: SingleChildScrollView(
@@ -52,9 +52,9 @@ class _RegisterViewState extends State<RegisterView> {
                 Padding(
                   padding: const EdgeInsets.only(top: 20),
                   child: Image.asset(
-                    'images/gym.png', // Replace with your image path
-                    height: 120, // Adjust the size
-                    width: 120, // Adjust the size
+                    'images/gym.png',
+                    height: 120,
+                    width: 120,
                   ),
                 ),
                 Padding(
@@ -125,42 +125,6 @@ class _RegisterViewState extends State<RegisterView> {
                   helperTxt: "Masukkan Nomor Telepon Anda",
                   iconData: Icons.phone_android,
                 ),
-                // inputForm(
-                //   (p0) {
-                //     if (p0 == null || p0.isEmpty) {
-                //       return 'Tinggi Tidak Boleh Kosong';
-                //     }
-                //     return null;
-                //   },
-                //   controller: tinggiController,
-                //   hintTxt: "Tinggi badan (cm)",
-                //   helperTxt: "Masukkan Tinggi Badan Anda",
-                //   iconData: Icons.height,
-                // ),
-                // inputForm(
-                //   (p0) {
-                //     if (p0 == null || p0.isEmpty) {
-                //       return 'Berat Tidak Boleh Kosong';
-                //     }
-                //     return null;
-                //   },
-                //   controller: beratController,
-                //   hintTxt: "Berat badan dalam kg",
-                //   helperTxt: "xx",
-                //   iconData: Icons.nature_people,
-                // ),
-                // inputForm(
-                //   (p0) {
-                //     if (p0 == null || p0.isEmpty) {
-                //       return 'Umur Tidak Boleh Kosong';
-                //     }
-                //     return null;
-                //   },
-                //   controller: umurController,
-                //   hintTxt: "Umur",
-                //   helperTxt: "xx",
-                //   iconData: Icons.emoji_people_outlined,
-                // ),
                 inputForm(
                   (p0) {
                     if (p0 == null || p0.isEmpty) {
@@ -176,20 +140,17 @@ class _RegisterViewState extends State<RegisterView> {
                 Padding(
                   padding: const EdgeInsets.symmetric(vertical: 16.0),
                   child: SizedBox(
-                    width: 350, // Adjust width to match other fields
+                    width: 350,
                     child: DropdownButtonHideUnderline(
                       child: DropdownButtonFormField<String>(
                         value: selectedValue,
-                        dropdownColor:
-                            Color(0xFF636363), // Set dropdown background color
+                        dropdownColor: Color(0xFF636363),
                         items: dropdownItems.map((item) {
                           return DropdownMenuItem(
                             value: item,
                             child: Text(
                               item,
-                              style: TextStyle(
-                                  color: Colors
-                                      .white), // Set item text color to white
+                              style: TextStyle(color: Colors.white),
                             ),
                           );
                         }).toList(),
@@ -198,19 +159,15 @@ class _RegisterViewState extends State<RegisterView> {
                             selectedValue = value;
                           });
                         },
-                        style: const TextStyle(
-                            color: Colors
-                                .white), // Set selected text color to white
+                        style: const TextStyle(color: Colors.white),
                         decoration: InputDecoration(
                           hintText: 'Peran',
                           hintStyle: const TextStyle(color: Colors.white),
                           helperText: 'Masukkan Peran Anda',
                           helperStyle: const TextStyle(color: Colors.white),
                           filled: true,
-                          fillColor:
-                              Color(0xFF636363), // Field background color
-                          prefixIcon: Icon(Icons.person,
-                              color: Colors.white), // Icon color
+                          fillColor: Color(0xFF636363),
+                          prefixIcon: Icon(Icons.person, color: Colors.white),
                           border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(20),
                           ),
@@ -230,6 +187,7 @@ class _RegisterViewState extends State<RegisterView> {
                     if (_formKey.currentState!.validate()) {
                       Map<String, dynamic> formData = {};
                       formData['nama'] = namaController.text;
+                      formData['email'] = emailController.text;
                       formData['password'] = passwordController.text;
                       Navigator.push(
                         context,
@@ -242,14 +200,11 @@ class _RegisterViewState extends State<RegisterView> {
                   child: const Text('Daftar',
                       style: TextStyle(color: Colors.white)),
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: const Color.fromARGB(
-                        175, 194, 73, 255), // Set button color to purple
+                    backgroundColor: const Color.fromARGB(175, 194, 73, 255),
                     padding: const EdgeInsets.symmetric(
-                        vertical: 10,
-                        horizontal: 135), // Adjust padding for height
+                        vertical: 10, horizontal: 135),
                     shape: RoundedRectangleBorder(
-                      borderRadius:
-                          BorderRadius.circular(14), // Rounded corners
+                      borderRadius: BorderRadius.circular(14),
                     ),
                   ),
                 ),
@@ -270,8 +225,7 @@ class _RegisterViewState extends State<RegisterView> {
                       icon: Icon(Icons.g_mobiledata, size: 24),
                       label: Text(''),
                       onPressed: () {
-                        Direct.launchURL(
-                            'https://g.co/kgs/R9fTeVW'); // Handle Google login here
+                        Direct.launchURL('https://g.co/kgs/R9fTeVW');
                       },
                     ),
                     SizedBox(width: 10),
@@ -279,8 +233,7 @@ class _RegisterViewState extends State<RegisterView> {
                       icon: Icon(Icons.apple, size: 24),
                       label: Text(''),
                       onPressed: () {
-                        Direct.launchURL(
-                            'https://www.apple.com/id/'); // Handle Apple login here
+                        Direct.launchURL('https://www.apple.com/id/');
                       },
                     ),
                     SizedBox(width: 10),
@@ -289,7 +242,7 @@ class _RegisterViewState extends State<RegisterView> {
                       label: Text(''),
                       onPressed: () {
                         Direct.launchURL(
-                            'https://www.facebook.com/?locale=id_ID'); // Handle Facebook login here
+                            'https://www.facebook.com/?locale=id_ID');
                       },
                     ),
                   ],
@@ -310,7 +263,7 @@ class _RegisterViewState extends State<RegisterView> {
     Navigator.push(
         context,
         MaterialPageRoute(
-          builder: (_) => const LoginView(),
+          builder: (_) => LoginView(data: {}),
         ));
   }
 }

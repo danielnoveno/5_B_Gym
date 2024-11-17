@@ -1,61 +1,113 @@
 import 'package:flutter/material.dart';
-import 'package:gd_widget2_b_11663/view/beranda/card_membership/solo.dart'; // Importing the PackageCard
+import 'package:tubes_pbp_gym/data/membership_data.dart'; // Importing data from package_data.dart
+import 'package:tubes_pbp_gym/models/membership_package.dart'; // Importing the MembershipPackage model
+import 'package:tubes_pbp_gym/models/items_cart.dart'; // Importing the CartItem model
+import 'package:tubes_pbp_gym/view/beranda/cart/cart.dart';
+import 'package:provider/provider.dart';
+import 'package:tubes_pbp_gym/providers/cart_provider.dart';
 
 class CouplePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor:
-          Colors.black, // Set the background color of the entire page to black
+      backgroundColor: Colors.black, // Set background color to black
       appBar: AppBar(
         title: Text(
           "COUPLE",
-          style: TextStyle(color: Colors.white), // Make the title white
+          style: TextStyle(color: Colors.white), // Set title color to white
         ),
         centerTitle: true,
         backgroundColor: Colors.black, // Set the app bar background to black
         iconTheme:
-            IconThemeData(color: Colors.white), // Set the back icon to white
+            IconThemeData(color: Colors.white), // Set icon color to white
       ),
       body: Padding(
         padding: EdgeInsets.all(16.0),
         child: SingleChildScrollView(
-          // Wrap the body in a SingleChildScrollView to allow scrolling
           child: Column(
-            children: [
-              PackageCard(
-                duration: "30 Hari",
-                price: "Rp 550.000/bulan",
-                total: "Rp 550.000",
-                details: [
-                  "Akses penuh untuk 2 orang ke gym dan fasilitas",
-                  "Tidak ada sesi personal trainer",
-                ],
-              ),
-              PackageCard(
-                duration: "12 Bulan",
-                price: "Rp 6.000.000/bulan",
-                total: "Rp 6.000.000",
-                details: [
-                  "Akses penuh untuk 2 orang ke gym dan fasilitas",
-                  "Dua sesi personal trainer per-orang",
-                  "Potongan harga satu bulan",
-                ],
-              ),
-              PackageCard(
-                duration: "24 Bulan",
-                price: "Rp 11.220.000/bulan",
-                total: "Rp 11.220.000",
-                details: [
-                  "Akses penuh untuk 2 orang ke gym dan fasilitas",
-                  "Dua sesi personal trainer",
-                  "Potongan harga 15%",
-                  "Akses gratis ke semua kelas selama 1 minggu setiap 6 bulan",
-                  "Free gym merchandise (towel, bottle, t-shirt)",
-                ],
-              ),
-            ],
+            children: couplePackages.map((package) {
+              return PackageCard(
+                package: package,
+              );
+            }).toList(),
           ),
+        ),
+      ),
+    );
+  }
+}
+
+class PackageCard extends StatelessWidget {
+  final MembershipPackage package;
+
+  PackageCard({required this.package});
+
+  @override
+  Widget build(BuildContext context) {
+    return Card(
+      color: Color(0xFF2B2B2B), // Set card color
+      margin: EdgeInsets.symmetric(vertical: 8.0),
+      child: Padding(
+        padding: EdgeInsets.all(16.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              package.title,
+              style: TextStyle(
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.white),
+            ),
+            SizedBox(height: 8),
+            Text(
+              package.price,
+              style: TextStyle(fontSize: 16, color: Colors.grey[400]),
+            ),
+            SizedBox(height: 8),
+            ...package.description.map((detail) => ListTile(
+                  leading: Icon(Icons.check_circle_outline,
+                      color: Color(0xFF673296)),
+                  title: Text(detail, style: TextStyle(color: Colors.white)),
+                )),
+            SizedBox(height: 8),
+            Text(
+              "Total Harga: ${package.total}",
+              style: TextStyle(
+                  fontSize: 16,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.white),
+            ),
+            SizedBox(height: 16),
+            ElevatedButton(
+              onPressed: () {
+                // Create a new CartItem
+                final cartItem = CartItem(
+                  title: package.title,
+                  price: package.total,
+                  image: 'images/home-image/membership/couple.png',
+                  membershipTitle: 'Membership - Couple ${package.title}',
+                );
+
+                // Get the CartProvider from the context and add the item to the cart
+                Provider.of<CartProvider>(context, listen: false)
+                    .addItem(cartItem);
+
+                // Navigate to the CartPage
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => CartPage(),
+                  ),
+                );
+              },
+              child: Text("Pilih"),
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Color(0xFF673296),
+                foregroundColor: Colors.white,
+              ),
+            ),
+          ],
         ),
       ),
     );
