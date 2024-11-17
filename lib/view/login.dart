@@ -3,7 +3,6 @@ import 'package:tubes_pbp_gym/view/home.dart';
 import 'package:tubes_pbp_gym/view/register.dart';
 import 'package:tubes_pbp_gym/components/form_component.dart';
 import 'package:tubes_pbp_gym/service/directToLink.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class LoginView extends StatefulWidget {
   final Map? data;
