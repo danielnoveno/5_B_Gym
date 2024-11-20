@@ -1,20 +1,23 @@
+// main.dart
 import 'package:flutter/material.dart';
-// import 'package:tubes_pbp_gym/view/login.dart';
+import 'package:provider/provider.dart';
+import 'package:tubes_pbp_gym/providers/cart_provider.dart';
 import 'package:tubes_pbp_gym/view/home.dart';
-import 'package:tubes_pbp_gym/splashscreen.dart';
-import 'package:tubes_pbp_gym/view/login.dart';
 
 void main() {
-  runApp(const MainApp());
+  runApp(
+    ChangeNotifierProvider(
+      create: (context) => CartProvider(),
+      child: MyApp(),
+    ),
+  );
 }
 
-class MainApp extends StatelessWidget {
-  const MainApp({super.key});
-
+class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
-      home: SplashScreen(),
+    return MaterialApp(
+      home: HomeView(),
     );
   }
 }

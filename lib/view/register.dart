@@ -3,6 +3,7 @@ import 'package:tubes_pbp_gym/view/login.dart';
 import 'package:tubes_pbp_gym/components/form_component2.dart';
 import 'package:tubes_pbp_gym/service/directToLink.dart';
 
+
 class RegisterView extends StatefulWidget {
   const RegisterView({super.key});
 
