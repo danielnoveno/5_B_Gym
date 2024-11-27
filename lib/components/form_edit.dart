@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 
 Widget form_edit(String label, String value, {bool editable = false}) {
+  TextEditingController controller = TextEditingController(text: value);
+
   return Padding(
     padding: const EdgeInsets.symmetric(vertical: 10),
     child: Column(
@@ -16,21 +18,24 @@ Widget form_edit(String label, String value, {bool editable = false}) {
             color: const Color(0xFF303030),
             borderRadius: BorderRadius.circular(12),
           ),
-          child: ListTile(
-            title: Text(
-              value,
-              style: const TextStyle(color: Colors.white, fontSize: 16),
-            ),
-            trailing: editable
-                ? IconButton(
-                    icon: const Icon(Icons.mode_edit_outlined,
-                        color: Colors.grey),
-                    onPressed: () {
-                      // Implement edit action here
-                    },
-                  )
-                : null,
-          ),
+          child: editable
+              ? TextFormField(
+                  controller: controller,
+                  style: const TextStyle(color: Colors.white, fontSize: 16),
+                  decoration: InputDecoration(
+                    contentPadding: const EdgeInsets.symmetric(
+                        vertical: 10, horizontal: 15),
+                    border: InputBorder.none,
+                    hintText: 'Enter $label',
+                    hintStyle: const TextStyle(color: Colors.grey),
+                  ),
+                )
+              : ListTile(
+                  title: Text(
+                    value,
+                    style: const TextStyle(color: Colors.white, fontSize: 16),
+                  ),
+                ),
         ),
       ],
     ),
