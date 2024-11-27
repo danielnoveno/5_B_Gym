@@ -1,6 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:tubes_pbp_gym/models/healthy_club.dart';
 
 class HealthyClub8Sesi extends StatelessWidget {
+  final KelasOlahraga kelasOlahraga;
+
+  // Constructor accepting the KelasOlahraga object
+  HealthyClub8Sesi({required this.kelasOlahraga});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -8,7 +14,7 @@ class HealthyClub8Sesi extends StatelessWidget {
           Colors.black, // Set the background color of the entire page to black
       appBar: AppBar(
         title: Text(
-          '8 Sesi',
+          kelasOlahraga.title,
           style: TextStyle(color: Colors.white), // Make the title white
         ),
         leading: IconButton(
@@ -21,7 +27,6 @@ class HealthyClub8Sesi extends StatelessWidget {
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: SingleChildScrollView(
-          // Wrap the body in a SingleChildScrollView to allow scrolling
           child: Center(
             child: Container(
               width: double.infinity,
@@ -39,7 +44,7 @@ class HealthyClub8Sesi extends StatelessWidget {
                   ClipRRect(
                     borderRadius: BorderRadius.circular(16),
                     child: Image.asset(
-                      'images/home-image/healthy-club/8-sesi.png',
+                      kelasOlahraga.imagePath,
                       height: 150,
                       width: double.infinity,
                       fit: BoxFit.cover,
@@ -47,7 +52,7 @@ class HealthyClub8Sesi extends StatelessWidget {
                   ),
                   SizedBox(height: 16),
                   Text(
-                    'Rp 520.000',
+                    kelasOlahraga.price,
                     style: TextStyle(
                       fontSize: 24,
                       fontWeight: FontWeight.bold,
@@ -56,18 +61,12 @@ class HealthyClub8Sesi extends StatelessWidget {
                   ),
                   Divider(color: Colors.grey),
                   SizedBox(height: 8),
-                  FeatureItem(
-                    text: 'Diskon 80.000 dari harga normal per-sesi',
-                  ),
-                  FeatureItem(
-                    text:
-                        'Fleksibilitas mengikuti kelas olahraga mana saja dalam waktu 2 bulan',
-                  ),
-                  FeatureItem(text: 'Zumba'),
-                  FeatureItem(text: 'Yoga'),
-                  FeatureItem(text: 'HIIT'),
-                  FeatureItem(text: 'Spinning'),
-                  FeatureItem(text: 'Pilates'),
+                  // Display features dynamically
+                  for (var feature in kelasOlahraga.features)
+                    FeatureItem(text: feature),
+                  // Display available classes dynamically
+                  for (var availableClass in kelasOlahraga.availableClasses)
+                    FeatureItem(text: availableClass),
                   SizedBox(height: 16),
                   SizedBox(
                     width: double.infinity,
@@ -80,8 +79,7 @@ class HealthyClub8Sesi extends StatelessWidget {
                       ),
                       onPressed: () {},
                       child: Text('Masukan Keranjang',
-                          style: TextStyle(
-                              color: Colors.white)), // Make button text white
+                          style: TextStyle(color: Colors.white)),
                     ),
                   ),
                 ],

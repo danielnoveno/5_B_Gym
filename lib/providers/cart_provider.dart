@@ -7,7 +7,6 @@ class CartProvider with ChangeNotifier {
   List<CartItem> get cartItems => _cartItems;
 
   void addItem(CartItem item) {
-    // Gabungkan nama trainer dan sesi untuk memastikan setiap item terpisah
     final existingItemIndex = _cartItems.indexWhere(
       (cartItem) =>
           cartItem.title == item.title &&

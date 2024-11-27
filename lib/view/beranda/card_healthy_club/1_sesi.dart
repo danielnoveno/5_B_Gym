@@ -1,20 +1,25 @@
 import 'package:flutter/material.dart';
+import 'package:tubes_pbp_gym/models/healthy_club.dart';
 
 class HealthyClub1Sesi extends StatefulWidget {
+  final KelasOlahraga kelasOlahraga;
+
+  // Constructor to receive the KelasOlahraga object
+  HealthyClub1Sesi({required this.kelasOlahraga});
+
   @override
   _HealthyClub1SesiState createState() => _HealthyClub1SesiState();
 }
 
 class _HealthyClub1SesiState extends State<HealthyClub1Sesi> {
-  final List<String> olahragaOptions = [
-    'Pilihan Olahraga',
-    'Zumba',
-    'Yoga',
-    'HIIT',
-    'Spinning',
-    'Pilates',
-  ];
-  String selectedOlahraga = 'Pilihan Olahraga';
+  late String selectedOlahraga;
+
+  @override
+  void initState() {
+    super.initState();
+    selectedOlahraga = widget
+        .kelasOlahraga.availableClasses[0]; // Default to first available class
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -22,7 +27,7 @@ class _HealthyClub1SesiState extends State<HealthyClub1Sesi> {
       backgroundColor: Colors.black,
       appBar: AppBar(
         title: Text(
-          '1 Sesi',
+          widget.kelasOlahraga.title, // Use the title from the passed object
           style: TextStyle(color: Colors.white),
         ),
         leading: IconButton(
@@ -50,7 +55,8 @@ class _HealthyClub1SesiState extends State<HealthyClub1Sesi> {
                   ClipRRect(
                     borderRadius: BorderRadius.circular(16),
                     child: Image.asset(
-                      'images/home-image/healthy-club/1-sesi.png',
+                      widget.kelasOlahraga
+                          .imagePath, // Use the image path from the model
                       height: 150,
                       width: double.infinity,
                       fit: BoxFit.cover,
@@ -58,7 +64,7 @@ class _HealthyClub1SesiState extends State<HealthyClub1Sesi> {
                   ),
                   SizedBox(height: 16),
                   Text(
-                    'Rp 280.000',
+                    widget.kelasOlahraga.price, // Use the price from the model
                     style: TextStyle(
                       fontSize: 24,
                       fontWeight: FontWeight.bold,
@@ -67,16 +73,14 @@ class _HealthyClub1SesiState extends State<HealthyClub1Sesi> {
                   ),
                   Divider(color: Colors.grey),
                   SizedBox(height: 8),
-                  FeatureItem(
-                    text: 'Durasi kelas selama 1 jam',
-                  ),
-                  FeatureItem(
-                    text: 'Akses ke satu kelas olahraga pilihan',
-                  ),
+                  // Displaying features dynamically
+                  for (var feature in widget.kelasOlahraga.features)
+                    FeatureItem(text: feature),
                   SizedBox(height: 16),
                   DropdownButtonFormField<String>(
                     value: selectedOlahraga,
-                    items: olahragaOptions.map((String value) {
+                    items: widget.kelasOlahraga.availableClasses
+                        .map((String value) {
                       return DropdownMenuItem<String>(
                         value: value,
                         child: Text(
@@ -99,8 +103,7 @@ class _HealthyClub1SesiState extends State<HealthyClub1Sesi> {
                           EdgeInsets.symmetric(horizontal: 16, vertical: 12),
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(16),
-                        borderSide: BorderSide(
-                            color: Colors.white), // Border color for dropdown
+                        borderSide: BorderSide(color: Colors.white),
                       ),
                       enabledBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(16),

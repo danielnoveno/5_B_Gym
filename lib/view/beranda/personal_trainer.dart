@@ -158,7 +158,7 @@ class _PersonalTrainerCardState extends State<PersonalTrainerCard> {
                 children: [
                   DropdownButton<String>(
                     value: selectedSession,
-                    items: ["4 Sesi", "8 Sesi", "12 Sesi", "Unlimited Sebulan"]
+                    items: ["4 Sesi", "8 Sesi", "12 Sesi", "24 Sesi"]
                         .map((String value) => DropdownMenuItem<String>(
                               value: value,
                               child: Text(value,
@@ -178,14 +178,17 @@ class _PersonalTrainerCardState extends State<PersonalTrainerCard> {
 
                       // Hitung total harga berdasarkan sesi yang dipilih
                       switch (selectedSession) {
+                        case "4 Sesi":
+                          totalPrice = widget.trainer.price * 4;
+                          break;
                         case "8 Sesi":
-                          totalPrice = widget.trainer.price * 1.5;
+                          totalPrice = widget.trainer.price * 8;
                           break;
                         case "12 Sesi":
-                          totalPrice = widget.trainer.price * 2;
+                          totalPrice = widget.trainer.price * 12;
                           break;
-                        case "Unlimited Sebulan":
-                          totalPrice = 6800000.00;
+                        case "24 Sesi":
+                          totalPrice = widget.trainer.price * 24;
                           break;
                         default:
                           totalPrice = widget.trainer.price;

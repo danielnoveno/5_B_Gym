@@ -1,34 +1,36 @@
 import 'package:flutter/material.dart';
+import 'package:tubes_pbp_gym/models/healthy_club.dart';
 
 class HealthyClubUnlimited extends StatelessWidget {
+  final KelasOlahraga kelasOlahraga;
+
+  // Constructor to accept a KelasOlahraga object
+  HealthyClubUnlimited({required this.kelasOlahraga});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor:
-          Colors.black, // Set the background color of the entire page to black
+      backgroundColor: Colors.black,
       appBar: AppBar(
         title: Text(
-          'Unlimited 1 Bulan',
-          style: TextStyle(color: Colors.white), // Make the title white
+          kelasOlahraga.title, // Use dynamic title
+          style: TextStyle(color: Colors.white),
         ),
         leading: IconButton(
-          icon: Icon(Icons.arrow_back,
-              color: Colors.white), // Make the back icon white
+          icon: Icon(Icons.arrow_back, color: Colors.white),
           onPressed: () => Navigator.of(context).pop(),
         ),
-        backgroundColor: Colors.black, // Set the app bar background to black
+        backgroundColor: Colors.black,
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: SingleChildScrollView(
-          // Wrap the body in a SingleChildScrollView to allow scrolling
           child: Center(
             child: Container(
               width: double.infinity,
               padding: EdgeInsets.all(16.0),
               decoration: BoxDecoration(
-                color: Color(
-                    0xFF2B2B2B), // Set the background color of the container
+                color: Color(0xFF2B2B2B),
                 borderRadius: BorderRadius.circular(16),
               ),
               child: Column(
@@ -39,7 +41,7 @@ class HealthyClubUnlimited extends StatelessWidget {
                   ClipRRect(
                     borderRadius: BorderRadius.circular(16),
                     child: Image.asset(
-                      'images/home-image/healthy-club/unlimited-1bulan.png',
+                      kelasOlahraga.imagePath, // Use dynamic image path
                       height: 150,
                       width: double.infinity,
                       fit: BoxFit.cover,
@@ -47,28 +49,23 @@ class HealthyClubUnlimited extends StatelessWidget {
                   ),
                   SizedBox(height: 16),
                   Text(
-                    'Rp 600.000',
+                    kelasOlahraga.price, // Use dynamic price
                     style: TextStyle(
                       fontSize: 24,
                       fontWeight: FontWeight.bold,
-                      color: Colors.white, // Make the price text white
+                      color: Colors.white,
                     ),
                   ),
                   Divider(color: Colors.grey),
                   SizedBox(height: 8),
-                  FeatureItem(
-                    text:
-                        'Akses tanpa batas ke semua kelas olahraga selama 1 bulan',
-                  ),
-                  FeatureItem(
-                    text:
-                        'Pilihan terbaik bagi pengguna mengeksplorasi semua olahraga',
-                  ),
-                  FeatureItem(text: 'Zumba'),
-                  FeatureItem(text: 'Yoga'),
-                  FeatureItem(text: 'HIIT'),
-                  FeatureItem(text: 'Spinning'),
-                  FeatureItem(text: 'Pilates'),
+                  // List features dynamically
+                  ...kelasOlahraga.features
+                      .map((feature) => FeatureItem(text: feature))
+                      .toList(),
+                  // List available classes dynamically
+                  ...kelasOlahraga.availableClasses
+                      .map((className) => FeatureItem(text: className))
+                      .toList(),
                   SizedBox(height: 16),
                   SizedBox(
                     width: double.infinity,
@@ -81,8 +78,7 @@ class HealthyClubUnlimited extends StatelessWidget {
                       ),
                       onPressed: () {},
                       child: Text('Masukan Keranjang',
-                          style: TextStyle(
-                              color: Colors.white)), // Make button text white
+                          style: TextStyle(color: Colors.white)),
                     ),
                   ),
                 ],
@@ -95,6 +91,7 @@ class HealthyClubUnlimited extends StatelessWidget {
   }
 }
 
+// Define FeatureItem widget
 class FeatureItem extends StatelessWidget {
   final String text;
 
@@ -111,9 +108,7 @@ class FeatureItem extends StatelessWidget {
           Expanded(
             child: Text(
               text,
-              style: TextStyle(
-                  fontSize: 16,
-                  color: Colors.white), // Make the feature text white
+              style: TextStyle(fontSize: 16, color: Colors.white),
             ),
           ),
         ],
