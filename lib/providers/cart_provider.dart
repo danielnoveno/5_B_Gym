@@ -35,6 +35,12 @@ class CartProvider with ChangeNotifier {
         .toList();
   }
 
+  List<CartItem> getHealthyClubItems() {
+    return _cartItems
+        .where((item) => item.type == CartItemType.healthy_club)
+        .toList();
+  }
+
   void updateQuantity(int index, int newQuantity) {
     _cartItems[index].quantity = newQuantity;
     notifyListeners();

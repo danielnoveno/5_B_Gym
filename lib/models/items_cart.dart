@@ -1,4 +1,4 @@
-enum CartItemType { membership, trainer }
+enum CartItemType { membership, trainer, healthy_club }
 
 class CartItem {
   final String title;

@@ -40,7 +40,6 @@ class PackageCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // Function to remove 'Rp' and format price to double
     double parsePrice(String price) {
       String cleanPrice = price.replaceAll(RegExp(r'[^0-9]'), '');
       return double.tryParse(cleanPrice) ?? 0.0;

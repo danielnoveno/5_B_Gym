@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:tubes_pbp_gym/models/healthy_club.dart';
+import 'package:provider/provider.dart';
+import 'package:tubes_pbp_gym/providers/cart_provider.dart';
+import 'package:tubes_pbp_gym/models/items_cart.dart';
+import 'package:tubes_pbp_gym/view/beranda/cart/cart.dart';
 
 class HealthyClubUnlimited extends StatelessWidget {
   final KelasOlahraga kelasOlahraga;
@@ -76,7 +80,48 @@ class HealthyClubUnlimited extends StatelessWidget {
                           borderRadius: BorderRadius.circular(16),
                         ),
                       ),
-                      onPressed: () {},
+                      onPressed: () {
+                        // Assuming you want to add the first available class
+                        final selectedClass = kelasOlahraga.availableClasses[0];
+
+                        // Create CartItem to be added to the cart
+                        final cartItem = CartItem(
+                          title: selectedClass,
+                          price: parsePrice(kelasOlahraga.price),
+                          image: kelasOlahraga.imagePath,
+                          membershipTitle:
+                              'Healthy Club ${kelasOlahraga.title}',
+                          type: CartItemType.healthy_club,
+                        );
+
+                        // Add to cart using Provider
+                        Provider.of<CartProvider>(context, listen: false)
+                            .addItem(cartItem);
+
+                        // Show Snackbar for confirmation
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(
+                            content: Text(
+                              'Healthy Club ${kelasOlahraga.title} berhasil ditambahkan ke keranjang!',
+                              style: TextStyle(color: Colors.white),
+                            ),
+                            backgroundColor: Colors.green,
+                            duration: Duration(seconds: 2),
+                            action: SnackBarAction(
+                              label: 'Lihat Keranjang',
+                              textColor: Colors.white,
+                              onPressed: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => CartPage(),
+                                  ),
+                                );
+                              },
+                            ),
+                          ),
+                        );
+                      },
                       child: Text('Masukan Keranjang',
                           style: TextStyle(color: Colors.white)),
                     ),
@@ -88,6 +133,11 @@ class HealthyClubUnlimited extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  double parsePrice(String price) {
+    String cleanPrice = price.replaceAll(RegExp(r'[^0-9]'), '');
+    return double.tryParse(cleanPrice) ?? 0.0;
   }
 }
 

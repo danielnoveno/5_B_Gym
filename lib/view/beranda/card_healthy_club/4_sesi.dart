@@ -1,10 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:tubes_pbp_gym/models/healthy_club.dart';
+import 'package:provider/provider.dart';
+import 'package:tubes_pbp_gym/providers/cart_provider.dart';
+import 'package:tubes_pbp_gym/models/items_cart.dart';
+import 'package:tubes_pbp_gym/view/beranda/cart/cart.dart';
 
 class HealthyClub4Sesi extends StatelessWidget {
   final KelasOlahraga kelasOlahraga;
 
   HealthyClub4Sesi({required this.kelasOlahraga});
+
+  // Function to parse the price from string
+  double parsePrice(String price) {
+    String cleanPrice = price.replaceAll(RegExp(r'[^0-9]'), '');
+    return double.tryParse(cleanPrice) ?? 0.0;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -52,7 +62,7 @@ class HealthyClub4Sesi extends StatelessWidget {
                     style: TextStyle(
                       fontSize: 24,
                       fontWeight: FontWeight.bold,
-                      color: Colors.white, // Make the price text white
+                      color: Colors.white,
                     ),
                   ),
                   Divider(color: Colors.grey),
@@ -72,10 +82,50 @@ class HealthyClub4Sesi extends StatelessWidget {
                           borderRadius: BorderRadius.circular(16),
                         ),
                       ),
-                      onPressed: () {},
-                      child: Text('Masukan Keranjang',
-                          style: TextStyle(
-                              color: Colors.white)), // Make button text white
+                      onPressed: () {
+                        // Create the CartItem for the first available class
+                        final selectedClass =
+                            kelasOlahraga.availableClasses.first;
+                        final cartItem = CartItem(
+                          title: selectedClass,
+                          price: parsePrice(kelasOlahraga.price),
+                          image: kelasOlahraga.imagePath,
+                          membershipTitle:
+                              'Healthy Club - ${kelasOlahraga.title}',
+                          type: CartItemType.healthy_club,
+                        );
+
+                        // Add the item to the cart using CartProvider
+                        Provider.of<CartProvider>(context, listen: false)
+                            .addItem(cartItem);
+
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(
+                            content: Text(
+                              'Healthy Club ${kelasOlahraga.title} berhasil ditambahkan ke keranjang!',
+                              style: TextStyle(color: Colors.white),
+                            ),
+                            backgroundColor: Colors.green,
+                            duration: Duration(seconds: 2),
+                            action: SnackBarAction(
+                              label: 'Lihat Keranjang',
+                              textColor: Colors.white,
+                              onPressed: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => CartPage(),
+                                  ),
+                                );
+                              },
+                            ),
+                          ),
+                        );
+                      },
+                      child: Text(
+                        'Masukan Keranjang',
+                        style: TextStyle(color: Colors.white),
+                      ),
                     ),
                   ),
                 ],
