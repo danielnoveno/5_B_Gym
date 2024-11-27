@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:gd_widget2_b_11663/view/view_listgym.dart';
 import 'package:gd_widget2_b_11663/view/profile.dart';
 import 'package:gd_widget2_b_11663/view/isi_home.dart';
+import 'package:gd_widget2_b_11663/view/latihan.dart';
 
 class HomeView extends StatefulWidget {
   const HomeView({super.key});
@@ -21,7 +22,7 @@ class _HomeViewState extends State<HomeView> {
 
   static const List<Widget> _widgetOptions = <Widget>[
     HomeViewContent(), // Beranda
-    Placeholder(), // Latihan (replace with actual widget later)
+    TrainingPage(), // Latihan (replace with actual widget later)
     Placeholder(), // Jadwal (replace with actual widget later)
     ProfileView(), // Akun
   ];
