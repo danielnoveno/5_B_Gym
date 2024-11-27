@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:tubes_pbp_gym/view/beranda/review_trainer/index_review.dart';
-import 'package:tubes_pbp_gym/data/trainer.dart';
+import 'package:tubes_pbp_gym/data/trainer_data.dart';
+import 'package:tubes_pbp_gym/models/personal_trainer.dart';
+import 'package:tubes_pbp_gym/models/items_cart.dart';
+import 'package:tubes_pbp_gym/providers/cart_provider.dart'; 
+import 'package:provider/provider.dart';
 
 class PersonalTrainerView extends StatelessWidget {
-  final List<Trainer> trainers = trainer;
-
   @override
   Widget build(BuildContext context) {
     return ListView.builder(
@@ -15,12 +17,7 @@ class PersonalTrainerView extends StatelessWidget {
         final Trainer trainer = trainers[index];
 
         return PersonalTrainerCard(
-          title: trainer.title,
-          duration: trainer.duration,
-          imagePath: trainer.imagePath,
-          email: trainer.email,
-          description: trainer.description,
-          specialization: trainer.specialization, // Add specialization
+          trainer: trainer,
         );
       },
     );
@@ -28,21 +25,9 @@ class PersonalTrainerView extends StatelessWidget {
 }
 
 class PersonalTrainerCard extends StatefulWidget {
-  final String title;
-  final String duration;
-  final String imagePath;
-  final String email;
-  final String description;
-  final String specialization; // Add specialization
+  final Trainer trainer;
 
-  PersonalTrainerCard({
-    required this.title,
-    required this.duration,
-    required this.imagePath,
-    required this.email,
-    required this.description,
-    required this.specialization, // Add specialization
-  });
+  PersonalTrainerCard({required this.trainer});
 
   @override
   _PersonalTrainerCardState createState() => _PersonalTrainerCardState();
@@ -65,12 +50,13 @@ class _PersonalTrainerCardState extends State<PersonalTrainerCard> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+              // Header with Trainer Image, Name, and Price
               Row(
                 children: [
                   ClipRRect(
                     borderRadius: BorderRadius.circular(50.0),
                     child: Image.asset(
-                      widget.imagePath,
+                      widget.trainer.imagePath,
                       height: 60,
                       width: 60,
                       fit: BoxFit.cover,
@@ -81,7 +67,7 @@ class _PersonalTrainerCardState extends State<PersonalTrainerCard> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        widget.title,
+                        widget.trainer.title,
                         style: const TextStyle(
                           fontSize: 18,
                           fontWeight: FontWeight.bold,
@@ -90,7 +76,7 @@ class _PersonalTrainerCardState extends State<PersonalTrainerCard> {
                       ),
                       const SizedBox(height: 4),
                       Text(
-                        widget.duration, // Display specialization
+                        widget.trainer.duration,
                         style: const TextStyle(
                           fontSize: 14,
                           color: Colors.grey,
@@ -98,10 +84,19 @@ class _PersonalTrainerCardState extends State<PersonalTrainerCard> {
                       ),
                       const SizedBox(height: 4),
                       Text(
-                        widget.specialization,
+                        widget.trainer.specialization,
                         style: const TextStyle(
                           fontSize: 14,
                           color: Colors.grey,
+                        ),
+                      ),
+                      const SizedBox(height: 8),
+                      Text(
+                        "Harga: Rp ${widget.trainer.price}",
+                        style: const TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.white,
                         ),
                       ),
                     ],
@@ -110,7 +105,7 @@ class _PersonalTrainerCardState extends State<PersonalTrainerCard> {
               ),
               const SizedBox(height: 16),
               Text(
-                widget.description,
+                widget.trainer.description,
                 style: const TextStyle(
                   color: Colors.grey,
                   fontSize: 14,
@@ -118,6 +113,7 @@ class _PersonalTrainerCardState extends State<PersonalTrainerCard> {
                 textAlign: TextAlign.justify,
               ),
               const SizedBox(height: 8),
+              // Review & Instagram section
               Row(
                 children: [
                   GestureDetector(
@@ -146,13 +142,16 @@ class _PersonalTrainerCardState extends State<PersonalTrainerCard> {
                         size: 22,
                       ),
                       const SizedBox(width: 4),
-                      Text(widget.email,
-                          style: const TextStyle(color: Colors.white)),
+                      Text(
+                        widget.trainer.email,
+                        style: const TextStyle(color: Colors.white),
+                      ),
                     ],
                   ),
                 ],
               ),
               const SizedBox(height: 16),
+              // Session selection and add to cart
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -173,7 +172,35 @@ class _PersonalTrainerCardState extends State<PersonalTrainerCard> {
                     dropdownColor: Colors.grey[800],
                   ),
                   ElevatedButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      double totalPrice;
+
+                      switch (selectedSession) {
+                        case "8 Sesi":
+                          totalPrice = widget.trainer.price * 1.5;
+                          break;
+                        case "12 Sesi":
+                          totalPrice = widget.trainer.price * 2;
+                          break;
+                        case "Unlimited Sebulan":
+                          totalPrice = 6800000.00;
+                          break;
+                        default:
+                          totalPrice = widget.trainer.price;
+                      }
+
+                      final cartItem = CartItem(
+                        title: widget.trainer.title,
+                        price: totalPrice,
+                        image: widget.trainer.imagePath,
+                        membershipTitle:
+                            'Trainer - ${widget.trainer.title} ($selectedSession)',
+                        type: CartItemType.trainer,
+                      );
+
+                      Provider.of<CartProvider>(context, listen: false)
+                          .addItem(cartItem);
+                    },
                     style: ElevatedButton.styleFrom(
                       backgroundColor: const Color(0xFF673296),
                       shape: RoundedRectangleBorder(

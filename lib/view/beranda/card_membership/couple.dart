@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:tubes_pbp_gym/data/membership_data.dart'; // Importing data from package_data.dart
-import 'package:tubes_pbp_gym/models/membership_package.dart'; // Importing the MembershipPackage model
-import 'package:tubes_pbp_gym/models/items_cart.dart'; // Importing the CartItem model
+import 'package:tubes_pbp_gym/data/membership_data.dart';
+import 'package:tubes_pbp_gym/models/membership_package.dart';
+import 'package:tubes_pbp_gym/models/items_cart.dart';
 import 'package:tubes_pbp_gym/view/beranda/cart/cart.dart';
 import 'package:provider/provider.dart';
 import 'package:tubes_pbp_gym/providers/cart_provider.dart';
@@ -44,6 +44,13 @@ class PackageCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // Function to parse the price string into a double
+    double parsePrice(String price) {
+      // Remove 'Rp' and other non-numeric characters, then parse as double
+      String cleanPrice = price.replaceAll(RegExp(r'[^0-9]'), '');
+      return double.tryParse(cleanPrice) ?? 0.0;
+    }
+
     return Card(
       color: Color(0xFF2B2B2B), // Set card color
       margin: EdgeInsets.symmetric(vertical: 8.0),
@@ -81,15 +88,19 @@ class PackageCard extends StatelessWidget {
             SizedBox(height: 16),
             ElevatedButton(
               onPressed: () {
-                // Create a new CartItem
+                // Parse the total price into a double
+                final totalPrice = parsePrice(package.total);
+
+                // Create a new CartItem with the extracted total price
                 final cartItem = CartItem(
                   title: package.title,
-                  price: package.total,
+                  price: totalPrice, // Use the parsed total price
                   image: 'images/home-image/membership/couple.png',
                   membershipTitle: 'Membership - Couple ${package.title}',
+                  type: CartItemType.membership,
                 );
 
-                // Get the CartProvider from the context and add the item to the cart
+                // Add the item to the cart using CartProvider
                 Provider.of<CartProvider>(context, listen: false)
                     .addItem(cartItem);
 

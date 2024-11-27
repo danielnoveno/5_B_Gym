@@ -1,10 +1,17 @@
 import 'package:flutter/material.dart';
-import 'package:tubes_pbp_gym/view/beranda/cart/bottom_bar.dart';
 import 'package:tubes_pbp_gym/view/beranda/cart/cart_item_widget.dart';
+import 'package:tubes_pbp_gym/view/beranda/cart/bottom_bar.dart';
 import 'package:tubes_pbp_gym/providers/cart_provider.dart';
 import 'package:provider/provider.dart';
 
-class CartPage extends StatelessWidget {
+class CartPage extends StatefulWidget {
+  @override
+  _CartPageState createState() => _CartPageState();
+}
+
+class _CartPageState extends State<CartPage> {
+  bool isEditing = false;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -19,6 +26,19 @@ class CartPage extends StatelessWidget {
           },
         ),
         title: Text('Keranjang', style: TextStyle(color: Colors.white)),
+        actions: [
+          TextButton(
+            onPressed: () {
+              setState(() {
+                isEditing = !isEditing; // Toggle edit mode
+              });
+            },
+            child: Text(
+              isEditing ? 'Done' : 'Edit', // Toggle button text
+              style: TextStyle(color: Colors.white),
+            ),
+          ),
+        ],
       ),
       body: Consumer<CartProvider>(
         builder: (context, cartProvider, child) {
@@ -37,9 +57,9 @@ class CartPage extends StatelessWidget {
                         cartProvider.updateSelection(index, value ?? false);
                       },
                       onRemoveItem: () {
-                        cartProvider
-                            .removeItem(index); // Fungsi untuk menghapus item
+                        cartProvider.removeItem(index);
                       },
+                      isEditing: isEditing, // Pass the edit mode to each item
                     );
                   },
                 ),
@@ -51,6 +71,10 @@ class CartPage extends StatelessWidget {
                 onSelectAllChanged: (bool? value) {
                   cartProvider.selectAllItems(value ?? false);
                 },
+                onDeleteAll: () {
+                  cartProvider.clearSelectedItems();
+                },
+                isEditing: isEditing, // Pass the edit mode to the BottomBar
               ),
             ],
           );

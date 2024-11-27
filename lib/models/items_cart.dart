@@ -1,10 +1,13 @@
+enum CartItemType { membership, trainer }
+
 class CartItem {
   final String title;
-  final String price;
+  final double price;
   final String image;
   int quantity;
   bool isSelected;
   final String membershipTitle;
+  final CartItemType type;
 
   CartItem({
     required this.title,
@@ -13,5 +16,6 @@ class CartItem {
     this.quantity = 1,
     this.isSelected = false,
     required this.membershipTitle,
+    required this.type,
   });
 }

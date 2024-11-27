@@ -7,20 +7,33 @@ class CartProvider with ChangeNotifier {
   List<CartItem> get cartItems => _cartItems;
 
   void addItem(CartItem item) {
-    // Periksa apakah item sudah ada di keranjang berdasarkan 'price' atau kriteria lain yang cocok
-    final existingItemIndex =
-        _cartItems.indexWhere((cartItem) => cartItem.price == item.price);
+    // Gabungkan nama trainer dan sesi untuk memastikan setiap item terpisah
+    final existingItemIndex = _cartItems.indexWhere(
+      (cartItem) =>
+          cartItem.title == item.title &&
+          cartItem.membershipTitle == item.membershipTitle,
+    );
 
     if (existingItemIndex != -1) {
-      // Jika item sudah ada, update kuantitasnya
       _cartItems[existingItemIndex].quantity += 1;
     } else {
-      // Jika item belum ada, tambahkan item baru ke keranjang
-      item.quantity = 1; // Setel kuantitas awal menjadi 1
+      item.quantity = 1;
       _cartItems.add(item);
     }
 
     notifyListeners();
+  }
+
+  List<CartItem> getMembershipItems() {
+    return _cartItems
+        .where((item) => item.type == CartItemType.membership)
+        .toList();
+  }
+
+  List<CartItem> getTrainerItems() {
+    return _cartItems
+        .where((item) => item.type == CartItemType.trainer)
+        .toList();
   }
 
   void updateQuantity(int index, int newQuantity) {
@@ -40,9 +53,20 @@ class CartProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  // Fungsi untuk menghapus item berdasarkan index
   void removeItem(int index) {
     _cartItems.removeAt(index);
+    notifyListeners();
+  }
+
+  // Fungsi untuk menghapus semua item yang dipilih
+  void clearSelectedItems() {
+    _cartItems.removeWhere((item) => item.isSelected);
+    notifyListeners();
+  }
+
+  // Fungsi untuk menghapus semua item dari keranjang
+  void clearAllItems() {
+    _cartItems.clear();
     notifyListeners();
   }
 }

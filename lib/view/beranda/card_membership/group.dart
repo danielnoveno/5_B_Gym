@@ -40,6 +40,13 @@ class PackageCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // Function to parse the price string into a double
+    double parsePrice(String price) {
+      // Remove 'Rp' and other non-numeric characters, then parse as double
+      String cleanPrice = price.replaceAll(RegExp(r'[^0-9]'), '');
+      return double.tryParse(cleanPrice) ?? 0.0;
+    }
+
     return Card(
       color: Color(0xFF2B2B2B),
       margin: EdgeInsets.symmetric(vertical: 8.0),
@@ -77,15 +84,19 @@ class PackageCard extends StatelessWidget {
             SizedBox(height: 16),
             ElevatedButton(
               onPressed: () {
-                // Create a new CartItem
+                // Parse the total price into a double
+                final totalPrice = parsePrice(package.total);
+
+                // Create a new CartItem with the extracted total price
                 final cartItem = CartItem(
                   title: package.title,
-                  price: package.total,
+                  price: totalPrice, // Use the parsed total price
                   image: 'images/home-image/membership/group.png',
                   membershipTitle: 'Membership - Group ${package.title}',
+                  type: CartItemType.membership,
                 );
 
-                // Get the CartProvider from the context and add the item to the cart
+                // Add the item to the cart using CartProvider
                 Provider.of<CartProvider>(context, listen: false)
                     .addItem(cartItem);
 
