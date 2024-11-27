@@ -3,8 +3,9 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:tubes_pbp_gym/view/beranda/review_trainer/index_review.dart';
 import 'package:tubes_pbp_gym/data/trainer_data.dart';
 import 'package:tubes_pbp_gym/models/personal_trainer.dart';
+import 'package:tubes_pbp_gym/view/beranda/cart/cart.dart';
 import 'package:tubes_pbp_gym/models/items_cart.dart';
-import 'package:tubes_pbp_gym/providers/cart_provider.dart'; 
+import 'package:tubes_pbp_gym/providers/cart_provider.dart';
 import 'package:provider/provider.dart';
 
 class PersonalTrainerView extends StatelessWidget {
@@ -175,6 +176,7 @@ class _PersonalTrainerCardState extends State<PersonalTrainerCard> {
                     onPressed: () {
                       double totalPrice;
 
+                      // Hitung total harga berdasarkan sesi yang dipilih
                       switch (selectedSession) {
                         case "8 Sesi":
                           totalPrice = widget.trainer.price * 1.5;
@@ -189,6 +191,7 @@ class _PersonalTrainerCardState extends State<PersonalTrainerCard> {
                           totalPrice = widget.trainer.price;
                       }
 
+                      // Membuat item keranjang
                       final cartItem = CartItem(
                         title: widget.trainer.title,
                         price: totalPrice,
@@ -198,8 +201,33 @@ class _PersonalTrainerCardState extends State<PersonalTrainerCard> {
                         type: CartItemType.trainer,
                       );
 
+                      // Menambahkan item ke keranjang menggunakan CartProvider
                       Provider.of<CartProvider>(context, listen: false)
                           .addItem(cartItem);
+
+                      // Menampilkan SnackBar sebagai notifikasi popup
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                          content: Text(
+                            'Trainer ${widget.trainer.title} berhasil ditambahkan ke keranjang!',
+                            style: TextStyle(color: Colors.white),
+                          ),
+                          backgroundColor: Colors.green,
+                          duration: Duration(seconds: 2),
+                          action: SnackBarAction(
+                            label: 'Lihat Keranjang',
+                            textColor: Colors.white,
+                            onPressed: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => CartPage(),
+                                ),
+                              );
+                            },
+                          ),
+                        ),
+                      );
                     },
                     style: ElevatedButton.styleFrom(
                       backgroundColor: const Color(0xFF673296),

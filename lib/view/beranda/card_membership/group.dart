@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:tubes_pbp_gym/data/membership_data.dart'; // Impor data dari package_data.dart
-import 'package:tubes_pbp_gym/models/membership_package.dart'; // Impor model MembershipPackage
-import 'package:tubes_pbp_gym/models/items_cart.dart'; // Impor model CartItem
+import 'package:tubes_pbp_gym/data/membership_data.dart';
+import 'package:tubes_pbp_gym/models/membership_package.dart';
+import 'package:tubes_pbp_gym/models/items_cart.dart';
 import 'package:tubes_pbp_gym/view/beranda/cart/cart.dart';
 import 'package:provider/provider.dart';
 import 'package:tubes_pbp_gym/providers/cart_provider.dart';
@@ -40,9 +40,7 @@ class PackageCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // Function to parse the price string into a double
     double parsePrice(String price) {
-      // Remove 'Rp' and other non-numeric characters, then parse as double
       String cleanPrice = price.replaceAll(RegExp(r'[^0-9]'), '');
       return double.tryParse(cleanPrice) ?? 0.0;
     }
@@ -84,27 +82,38 @@ class PackageCard extends StatelessWidget {
             SizedBox(height: 16),
             ElevatedButton(
               onPressed: () {
-                // Parse the total price into a double
                 final totalPrice = parsePrice(package.total);
-
-                // Create a new CartItem with the extracted total price
                 final cartItem = CartItem(
                   title: package.title,
-                  price: totalPrice, // Use the parsed total price
+                  price: totalPrice,
                   image: 'images/home-image/membership/group.png',
                   membershipTitle: 'Membership - Group ${package.title}',
                   type: CartItemType.membership,
                 );
 
-                // Add the item to the cart using CartProvider
                 Provider.of<CartProvider>(context, listen: false)
                     .addItem(cartItem);
 
-                // Navigate to the CartPage
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => CartPage(),
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(
+                    content: Text(
+                      'Membership Group ${package.title} berhasil ditambahkan ke keranjang!',
+                      style: TextStyle(color: Colors.white),
+                    ),
+                    backgroundColor: Colors.green,
+                    duration: Duration(seconds: 2),
+                    action: SnackBarAction(
+                      label: 'Lihat Keranjang',
+                      textColor: Colors.white,
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => CartPage(),
+                          ),
+                        );
+                      },
+                    ),
                   ),
                 );
               },

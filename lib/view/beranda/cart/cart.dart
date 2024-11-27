@@ -11,6 +11,7 @@ class CartPage extends StatefulWidget {
 
 class _CartPageState extends State<CartPage> {
   bool isEditing = false;
+  bool isSelectAll = false;
 
   @override
   Widget build(BuildContext context) {
@@ -31,6 +32,9 @@ class _CartPageState extends State<CartPage> {
             onPressed: () {
               setState(() {
                 isEditing = !isEditing; // Toggle edit mode
+                if (!isEditing) {
+                  isSelectAll = false; // Reset select all when not editing
+                }
               });
             },
             child: Text(
@@ -44,6 +48,28 @@ class _CartPageState extends State<CartPage> {
         builder: (context, cartProvider, child) {
           return Column(
             children: [
+              if (isEditing)
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 23.0),
+                  child: Row(
+                    children: [
+                      Checkbox(
+                        value: isSelectAll,
+                        onChanged: (value) {
+                          setState(() {
+                            isSelectAll = value ?? false;
+                            // Update the selection status of all items
+                            cartProvider.selectAllItems(isSelectAll);
+                          });
+                        },
+                      ),
+                      Text(
+                        'Pilih semua',
+                        style: TextStyle(color: Colors.white),
+                      ),
+                    ],
+                  ),
+                ),
               Expanded(
                 child: ListView.builder(
                   itemCount: cartProvider.cartItems.length,
@@ -66,15 +92,17 @@ class _CartPageState extends State<CartPage> {
               ),
               BottomBar(
                 cartItems: cartProvider.cartItems,
-                selectAll:
-                    cartProvider.cartItems.every((item) => item.isSelected),
+                selectAll: isSelectAll,
                 onSelectAllChanged: (bool? value) {
-                  cartProvider.selectAllItems(value ?? false);
+                  setState(() {
+                    isSelectAll = value ?? false;
+                    cartProvider.selectAllItems(isSelectAll);
+                  });
                 },
                 onDeleteAll: () {
                   cartProvider.clearSelectedItems();
                 },
-                isEditing: isEditing, // Pass the edit mode to the BottomBar
+                isEditing: isEditing,
               ),
             ],
           );

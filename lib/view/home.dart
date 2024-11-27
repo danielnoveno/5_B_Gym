@@ -22,8 +22,8 @@ class _HomeViewState extends State<HomeView> {
 
   static const List<Widget> _widgetOptions = <Widget>[
     HomeViewContent(), // Beranda
-    Placeholder(), // Latihan (replace with actual widget later)
-    Jadwal(), // Jadwal (replace with actual widget later)
+    Placeholder(), // Latihan
+    Jadwal(), // Jadwal
     ProfileView(), // Akun
   ];
 
@@ -50,8 +50,8 @@ class _HomeViewState extends State<HomeView> {
         ),
         child: BottomNavigationBar(
           backgroundColor:
-              Colors.transparent, // Set to transparent to show container color
-          elevation: 0, // Remove BottomNavigationBar's default shadow
+              Colors.transparent,
+          elevation: 0,
           items: [
             BottomNavigationBarItem(
               icon: ImageIcon(

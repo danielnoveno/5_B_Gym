@@ -42,7 +42,6 @@ class PackageCard extends StatelessWidget {
   Widget build(BuildContext context) {
     // Function to remove 'Rp' and format price to double
     double parsePrice(String price) {
-      // Menghapus 'Rp' dan spasi, serta memastikan format harga benar
       String cleanPrice = price.replaceAll(RegExp(r'[^0-9]'), '');
       return double.tryParse(cleanPrice) ?? 0.0;
     }
@@ -84,13 +83,10 @@ class PackageCard extends StatelessWidget {
             SizedBox(height: 16),
             ElevatedButton(
               onPressed: () {
-                // Parse the total price into a double
                 final totalPrice = parsePrice(package.total);
-
-                // Create a new CartItem with the extracted total price
                 final cartItem = CartItem(
                   title: package.title,
-                  price: totalPrice, // Use the parsed total price
+                  price: totalPrice,
                   image: 'images/home-image/membership/solo.png',
                   membershipTitle: 'Membership - Solo ${package.title}',
                   type: CartItemType.membership,
@@ -100,11 +96,26 @@ class PackageCard extends StatelessWidget {
                 Provider.of<CartProvider>(context, listen: false)
                     .addItem(cartItem);
 
-                // Navigate to the CartPage
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => CartPage(),
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(
+                    content: Text(
+                      'Membership Solo ${package.title} berhasil ditambahkan ke keranjang!',
+                      style: TextStyle(color: Colors.white),
+                    ),
+                    backgroundColor: Colors.green,
+                    duration: Duration(seconds: 2),
+                    action: SnackBarAction(
+                      label: 'Lihat Keranjang',
+                      textColor: Colors.white,
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => CartPage(),
+                          ),
+                        );
+                      },
+                    ),
                   ),
                 );
               },

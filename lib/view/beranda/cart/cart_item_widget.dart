@@ -97,13 +97,44 @@ class CartItemWidget extends StatelessWidget {
                 SizedBox(width: 8),
                 IconButton(
                   icon: Icon(Icons.delete, color: Colors.red),
-                  onPressed: onRemoveItem,
+                  onPressed: () {
+                    _showDeleteConfirmationDialog(context, item);
+                  },
                 ),
               ],
             ],
           ),
         ],
       ),
+    );
+  }
+
+  // Konfirmasi untuk menghapus item individu
+  void _showDeleteConfirmationDialog(BuildContext context, CartItem item) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('Konfirmasi Hapus'),
+          content: Text(
+              'Apakah Anda yakin ingin menghapus item "${item.membershipTitle}"?'),
+          actions: <Widget>[
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop(); // Menutup dialog
+              },
+              child: Text('Batal'),
+            ),
+            TextButton(
+              onPressed: () {
+                onRemoveItem(); // Menghapus item tersebut
+                Navigator.of(context).pop(); // Menutup dialog
+              },
+              child: Text('Hapus'),
+            ),
+          ],
+        );
+      },
     );
   }
 }
