@@ -20,31 +20,35 @@ class _HomeViewState extends State<HomeView> {
     });
   }
 
-  static const List<Widget> _widgetOptions = <Widget>[
-    HomeViewContent(), // Beranda
-    TrainingPage(), // Latihan
-    Jadwal(), // Jadwal
-    ProfileView(), // Akun
-  ];
+  late final List<Widget> _widgetOptions;
+
+  @override
+  void initState() {
+    super.initState();
+    _widgetOptions = <Widget>[
+      HomeViewContent(), // Beranda
+      TrainingPage(onNavigate: _onItemTapped), // Latihan
+      Jadwal(), // Jadwal
+      ProfileView(), // Akun
+    ];
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.transparent,
       bottomNavigationBar: Container(
-        margin: const EdgeInsets.symmetric(
-            horizontal: 8.0, vertical: 12.0), // Add margin around the container
-        padding: const EdgeInsets.symmetric(
-            horizontal: 12.0, vertical: 5.0), // Padding for inner spacing
+        margin: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 12.0),
+        padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 5.0),
         decoration: BoxDecoration(
-          color: Color(0xFF222222), // Background color
-          borderRadius: BorderRadius.circular(24.0), // Rounded corners
+          color: Color(0xFF222222),
+          borderRadius: BorderRadius.circular(24.0),
           boxShadow: [
             BoxShadow(
               color: Colors.black.withOpacity(0.1),
               spreadRadius: 5,
               blurRadius: 10,
-              offset: const Offset(0, 3), // Position of the shadow
+              offset: const Offset(0, 3),
             ),
           ],
         ),
@@ -79,10 +83,10 @@ class _HomeViewState extends State<HomeView> {
           ],
           currentIndex: _selectedIndex,
           onTap: _onItemTapped,
-          selectedItemColor: Color(0xFF673296), // Selected icon color
-          unselectedItemColor: Colors.grey, // Unselected icon color
-          showUnselectedLabels: true, // Show labels for unselected items
-          type: BottomNavigationBarType.fixed, // Keep all labels visible
+          selectedItemColor: Color(0xFF673296),
+          unselectedItemColor: Colors.grey,
+          showUnselectedLabels: true,
+          type: BottomNavigationBarType.fixed,
         ),
       ),
       body: _widgetOptions.elementAt(_selectedIndex),
