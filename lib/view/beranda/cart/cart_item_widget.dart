@@ -31,11 +31,10 @@ class CartItemWidget extends StatelessWidget {
       ),
       child: Row(
         children: [
-          if (isEditing)
-            Checkbox(
-              value: item.isSelected,
-              onChanged: onCheckboxChanged,
-            ),
+          Checkbox(
+            value: item.isSelected,
+            onChanged: onCheckboxChanged,
+          ),
           ClipRRect(
             borderRadius: BorderRadius.circular(8.0),
             child: Image.asset(
