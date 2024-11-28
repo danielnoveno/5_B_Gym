@@ -229,7 +229,7 @@ class _HomeViewContentState extends State<HomeViewContent> {
     );
   }
 
-  // Helper method untuk membuat tombol menu dengan state aktif
+  // Helper method untuk membuat tombol menu dengan state aktif //
   Widget _buildMenuButton(String label, int index) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 5.0),
