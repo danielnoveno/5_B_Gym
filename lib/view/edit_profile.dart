@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:gd_widget2_b_11663/components/form_edit.dart';
-import 'package:gd_widget2_b_11663/view/profile.dart';
+import 'package:tubes_pbp_gym/components/form_edit.dart';
+import 'package:tubes_pbp_gym/view/profile.dart';
 import 'dart:io';
 import 'package:image_picker/image_picker.dart';
 
@@ -124,8 +124,8 @@ class _EditProfileState extends State<EditProfile> {
                 child: Column(
                   children: [
                     form_edit('Nama Pengguna', 'Mariwow', editable: true),
-                    form_edit('Email', 'marimar@gmail.com', editable: false),
-                    form_edit('Nomor Telp', '08123123123', editable: false),
+                    form_edit('Email', 'marimar@gmail.com', editable: true),
+                    form_edit('Nomor Telp', '08123123123', editable: true),
                     form_edit('Berat Badan (Kg)', '75', editable: true),
                     form_edit('Tinggi Badan (Cm)', '180', editable: true),
                     const SizedBox(height: 20),

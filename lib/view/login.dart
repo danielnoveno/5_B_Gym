@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:gd_widget2_b_11663/view/home.dart';
-import 'package:gd_widget2_b_11663/view/register.dart';
-import 'package:gd_widget2_b_11663/components/form_component.dart';
-import 'package:gd_widget2_b_11663/service/directToLink.dart';
+import 'package:tubes_pbp_gym/view/home.dart';
+import 'package:tubes_pbp_gym/view/register.dart';
+import 'package:tubes_pbp_gym/components/form_component.dart';
+import 'package:tubes_pbp_gym/service/directToLink.dart';
 
-//update login
 class LoginView extends StatefulWidget {
   final Map? data;
   const LoginView({super.key, this.data});
@@ -18,17 +17,16 @@ List<String> dropdownItems = [
   'Trainer',
 ];
 
-String? selectedValue;
-
 class _LoginViewState extends State<LoginView> {
   final _formKey = GlobalKey<FormState>();
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
-  String? selectedValue; // Holds the selected dropdown value
+  String? selectedValue;
 
   @override
   Widget build(BuildContext context) {
-    Map? dataForm = widget.data;
+    Map dataForm = widget.data ?? {}; // Mengatasi null pada widget.data
+
     return Scaffold(
       backgroundColor: Colors.black,
       body: SafeArea(
@@ -41,12 +39,11 @@ class _LoginViewState extends State<LoginView> {
                 Padding(
                   padding: const EdgeInsets.only(top: 20),
                   child: Image.asset(
-                    'images/gym.png', // Replace with your image path
-                    height: 160, // Adjust the size
-                    width: 160, // Adjust the size
+                    'images/gym.png',
+                    height: 160,
+                    width: 160,
                   ),
                 ),
-                // Header 'SymsalaGym'
                 Padding(
                   padding: const EdgeInsets.only(bottom: 20),
                   child: Text(
@@ -57,7 +54,6 @@ class _LoginViewState extends State<LoginView> {
                         color: const Color.fromARGB(174, 194, 73, 255)),
                   ),
                 ),
-                // Email Input
                 inputForm((p0) {
                   if (p0 == null || p0.isEmpty) {
                     return "Email tidak boleh kosong";
@@ -68,8 +64,6 @@ class _LoginViewState extends State<LoginView> {
                     hintTxt: "Email",
                     helperTxt: "Inputkan Email yang telah didaftarkan",
                     iconData: Icons.email),
-
-                // Password Input
                 inputForm((p0) {
                   if (p0 == null || p0.isEmpty) {
                     return "Sandi kosong";
@@ -81,24 +75,20 @@ class _LoginViewState extends State<LoginView> {
                     hintTxt: "Password",
                     helperTxt: "Inputkan Password yang telah didaftarkan",
                     iconData: Icons.password),
-                // Dropdown Input
                 Padding(
                   padding: const EdgeInsets.symmetric(vertical: 16.0),
                   child: SizedBox(
-                    width: 350, // Adjust width to match other fields
+                    width: 350,
                     child: DropdownButtonHideUnderline(
                       child: DropdownButtonFormField<String>(
                         value: selectedValue,
-                        dropdownColor:
-                            Color(0xFF636363), // Set dropdown background color
+                        dropdownColor: Color(0xFF636363),
                         items: dropdownItems.map((item) {
                           return DropdownMenuItem(
                             value: item,
                             child: Text(
                               item,
-                              style: TextStyle(
-                                  color: Colors
-                                      .white), // Set item text color to white
+                              style: TextStyle(color: Colors.white),
                             ),
                           );
                         }).toList(),
@@ -107,19 +97,15 @@ class _LoginViewState extends State<LoginView> {
                             selectedValue = value;
                           });
                         },
-                        style: const TextStyle(
-                            color: Colors
-                                .white), // Set selected text color to white
+                        style: const TextStyle(color: Colors.white),
                         decoration: InputDecoration(
                           hintText: 'Peran',
                           hintStyle: const TextStyle(color: Colors.white),
                           helperText: 'Masukkan Peran Anda',
                           helperStyle: const TextStyle(color: Colors.white),
                           filled: true,
-                          fillColor:
-                              Color(0xFF636363), // Field background color
-                          prefixIcon: Icon(Icons.person,
-                              color: Colors.white), // Icon color
+                          fillColor: Color(0xFF636363),
+                          prefixIcon: Icon(Icons.person, color: Colors.white),
                           border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(20),
                           ),
@@ -129,7 +115,7 @@ class _LoginViewState extends State<LoginView> {
                           ),
                         ),
                         validator: (value) =>
-                            value == null ? 'Please select an option' : null,
+                            value == null ? 'Peran harus dipilih' : null,
                       ),
                     ),
                   ),
@@ -140,8 +126,11 @@ class _LoginViewState extends State<LoginView> {
                     ElevatedButton(
                       onPressed: () {
                         if (_formKey.currentState!.validate()) {
-                          if (dataForm!['email'] == emailController.text &&
-                              dataForm['password'] == passwordController.text) {
+                          if (dataForm.isNotEmpty &&
+                              dataForm['email'] ==
+                                  emailController.text.trim() &&
+                              dataForm['password'] ==
+                                  passwordController.text.trim()) {
                             Navigator.push(
                                 context,
                                 MaterialPageRoute(
@@ -150,11 +139,9 @@ class _LoginViewState extends State<LoginView> {
                             showDialog(
                                 context: context,
                                 builder: (_) => AlertDialog(
-                                      title: const Text('Password Salah'),
-                                      content: TextButton(
-                                        onPressed: () => pushRegister(context),
-                                        child: const Text('Daftar Disini !!'),
-                                      ),
+                                      title: const Text('Login Gagal'),
+                                      content: const Text(
+                                          'Email atau Password salah. Periksa kembali.'),
                                       actions: <Widget>[
                                         TextButton(
                                           onPressed: () =>
@@ -174,14 +161,12 @@ class _LoginViewState extends State<LoginView> {
                       child: const Text('Masuk',
                           style: TextStyle(color: Colors.white)),
                       style: ElevatedButton.styleFrom(
-                        backgroundColor: const Color.fromARGB(
-                            175, 194, 73, 255), // Set button color to purple
+                        backgroundColor:
+                            const Color.fromARGB(175, 194, 73, 255),
                         padding: const EdgeInsets.symmetric(
-                            vertical: 10,
-                            horizontal: 135), // Adjust padding for height
+                            vertical: 10, horizontal: 135),
                         shape: RoundedRectangleBorder(
-                          borderRadius:
-                              BorderRadius.circular(14), // Rounded corners
+                          borderRadius: BorderRadius.circular(14),
                         ),
                       ),
                     ),
@@ -204,8 +189,7 @@ class _LoginViewState extends State<LoginView> {
                       icon: Icon(Icons.g_mobiledata, size: 24),
                       label: Text(''),
                       onPressed: () {
-                        Direct.launchURL(
-                            'https://g.co/kgs/R9fTeVW'); // Handle Google login here
+                        Direct.launchURL('https://g.co/kgs/R9fTeVW');
                       },
                     ),
                     SizedBox(width: 10),
@@ -213,8 +197,7 @@ class _LoginViewState extends State<LoginView> {
                       icon: Icon(Icons.apple, size: 24),
                       label: Text(''),
                       onPressed: () {
-                        Direct.launchURL(
-                            'https://www.apple.com/id/'); // Handle Apple login here
+                        Direct.launchURL('https://www.apple.com/id/');
                       },
                     ),
                     SizedBox(width: 10),
@@ -223,7 +206,7 @@ class _LoginViewState extends State<LoginView> {
                       label: Text(''),
                       onPressed: () {
                         Direct.launchURL(
-                            'https://www.facebook.com/?locale=id_ID'); // Handle Facebook login here
+                            'https://www.facebook.com/?locale=id_ID');
                       },
                     ),
                   ],

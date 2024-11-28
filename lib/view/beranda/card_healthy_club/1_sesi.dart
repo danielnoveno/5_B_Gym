@@ -1,34 +1,58 @@
 import 'package:flutter/material.dart';
+import 'package:tubes_pbp_gym/models/healthy_club.dart';
+import 'package:provider/provider.dart';
+import 'package:tubes_pbp_gym/providers/cart_provider.dart';
+import 'package:tubes_pbp_gym/models/items_cart.dart';
+import 'package:tubes_pbp_gym/view/beranda/cart/cart.dart';
 
-class HealthyClub1Sesi extends StatelessWidget {
+class HealthyClub1Sesi extends StatefulWidget {
+  final KelasOlahraga kelasOlahraga;
+
+  HealthyClub1Sesi({required this.kelasOlahraga});
+
+  @override
+  _HealthyClub1SesiState createState() => _HealthyClub1SesiState();
+}
+
+class _HealthyClub1SesiState extends State<HealthyClub1Sesi> {
+  late String selectedOlahraga;
+
+  @override
+  void initState() {
+    super.initState();
+    selectedOlahraga = widget
+        .kelasOlahraga.availableClasses[0];
+  }
+
+  double parsePrice(String price) {
+    String cleanPrice = price.replaceAll(RegExp(r'[^0-9]'), '');
+    return double.tryParse(cleanPrice) ?? 0.0;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor:
-          Colors.black, // Set the background color of the entire page to black
+      backgroundColor: Colors.black,
       appBar: AppBar(
         title: Text(
-          '1 Sesi',
-          style: TextStyle(color: Colors.white), // Make the title white
+          widget.kelasOlahraga.title, 
+          style: TextStyle(color: Colors.white),
         ),
         leading: IconButton(
-          icon: Icon(Icons.arrow_back,
-              color: Colors.white), // Make the back icon white
+          icon: Icon(Icons.arrow_back, color: Colors.white),
           onPressed: () => Navigator.of(context).pop(),
         ),
-        backgroundColor: Colors.black, // Set the app bar background to black
+        backgroundColor: Colors.black,
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: SingleChildScrollView(
-          // Wrap the body in a SingleChildScrollView to allow scrolling
           child: Center(
             child: Container(
               width: double.infinity,
               padding: EdgeInsets.all(16.0),
               decoration: BoxDecoration(
-                color:
-                    Colors.black87, // Set the background color of the container
+                color: Color(0xFF2B2B2B),
                 borderRadius: BorderRadius.circular(16),
               ),
               child: Column(
@@ -39,7 +63,7 @@ class HealthyClub1Sesi extends StatelessWidget {
                   ClipRRect(
                     borderRadius: BorderRadius.circular(16),
                     child: Image.asset(
-                      'images/home-image/healthy-club/1-sesi.png',
+                      widget.kelasOlahraga.imagePath,
                       height: 150,
                       width: double.infinity,
                       fit: BoxFit.cover,
@@ -47,27 +71,59 @@ class HealthyClub1Sesi extends StatelessWidget {
                   ),
                   SizedBox(height: 16),
                   Text(
-                    'Rp 280.000',
+                    widget.kelasOlahraga.price,
                     style: TextStyle(
                       fontSize: 24,
                       fontWeight: FontWeight.bold,
-                      color: Colors.white, // Make the price text white
+                      color: Colors.white,
                     ),
                   ),
                   Divider(color: Colors.grey),
                   SizedBox(height: 8),
-                  FeatureItem(
-                    text: 'Diskon 20.000 dari harga normal per-sesi',
+                  for (var feature in widget.kelasOlahraga.features)
+                    FeatureItem(text: feature),
+                  SizedBox(height: 16),
+                  DropdownButtonFormField<String>(
+                    value: selectedOlahraga,
+                    items: widget.kelasOlahraga.availableClasses
+                        .map((String value) {
+                      return DropdownMenuItem<String>(
+                        value: value,
+                        child: Text(
+                          value,
+                          style: TextStyle(color: Colors.white),
+                        ),
+                      );
+                    }).toList(),
+                    onChanged: (newValue) {
+                      setState(() {
+                        selectedOlahraga = newValue!;
+                      });
+                    },
+                    dropdownColor: Color(0xFF2B2B2B),
+                    decoration: InputDecoration(
+                      filled: true,
+                      fillColor: Color(0xFF673296),
+                      contentPadding:
+                          EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(16),
+                        borderSide: BorderSide(color: Colors.white),
+                      ),
+                      enabledBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(16),
+                        borderSide: BorderSide(color: Colors.white),
+                      ),
+                      focusedBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(16),
+                        borderSide: BorderSide(color: Colors.white),
+                      ),
+                    ),
+                    iconEnabledColor:
+                        Colors.white, // Color of the dropdown icon
+                    style: TextStyle(
+                        color: Colors.white), // Text color in the dropdown
                   ),
-                  FeatureItem(
-                    text:
-                        'Fleksibilitas mengikuti kelas olahraga mana saja dalam waktu 1 bulan',
-                  ),
-                  FeatureItem(text: 'Zumba'),
-                  FeatureItem(text: 'Yoga'),
-                  FeatureItem(text: 'HIIT'),
-                  FeatureItem(text: 'Spinning'),
-                  FeatureItem(text: 'Pilates'),
                   SizedBox(height: 16),
                   SizedBox(
                     width: double.infinity,
@@ -78,10 +134,49 @@ class HealthyClub1Sesi extends StatelessWidget {
                           borderRadius: BorderRadius.circular(16),
                         ),
                       ),
-                      onPressed: () {},
-                      child: Text('Masukan Keranjang',
-                          style: TextStyle(
-                              color: Colors.white)), // Make button text white
+                      onPressed: () {
+                        final selectedClass = widget
+                            .kelasOlahraga.availableClasses
+                            .firstWhere((item) => item == selectedOlahraga);
+                        final cartItem = CartItem(
+                          title: selectedClass,
+                          price: parsePrice(widget.kelasOlahraga.price),
+                          image: widget.kelasOlahraga.imagePath,
+                          membershipTitle:
+                              'Healthy Club 1 Sesi Kelas - $selectedClass',
+                          type: CartItemType.healthy_club,
+                        );
+
+                        Provider.of<CartProvider>(context, listen: false)
+                            .addItem(cartItem);
+
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(
+                            content: Text(
+                              'Healthy Club 1 Sesi Kelas - $selectedClass berhasil ditambahkan ke keranjang!',
+                              style: TextStyle(color: Colors.white),
+                            ),
+                            backgroundColor: Colors.green,
+                            duration: Duration(seconds: 2),
+                            action: SnackBarAction(
+                              label: 'Lihat Keranjang',
+                              textColor: Colors.white,
+                              onPressed: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => CartPage(),
+                                  ),
+                                );
+                              },
+                            ),
+                          ),
+                        );
+                      },
+                      child: Text(
+                        'Masukan Keranjang',
+                        style: TextStyle(color: Colors.white),
+                      ),
                     ),
                   ),
                 ],
@@ -111,8 +206,9 @@ class FeatureItem extends StatelessWidget {
             child: Text(
               text,
               style: TextStyle(
-                  fontSize: 16,
-                  color: Colors.white), // Make the feature text white
+                fontSize: 16,
+                color: Colors.white,
+              ),
             ),
           ),
         ],
