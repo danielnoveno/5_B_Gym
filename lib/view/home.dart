@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
-// import 'package:tubes_pbp_gym/view/view_listgym.dart';
+import 'package:gd_widget2_b_11663/view/view_listgym.dart';
+import 'package:gd_widget2_b_11663/view/profile.dart';
+import 'package:gd_widget2_b_11663/view/isi_home.dart';
+import 'package:gd_widget2_b_11663/view/latihan.dart';
 import 'package:tubes_pbp_gym/view/profile.dart';
 import 'package:tubes_pbp_gym/view/isi_home.dart';
 import 'package:tubes_pbp_gym/view/jadwal/jadwal.dart';
@@ -22,6 +25,8 @@ class _HomeViewState extends State<HomeView> {
 
   static const List<Widget> _widgetOptions = <Widget>[
     HomeViewContent(), // Beranda
+    TrainingPage(), // Latihan (replace with actual widget later)
+    Placeholder(), // Jadwal (replace with actual widget later)
     Placeholder(), // Latihan
     Jadwal(), // Jadwal
     ProfileView(), // Akun
