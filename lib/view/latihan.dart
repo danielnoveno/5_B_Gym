@@ -1,9 +1,5 @@
 import 'package:flutter/material.dart';
 
-import 'package:gd_widget2_b_11663/view/beranda/personal_trainer.dart';
-import 'package:gd_widget2_b_11663/view/beranda/healthy_club.dart';
-import 'package:gd_widget2_b_11663/view/beranda/alat_gym.dart';
-
 void main() {
   runApp(const MyApp());
 }
