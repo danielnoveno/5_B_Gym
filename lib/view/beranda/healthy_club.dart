@@ -4,6 +4,7 @@ import 'package:tubes_pbp_gym/view/beranda/card_healthy_club/4_sesi.dart';
 import 'package:tubes_pbp_gym/view/beranda/card_healthy_club/8_sesi.dart';
 import 'package:tubes_pbp_gym/view/beranda/card_healthy_club/unlimited.dart';
 import 'package:tubes_pbp_gym/data/club.dart';
+import 'package:tubes_pbp_gym/data/healthy_club_data.dart';
 
 class HealthyClubView extends StatelessWidget {
   HealthyClubView({super.key});
@@ -12,20 +13,42 @@ class HealthyClubView extends StatelessWidget {
   void _navigateToPage(BuildContext context, String title) {
     switch (title) {
       case "1 Sesi":
-        Navigator.push(context,
-            MaterialPageRoute(builder: (context) => HealthyClub1Sesi()));
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) =>
+                HealthyClub1Sesi(kelasOlahraga: kelasOlahragaList[0]),
+          ),
+        );
         break;
       case "4 Sesi":
-        Navigator.push(context,
-            MaterialPageRoute(builder: (context) => HealthyClub4Sesi()));
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => HealthyClub4Sesi(
+              kelasOlahraga: kelasOlahragaList[1],
+            ),
+          ),
+        );
         break;
       case "8 Sesi":
-        Navigator.push(context,
-            MaterialPageRoute(builder: (context) => HealthyClub8Sesi()));
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) =>
+                HealthyClub8Sesi(kelasOlahraga: kelasOlahragaList[2]),
+          ),
+        );
         break;
       case "Unlimited Sebulan":
-        Navigator.push(context,
-            MaterialPageRoute(builder: (context) => HealthyClubUnlimited()));
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => HealthyClubUnlimited(
+              kelasOlahraga: kelasOlahragaList[3], // Pass the specific item
+            ),
+          ),
+        );
         break;
       default:
         break;
