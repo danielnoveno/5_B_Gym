@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:tubes_pbp_gym/data/membership_data.dart'; // Importing data from package_data.dart
-import 'package:tubes_pbp_gym/models/membership_package.dart'; // Importing the MembershipPackage model
-import 'package:tubes_pbp_gym/models/items_cart.dart'; // Importing the CartItem model
+import 'package:tubes_pbp_gym/data/membership_data.dart';
+import 'package:tubes_pbp_gym/models/membership_package.dart';
 import 'package:tubes_pbp_gym/view/beranda/cart/cart.dart';
+import 'package:tubes_pbp_gym/models/items_cart.dart';
 import 'package:provider/provider.dart';
 import 'package:tubes_pbp_gym/providers/cart_provider.dart';
 
@@ -44,8 +44,13 @@ class PackageCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    double parsePrice(String price) {
+      String cleanPrice = price.replaceAll(RegExp(r'[^0-9]'), '');
+      return double.tryParse(cleanPrice) ?? 0.0;
+    }
+
     return Card(
-      color: Color(0xFF2B2B2B), // Set card color
+      color: Color(0xFF2B2B2B),
       margin: EdgeInsets.symmetric(vertical: 8.0),
       child: Padding(
         padding: EdgeInsets.all(16.0),
@@ -81,23 +86,40 @@ class PackageCard extends StatelessWidget {
             SizedBox(height: 16),
             ElevatedButton(
               onPressed: () {
-                // Create a new CartItem
+                final totalPrice = parsePrice(package.total);
                 final cartItem = CartItem(
                   title: package.title,
-                  price: package.total,
+                  price: totalPrice,
                   image: 'images/home-image/membership/couple.png',
                   membershipTitle: 'Membership - Couple ${package.title}',
+                  type: CartItemType.membership,
                 );
 
-                // Get the CartProvider from the context and add the item to the cart
+                // Add the item to the cart using CartProvider
                 Provider.of<CartProvider>(context, listen: false)
                     .addItem(cartItem);
 
-                // Navigate to the CartPage
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => CartPage(),
+                // Show Snackbar
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(
+                    content: Text(
+                      'Membership Couple ${package.title} berhasil ditambahkan ke keranjang!',
+                      style: TextStyle(color: Colors.white),
+                    ),
+                    backgroundColor: Colors.green,
+                    duration: Duration(seconds: 2),
+                    action: SnackBarAction(
+                      label: 'Lihat Keranjang',
+                      textColor: Colors.white,
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => CartPage(),
+                          ),
+                        );
+                      },
+                    ),
                   ),
                 );
               },

@@ -124,8 +124,8 @@ class _EditProfileState extends State<EditProfile> {
                 child: Column(
                   children: [
                     form_edit('Nama Pengguna', 'Mariwow', editable: true),
-                    form_edit('Email', 'marimar@gmail.com', editable: false),
-                    form_edit('Nomor Telp', '08123123123', editable: false),
+                    form_edit('Email', 'marimar@gmail.com', editable: true),
+                    form_edit('Nomor Telp', '08123123123', editable: true),
                     form_edit('Berat Badan (Kg)', '75', editable: true),
                     form_edit('Tinggi Badan (Cm)', '180', editable: true),
                     const SizedBox(height: 20),
