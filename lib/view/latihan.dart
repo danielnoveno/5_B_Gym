@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:tubes_pbp_gym/view/beranda/membersip.dart';
-import 'package:tubes_pbp_gym/view/beranda/personal_trainer.dart';
-import 'package:tubes_pbp_gym/view/beranda/healthy_club.dart';
-import 'package:tubes_pbp_gym/view/beranda/alat_gym.dart';
+// import 'package:tubes_pbp_gym/view/beranda/membersip.dart';
+// import 'package:tubes_pbp_gym/view/beranda/personal_trainer.dart';
+// import 'package:tubes_pbp_gym/view/beranda/healthy_club.dart';
+// import 'package:tubes_pbp_gym/view/beranda/alat_gym.dart';
 import 'package:tubes_pbp_gym/view/isi_home.dart'; // Pastikan ini sesuai dengan nama file Anda
 
 class TrainingPage extends StatefulWidget {
