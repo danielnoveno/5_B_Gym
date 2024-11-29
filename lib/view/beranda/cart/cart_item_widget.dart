@@ -1,21 +1,27 @@
 import 'package:flutter/material.dart';
 import 'package:tubes_pbp_gym/models/items_cart.dart';
+import 'package:intl/intl.dart';
 
 class CartItemWidget extends StatelessWidget {
   final CartItem item;
   final ValueChanged<int> onQuantityChanged;
   final ValueChanged<bool?> onCheckboxChanged;
-  final VoidCallback onRemoveItem; // Callback untuk menghapus item
+  final VoidCallback onRemoveItem;
+  final bool isEditing;
 
   CartItemWidget({
     required this.item,
     required this.onQuantityChanged,
     required this.onCheckboxChanged,
-    required this.onRemoveItem, // Mendapatkan callback untuk menghapus item
+    required this.onRemoveItem,
+    required this.isEditing,
   });
 
   @override
   Widget build(BuildContext context) {
+    final formatCurrency =
+        NumberFormat.currency(locale: 'id_ID', symbol: 'Rp ', decimalDigits: 0);
+
     return Container(
       margin: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
       padding: EdgeInsets.all(8),
@@ -29,9 +35,8 @@ class CartItemWidget extends StatelessWidget {
             value: item.isSelected,
             onChanged: onCheckboxChanged,
           ),
-          // Membungkus gambar dengan ClipRRect untuk memberikan sudut rounded
           ClipRRect(
-            borderRadius: BorderRadius.circular(8.0), // Menentukan radius sudut
+            borderRadius: BorderRadius.circular(8.0),
             child: Image.asset(
               item.image,
               width: 50,
@@ -44,16 +49,18 @@ class CartItemWidget extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                // Menambahkan maxLines dan overflow untuk menghindari pemotongan
                 Text(
                   item.membershipTitle,
                   style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-                  overflow: TextOverflow.visible, // Menyembunyikan ellipsis
-                  maxLines: 2, // Menambahkan 2 baris untuk judul panjang
+                  overflow: TextOverflow.ellipsis,
+                  maxLines: 2,
                 ),
                 SizedBox(height: 4),
-                Text(item.price,
-                    style: TextStyle(fontSize: 14, color: Colors.green)),
+                if (!isEditing)
+                  Text(
+                    formatCurrency.format(item.price),
+                    style: TextStyle(fontSize: 14, color: Colors.green),
+                  ),
               ],
             ),
           ),
@@ -85,17 +92,48 @@ class CartItemWidget extends StatelessWidget {
                   ],
                 ),
               ),
-              if (item.quantity == 0) ...[
+              if (item.quantity == 0 && isEditing) ...[
                 SizedBox(width: 8),
                 IconButton(
                   icon: Icon(Icons.delete, color: Colors.red),
-                  onPressed: onRemoveItem,
+                  onPressed: () {
+                    _showDeleteConfirmationDialog(context, item);
+                  },
                 ),
               ],
             ],
           ),
         ],
       ),
+    );
+  }
+
+  // Konfirmasi untuk menghapus item individu
+  void _showDeleteConfirmationDialog(BuildContext context, CartItem item) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('Konfirmasi Hapus'),
+          content: Text(
+              'Apakah Anda yakin ingin menghapus item "${item.membershipTitle}"?'),
+          actions: <Widget>[
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop(); // Menutup dialog
+              },
+              child: Text('Batal'),
+            ),
+            TextButton(
+              onPressed: () {
+                onRemoveItem(); // Menghapus item tersebut
+                Navigator.of(context).pop(); // Menutup dialog
+              },
+              child: Text('Hapus'),
+            ),
+          ],
+        );
+      },
     );
   }
 }
