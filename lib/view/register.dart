@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:tubes_pbp_gym/view/datadiri/jeniskelamin.dart';
 import 'package:tubes_pbp_gym/view/login.dart';
 import 'package:tubes_pbp_gym/components/form_component2.dart';
 import 'package:tubes_pbp_gym/service/directToLink.dart';
@@ -192,12 +193,12 @@ class _RegisterViewState extends State<RegisterView> {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (_) => LoginView(data: formData),
+                          builder: (_) => JenisKelamin(data: formData),
                         ),
                       );
                     }
                   },
-                  child: const Text('Daftar',
+                  child: const Text('Lanjut',
                       style: TextStyle(color: Colors.white)),
                   style: ElevatedButton.styleFrom(
                     backgroundColor: const Color.fromARGB(175, 194, 73, 255),
@@ -263,7 +264,7 @@ class _RegisterViewState extends State<RegisterView> {
     Navigator.push(
         context,
         MaterialPageRoute(
-          builder: (_) => LoginView(data: {}),
+          builder: (_) => JenisKelamin(data: {}),
         ));
   }
 }
