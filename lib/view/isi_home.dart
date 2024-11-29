@@ -7,7 +7,7 @@ import 'package:tubes_pbp_gym/view/beranda/notifikasi.dart';
 import 'package:tubes_pbp_gym/view/beranda/cart/cart.dart';
 
 class HomeViewContent extends StatefulWidget {
-  final int initialMenuIndex; // Tambahkan parameter
+  final int initialMenuIndex; // Menyimpan nilai menu awal
 
   const HomeViewContent({super.key, this.initialMenuIndex = 0});
 
@@ -21,7 +21,8 @@ class _HomeViewContentState extends State<HomeViewContent> {
   @override
   void initState() {
     super.initState();
-    _activeMenuIndex = widget.initialMenuIndex; // Gunakan parameter
+    _activeMenuIndex =
+        widget.initialMenuIndex; // Menggunakan nilai dari konstruktor
   }
 
   Widget _getViewForActiveMenu() {
@@ -252,3 +253,4 @@ class _HomeViewContentState extends State<HomeViewContent> {
     );
   }
 }
+

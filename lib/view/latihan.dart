@@ -3,9 +3,10 @@ import 'package:tubes_pbp_gym/view/beranda/membersip.dart';
 import 'package:tubes_pbp_gym/view/beranda/personal_trainer.dart';
 import 'package:tubes_pbp_gym/view/beranda/healthy_club.dart';
 import 'package:tubes_pbp_gym/view/beranda/alat_gym.dart';
+import 'package:tubes_pbp_gym/view/isi_home.dart'; // Pastikan ini sesuai dengan nama file Anda
 
 class TrainingPage extends StatefulWidget {
-  final Function(int) onNavigate; // Tambahkan callback
+  final Function(int) onNavigate;
 
   const TrainingPage({super.key, required this.onNavigate});
 
@@ -29,24 +30,12 @@ class _TrainingPageState extends State<TrainingPage> {
       }
     });
 
+    // Navigasi ke HomeViewContent dengan mengirimkan initialMenuIndex
     Navigator.push(
       context,
       MaterialPageRoute(
         builder: (context) {
-          switch (_activeMenuIndex) {
-            case 0:
-              return MembershipView();
-            case 1:
-              return PersonalTrainerView();
-            case 2:
-              return HealthyClubView();
-            case 3:
-              return GymEquipmentView();
-            default:
-              return const Center(
-                child: Text('Halaman tidak ditemukan'),
-              );
-          }
+          return HomeViewContent(initialMenuIndex: _activeMenuIndex);
         },
       ),
     );
