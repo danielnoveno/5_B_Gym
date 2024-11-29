@@ -120,7 +120,10 @@ class _JadwalState extends State<Jadwal> {
               style: ElevatedButton.styleFrom(
                 backgroundColor: Colors.purple,
               ),
-              child: const Text('Add Event'),
+              child: const Text(
+                'Add Event',
+                style: TextStyle(color: Colors.white),
+              ),
             ),
             const SizedBox(height: 10),
             Expanded(
@@ -134,8 +137,13 @@ class _JadwalState extends State<Jadwal> {
                       );
                     }).toList() ??
                     [
-                      const Text('No events',
-                          style: TextStyle(color: Colors.grey))
+                      Padding(
+                        padding: const EdgeInsets.only(left: 20.0),
+                        child: const Text(
+                          'No events',
+                          style: TextStyle(color: Colors.grey),
+                        ),
+                      ),
                     ],
               ),
             ),
