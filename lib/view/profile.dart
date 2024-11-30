@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:tubes_pbp_gym/components/card_component.dart';
 import 'package:tubes_pbp_gym/components/button_component.dart';
+import 'package:tubes_pbp_gym/view/login.dart';
 
 class ProfileView extends StatelessWidget {
   const ProfileView({super.key});
@@ -75,7 +76,9 @@ class ProfileView extends StatelessWidget {
               profileButton(context, 'Penilaian'),
               const SizedBox(height: 20),
               TextButton.icon(
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.pushReplacementNamed(context, '/login');
+                },
                 icon: const Icon(Icons.logout, color: Colors.red),
                 label: const Text(
                   'Log Out',

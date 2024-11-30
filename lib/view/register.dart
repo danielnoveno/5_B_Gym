@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:tubes_pbp_gym/view/datadiri/jeniskelamin.dart';
-import 'package:tubes_pbp_gym/view/login.dart';
-import 'package:tubes_pbp_gym/components/form_component2.dart';
-import 'package:tubes_pbp_gym/service/directToLink.dart';
-
+import 'package:intl/intl.dart';
+import 'package:tubes_pbp_gym/api/auth_service.dart';
+// import 'package:tubes_pbp_gym/view/login.dart';
 
 class RegisterView extends StatefulWidget {
   const RegisterView({super.key});
@@ -19,24 +17,49 @@ class _RegisterViewState extends State<RegisterView> {
   TextEditingController passwordController = TextEditingController();
   TextEditingController notelpController = TextEditingController();
   TextEditingController tglLahirController = TextEditingController();
+  TextEditingController alamatController = TextEditingController();
 
   String? selectedValue;
   List<String> dropdownItems = ['Pengguna', 'Trainer'];
+
+  // Method untuk membuat form input dengan validasi
+  Widget inputForm(
+    String? Function(String?)? validator, {
+    required TextEditingController controller,
+    required String hintTxt,
+    required String helperTxt,
+    required IconData iconData,
+    bool password = false,
+  }) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
+      child: TextFormField(
+        controller: controller,
+        obscureText: password,
+        decoration: InputDecoration(
+          hintText: hintTxt,
+          helperText: helperTxt,
+          prefixIcon: Icon(iconData),
+          filled: true,
+          fillColor: Colors.white,
+          border: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(12),
+            borderSide: BorderSide.none,
+          ),
+        ),
+        validator: validator,
+      ),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text(
-          'Kembali',
-          style: TextStyle(color: Colors.white),
-        ),
+        title: const Text('Kembali', style: TextStyle(color: Colors.white)),
         backgroundColor: Colors.black,
         leading: IconButton(
-          icon: Icon(
-            Icons.arrow_back,
-            color: Colors.white,
-          ),
+          icon: Icon(Icons.arrow_back, color: Colors.white),
           onPressed: () {
             Navigator.pop(context);
           },
@@ -122,80 +145,85 @@ class _RegisterViewState extends State<RegisterView> {
                     return null;
                   },
                   controller: notelpController,
-                  hintTxt: "No Telp",
+                  hintTxt: "Nomor Telepon",
                   helperTxt: "Masukkan Nomor Telepon Anda",
-                  iconData: Icons.phone_android,
+                  iconData: Icons.phone,
                 ),
                 inputForm(
                   (p0) {
                     if (p0 == null || p0.isEmpty) {
-                      return 'Tanggal Lahir Tidak Boleh Kosong';
+                      return 'Alamat tidak boleh kosong';
                     }
                     return null;
                   },
-                  controller: tglLahirController,
-                  hintTxt: "DD/MM/YYYY",
-                  helperTxt: "Masukkan Tanggal Lahir Anda",
-                  iconData: Icons.date_range,
+                  controller: alamatController,
+                  hintTxt: "Alamat",
+                  helperTxt: "Masukkan Alamat Anda",
+                  iconData: Icons.home,
                 ),
                 Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 16.0),
-                  child: SizedBox(
-                    width: 350,
-                    child: DropdownButtonHideUnderline(
-                      child: DropdownButtonFormField<String>(
-                        value: selectedValue,
-                        dropdownColor: Color(0xFF636363),
-                        items: dropdownItems.map((item) {
-                          return DropdownMenuItem(
-                            value: item,
-                            child: Text(
-                              item,
-                              style: TextStyle(color: Colors.white),
-                            ),
-                          );
-                        }).toList(),
-                        onChanged: (value) {
-                          setState(() {
-                            selectedValue = value;
-                          });
-                        },
-                        style: const TextStyle(color: Colors.white),
-                        decoration: InputDecoration(
-                          hintText: 'Peran',
-                          hintStyle: const TextStyle(color: Colors.white),
-                          helperText: 'Masukkan Peran Anda',
-                          helperStyle: const TextStyle(color: Colors.white),
-                          filled: true,
-                          fillColor: Color(0xFF636363),
-                          prefixIcon: Icon(Icons.person, color: Colors.white),
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(20),
-                          ),
-                          focusedBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(20),
-                            borderSide: BorderSide(color: Colors.white),
-                          ),
-                        ),
-                        validator: (value) =>
-                            value == null ? 'Please select an option' : null,
+                  padding:
+                      const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
+                  child: DropdownButtonFormField<String>(
+                    value: selectedValue,
+                    decoration: InputDecoration(
+                      filled: true,
+                      fillColor: Colors.white,
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(12),
+                        borderSide: BorderSide.none,
                       ),
+                      prefixIcon: Icon(Icons.person),
                     ),
+                    items: dropdownItems
+                        .map((e) => DropdownMenuItem<String>(
+                              value: e,
+                              child: Text(e),
+                            ))
+                        .toList(),
+                    onChanged: (value) {
+                      setState(() {
+                        selectedValue = value;
+                      });
+                    },
+                    hint: Text('Pilih Role'),
                   ),
                 ),
                 ElevatedButton(
-                  onPressed: () {
+                  onPressed: () async {
                     if (_formKey.currentState!.validate()) {
-                      Map<String, dynamic> formData = {};
-                      formData['nama'] = namaController.text;
-                      formData['email'] = emailController.text;
-                      formData['password'] = passwordController.text;
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (_) => JenisKelamin(data: formData),
-                        ),
-                      );
+                      try {
+                        DateFormat format = DateFormat('yyyy-MM-dd');
+                        String tglLahir = format.format(DateTime.now());
+
+                        var userData = {
+                          'nama': namaController.text,
+                          'email': emailController.text,
+                          'password': passwordController.text,
+                          'noTelp': notelpController.text,
+                          'tglLahir': tglLahir,
+                          'alamat': alamatController.text,
+                          'role': selectedValue ?? 'Pengguna',
+                        };
+
+                        var response = await AuthService.register(userData);
+
+                        if (response['status'] == 'success') {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(content: Text('Registrasi Sukses!')),
+                          );
+                          Navigator.pushReplacementNamed(context, '/login');
+                        } else {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(
+                                content: Text('Error: ${response['message']}')),
+                          );
+                        }
+                      } catch (e) {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(content: Text('Error: $e')),
+                        );
+                      }
                     }
                   },
                   child: const Text('Lanjut',
@@ -209,62 +237,11 @@ class _RegisterViewState extends State<RegisterView> {
                     ),
                   ),
                 ),
-                Padding(
-                  padding: const EdgeInsets.only(bottom: 20, top: 20, left: 15),
-                  child: Text(
-                    '━━━━━━━━━ OR ━━━━━━━━━',
-                    style: TextStyle(
-                        fontSize: 24,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.white),
-                  ),
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    ElevatedButton.icon(
-                      icon: Icon(Icons.g_mobiledata, size: 24),
-                      label: Text(''),
-                      onPressed: () {
-                        Direct.launchURL('https://g.co/kgs/R9fTeVW');
-                      },
-                    ),
-                    SizedBox(width: 10),
-                    ElevatedButton.icon(
-                      icon: Icon(Icons.apple, size: 24),
-                      label: Text(''),
-                      onPressed: () {
-                        Direct.launchURL('https://www.apple.com/id/');
-                      },
-                    ),
-                    SizedBox(width: 10),
-                    ElevatedButton.icon(
-                      icon: Icon(Icons.facebook, size: 24),
-                      label: Text(''),
-                      onPressed: () {
-                        Direct.launchURL(
-                            'https://www.facebook.com/?locale=id_ID');
-                      },
-                    ),
-                  ],
-                ),
-                TextButton(
-                  onPressed: () => pushLogin(context),
-                  child: const Text('Sudah Punya Akun? Masuk'),
-                ),
               ],
             ),
           ),
         ),
       ),
     );
-  }
-
-  void pushLogin(BuildContext context) {
-    Navigator.push(
-        context,
-        MaterialPageRoute(
-          builder: (_) => JenisKelamin(data: {}),
-        ));
   }
 }
