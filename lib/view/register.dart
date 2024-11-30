@@ -1,10 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:tubes_pbp_gym/view/datadiri/jeniskelamin.dart';
-import 'package:tubes_pbp_gym/entitiy/Pelanggan.dart';
-import 'package:tubes_pbp_gym/client/PelangganClient.dart';
-import 'package:tubes_pbp_gym/components/form_component2.dart';
-import 'package:tubes_pbp_gym/service/directToLink.dart';
+import 'package:tubes_pbp_gym/api/auth_service.dart';
+// import 'package:tubes_pbp_gym/view/login.dart';
 
 class RegisterView extends StatefulWidget {
   const RegisterView({super.key});
@@ -24,6 +21,36 @@ class _RegisterViewState extends State<RegisterView> {
 
   String? selectedValue;
   List<String> dropdownItems = ['Pengguna', 'Trainer'];
+
+  // Method untuk membuat form input dengan validasi
+  Widget inputForm(
+    String? Function(String?)? validator, {
+    required TextEditingController controller,
+    required String hintTxt,
+    required String helperTxt,
+    required IconData iconData,
+    bool password = false,
+  }) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
+      child: TextFormField(
+        controller: controller,
+        obscureText: password,
+        decoration: InputDecoration(
+          hintText: hintTxt,
+          helperText: helperTxt,
+          prefixIcon: Icon(iconData),
+          filled: true,
+          fillColor: Colors.white,
+          border: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(12),
+            borderSide: BorderSide.none,
+          ),
+        ),
+        validator: validator,
+      ),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -118,126 +145,78 @@ class _RegisterViewState extends State<RegisterView> {
                     return null;
                   },
                   controller: notelpController,
-                  hintTxt: "No Telp",
+                  hintTxt: "Nomor Telepon",
                   helperTxt: "Masukkan Nomor Telepon Anda",
-                  iconData: Icons.phone_android,
+                  iconData: Icons.phone,
                 ),
                 inputForm(
                   (p0) {
                     if (p0 == null || p0.isEmpty) {
-                      return 'Tanggal Lahir Tidak Boleh Kosong';
-                    }
-                    return null;
-                  },
-                  controller: tglLahirController,
-                  hintTxt: "DD/MM/YYYY",
-                  helperTxt: "Masukkan Tanggal Lahir Anda",
-                  iconData: Icons.date_range,
-                ),
-                inputForm(
-                  (p0) {
-                    if (p0 == null || p0.isEmpty) {
-                      return 'Alamat Tidak Boleh Kosong';
+                      return 'Alamat tidak boleh kosong';
                     }
                     return null;
                   },
                   controller: alamatController,
                   hintTxt: "Alamat",
                   helperTxt: "Masukkan Alamat Anda",
-                  iconData: Icons.location_on,
+                  iconData: Icons.home,
                 ),
                 Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 16.0),
-                  child: SizedBox(
-                    width: 350,
-                    child: DropdownButtonHideUnderline(
-                      child: DropdownButtonFormField<String>(
-                        value: selectedValue,
-                        dropdownColor: Color(0xFF636363),
-                        items: dropdownItems.map((item) {
-                          return DropdownMenuItem(
-                            value: item,
-                            child: Text(
-                              item,
-                              style: TextStyle(color: Colors.white),
-                            ),
-                          );
-                        }).toList(),
-                        onChanged: (value) {
-                          setState(() {
-                            selectedValue = value;
-                          });
-                        },
-                        style: const TextStyle(color: Colors.white),
-                        decoration: InputDecoration(
-                          hintText: 'Peran',
-                          hintStyle: const TextStyle(color: Colors.white),
-                          helperText: 'Masukkan Peran Anda',
-                          helperStyle: const TextStyle(color: Colors.white),
-                          filled: true,
-                          fillColor: Color(0xFF636363),
-                          prefixIcon: Icon(Icons.person, color: Colors.white),
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(20),
-                          ),
-                          focusedBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(20),
-                            borderSide: BorderSide(color: Colors.white),
-                          ),
-                        ),
-                        validator: (value) =>
-                            value == null ? 'Please select an option' : null,
+                  padding:
+                      const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
+                  child: DropdownButtonFormField<String>(
+                    value: selectedValue,
+                    decoration: InputDecoration(
+                      filled: true,
+                      fillColor: Colors.white,
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(12),
+                        borderSide: BorderSide.none,
                       ),
+                      prefixIcon: Icon(Icons.person),
                     ),
+                    items: dropdownItems
+                        .map((e) => DropdownMenuItem<String>(
+                              value: e,
+                              child: Text(e),
+                            ))
+                        .toList(),
+                    onChanged: (value) {
+                      setState(() {
+                        selectedValue = value;
+                      });
+                    },
+                    hint: Text('Pilih Role'),
                   ),
                 ),
                 ElevatedButton(
                   onPressed: () async {
                     if (_formKey.currentState!.validate()) {
                       try {
-                        // Parsing the date using DateFormat from intl package
-                        DateFormat format = DateFormat("dd/MM/yyyy");
-                        DateTime birthDate =
-                            format.parse(tglLahirController.text);
+                        DateFormat format = DateFormat('yyyy-MM-dd');
+                        String tglLahir = format.format(DateTime.now());
 
-                        // Calculate age from date of birth
-                        int age = DateTime.now().year - birthDate.year;
-                        if (DateTime.now().month < birthDate.month ||
-                            (DateTime.now().month == birthDate.month &&
-                                DateTime.now().day < birthDate.day)) {
-                          age--;
-                        }
+                        var userData = {
+                          'nama': namaController.text,
+                          'email': emailController.text,
+                          'password': passwordController.text,
+                          'noTelp': notelpController.text,
+                          'tglLahir': tglLahir,
+                          'alamat': alamatController.text,
+                          'role': selectedValue ?? 'Pengguna',
+                        };
 
-                        // Use default value for alamat if empty
-                        String alamat = alamatController.text.isEmpty
-                            ? "Alamat tidak tersedia"
-                            : alamatController.text;
+                        var response = await AuthService.register(userData);
 
-                        // Corrected DateTime assignment for tanggalDaftar
-                        DateTime tanggalDaftar = DateTime.now();
-
-                        Pelanggan pelanggan = Pelanggan(
-                          idPelanggan: 0, // Assuming ID is auto-generated
-                          nama: namaController.text,
-                          umur: age, // Age calculated from birth date
-                          alamat: alamat, // Using the alamat value
-                          noTelepon: notelpController.text,
-                          email: emailController.text,
-                          tanggalDaftar: tanggalDaftar, // Now using DateTime
-                        );
-
-                        // Send data to the API
-                        var response = await PelangganClient.create(pelanggan);
-                        if (response.statusCode == 201) {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (_) => JenisKelamin(data: {}),
-                            ),
+                        if (response['status'] == 'success') {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(content: Text('Registrasi Sukses!')),
                           );
+                          Navigator.pushReplacementNamed(context, '/login');
                         } else {
                           ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(content: Text('Error: ${response.body}')),
+                            SnackBar(
+                                content: Text('Error: ${response['message']}')),
                           );
                         }
                       } catch (e) {
@@ -258,33 +237,6 @@ class _RegisterViewState extends State<RegisterView> {
                     ),
                   ),
                 ),
-                Padding(
-                  padding: const EdgeInsets.only(bottom: 20, top: 20, left: 15),
-                  child: Row(
-                    children: [
-                      const Text(
-                        "Sudah Punya Akun?",
-                        style: TextStyle(
-                          fontSize: 15,
-                          color: Colors.white,
-                        ),
-                      ),
-                      TextButton(
-                        onPressed: () {
-                          Navigator.pushNamed(context, '/login');
-                        },
-                        child: const Text(
-                          "Masuk",
-                          style: TextStyle(
-                            fontSize: 15,
-                            color: Color.fromARGB(255, 52, 118, 236),
-                          ),
-                        ),
-                      )
-                    ],
-                  ),
-                ),
-                // Add additional social media login options if needed here
               ],
             ),
           ),
