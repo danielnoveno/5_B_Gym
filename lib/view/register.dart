@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:tubes_pbp_gym/api/auth_service.dart';
-// import 'package:tubes_pbp_gym/view/login.dart';
+import 'package:tubes_pbp_gym/view/datadiri/jeniskelamin.dart';
+import 'package:tubes_pbp_gym/entitiy/Pelanggan.dart';
+import 'package:tubes_pbp_gym/client/PelangganClient.dart';
 
 class RegisterView extends StatefulWidget {
   const RegisterView({super.key});
@@ -15,6 +16,7 @@ class _RegisterViewState extends State<RegisterView> {
   TextEditingController namaController = TextEditingController();
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
+  TextEditingController confirmPasswordController = TextEditingController();
   TextEditingController notelpController = TextEditingController();
   TextEditingController tglLahirController = TextEditingController();
   TextEditingController alamatController = TextEditingController();
@@ -22,56 +24,24 @@ class _RegisterViewState extends State<RegisterView> {
   String? selectedValue;
   List<String> dropdownItems = ['Pengguna', 'Trainer'];
 
-  // Method untuk membuat form input dengan validasi
-  Widget inputForm(
-    String? Function(String?)? validator, {
-    required TextEditingController controller,
-    required String hintTxt,
-    required String helperTxt,
-    required IconData iconData,
-    bool password = false,
-  }) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
-      child: TextFormField(
-        controller: controller,
-        obscureText: password,
-        decoration: InputDecoration(
-          hintText: hintTxt,
-          helperText: helperTxt,
-          prefixIcon: Icon(iconData),
-          filled: true,
-          fillColor: Colors.white,
-          border: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(12),
-            borderSide: BorderSide.none,
-          ),
-        ),
-        validator: validator,
-      ),
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Kembali', style: TextStyle(color: Colors.white)),
+        title: const Text('Kembali'),
         backgroundColor: Colors.black,
         leading: IconButton(
-          icon: Icon(Icons.arrow_back, color: Colors.white),
+          icon: Icon(Icons.arrow_back),
           onPressed: () {
             Navigator.pop(context);
           },
         ),
       ),
-      backgroundColor: Colors.black,
       body: SafeArea(
         child: SingleChildScrollView(
           child: Form(
             key: _formKey,
             child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Padding(
                   padding: const EdgeInsets.only(top: 20),
@@ -140,83 +110,156 @@ class _RegisterViewState extends State<RegisterView> {
                 inputForm(
                   (p0) {
                     if (p0 == null || p0.isEmpty) {
+                      return 'Konfirmasi Password tidak boleh kosong';
+                    }
+                    if (p0 != passwordController.text) {
+                      return 'Password dan Konfirmasi Password tidak sama';
+                    }
+                    return null;
+                  },
+                  controller: confirmPasswordController,
+                  hintTxt: "Konfirmasi Password",
+                  helperTxt: "Konfirmasi Password Anda",
+                  iconData: Icons.password,
+                  password: true,
+                ),
+                inputForm(
+                  (p0) {
+                    if (p0 == null || p0.isEmpty) {
                       return 'Nomor Telepon tidak boleh kosong';
                     }
                     return null;
                   },
                   controller: notelpController,
-                  hintTxt: "Nomor Telepon",
+                  hintTxt: "No Telp",
                   helperTxt: "Masukkan Nomor Telepon Anda",
-                  iconData: Icons.phone,
+                  iconData: Icons.phone_android,
                 ),
                 inputForm(
                   (p0) {
                     if (p0 == null || p0.isEmpty) {
-                      return 'Alamat tidak boleh kosong';
+                      return 'Tanggal Lahir Tidak Boleh Kosong';
+                    }
+                    try {
+                      DateFormat format = DateFormat("dd/MM/yyyy");
+                      format.parse(p0); // Try parsing the entered date
+                    } catch (e) {
+                      return 'Format Tanggal Tidak Valid. Gunakan DD/MM/YYYY';
+                    }
+                    return null;
+                  },
+                  controller: tglLahirController,
+                  hintTxt: "DD/MM/YYYY",
+                  helperTxt: "Masukkan Tanggal Lahir Anda",
+                  iconData: Icons.date_range,
+                ),
+                inputForm(
+                  (p0) {
+                    if (p0 == null || p0.isEmpty) {
+                      return 'Alamat Tidak Boleh Kosong';
                     }
                     return null;
                   },
                   controller: alamatController,
                   hintTxt: "Alamat",
                   helperTxt: "Masukkan Alamat Anda",
-                  iconData: Icons.home,
+                  iconData: Icons.location_on,
                 ),
                 Padding(
-                  padding:
-                      const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
-                  child: DropdownButtonFormField<String>(
-                    value: selectedValue,
-                    decoration: InputDecoration(
-                      filled: true,
-                      fillColor: Colors.white,
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(12),
-                        borderSide: BorderSide.none,
+                  padding: const EdgeInsets.symmetric(vertical: 16.0),
+                  child: SizedBox(
+                    width: 350,
+                    child: DropdownButtonHideUnderline(
+                      child: DropdownButtonFormField<String>(
+                        value: selectedValue,
+                        dropdownColor: Color(0xFF636363),
+                        items: dropdownItems.map((item) {
+                          return DropdownMenuItem(
+                            value: item,
+                            child: Text(
+                              item,
+                              style: TextStyle(color: Colors.white),
+                            ),
+                          );
+                        }).toList(),
+                        onChanged: (value) {
+                          setState(() {
+                            selectedValue = value;
+                          });
+                        },
+                        style: const TextStyle(color: Colors.white),
+                        decoration: InputDecoration(
+                          hintText: 'Peran',
+                          hintStyle: const TextStyle(color: Colors.white),
+                          helperText: 'Masukkan Peran Anda',
+                          helperStyle: const TextStyle(color: Colors.white),
+                          filled: true,
+                          fillColor: Color(0xFF636363),
+                          prefixIcon: Icon(Icons.person, color: Colors.white),
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(20),
+                          ),
+                          focusedBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(20),
+                            borderSide: BorderSide(color: Colors.white),
+                          ),
+                        ),
+                        validator: (value) =>
+                            value == null ? 'Please select an option' : null,
                       ),
-                      prefixIcon: Icon(Icons.person),
                     ),
-                    items: dropdownItems
-                        .map((e) => DropdownMenuItem<String>(
-                              value: e,
-                              child: Text(e),
-                            ))
-                        .toList(),
-                    onChanged: (value) {
-                      setState(() {
-                        selectedValue = value;
-                      });
-                    },
-                    hint: Text('Pilih Role'),
                   ),
                 ),
                 ElevatedButton(
                   onPressed: () async {
                     if (_formKey.currentState!.validate()) {
                       try {
-                        DateFormat format = DateFormat('yyyy-MM-dd');
-                        String tglLahir = format.format(DateTime.now());
+                        // Parsing the date using DateFormat from intl package
+                        DateFormat format = DateFormat("dd/MM/yyyy");
+                        DateTime birthDate =
+                            format.parse(tglLahirController.text);
 
-                        var userData = {
-                          'nama': namaController.text,
-                          'email': emailController.text,
-                          'password': passwordController.text,
-                          'noTelp': notelpController.text,
-                          'tglLahir': tglLahir,
-                          'alamat': alamatController.text,
-                          'role': selectedValue ?? 'Pengguna',
-                        };
+                        // Calculate age from date of birth
+                        int age = DateTime.now().year - birthDate.year;
+                        if (DateTime.now().month < birthDate.month ||
+                            (DateTime.now().month == birthDate.month &&
+                                DateTime.now().day < birthDate.day)) {
+                          age--;
+                        }
 
-                        var response = await AuthService.register(userData);
+                        // Use default value for alamat if empty
+                        String alamat = alamatController.text.isEmpty
+                            ? "Alamat tidak tersedia"
+                            : alamatController.text;
 
-                        if (response['status'] == 'success') {
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            const SnackBar(content: Text('Registrasi Sukses!')),
+                        // Corrected DateTime assignment for tanggalDaftar
+                        DateTime tanggalDaftar = DateTime.now();
+
+                        // Include password in the Pelanggan object
+                        Pelanggan pelanggan = Pelanggan(
+                          idPelanggan: 0, // Assuming ID is auto-generated
+                          nama: namaController.text,
+                          umur: age, // Age calculated from birth date
+                          alamat: alamat, // Using the alamat value
+                          noTelepon: notelpController.text,
+                          email: emailController.text,
+                          password:
+                              passwordController.text, // Add password here
+                          tanggalDaftar: tanggalDaftar, // Now using DateTime
+                        );
+
+                        // Send data to the API
+                        var response = await PelangganClient.create(pelanggan);
+                        if (response.statusCode == 201) {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (_) => JenisKelamin(data: {}),
+                            ),
                           );
-                          Navigator.pushReplacementNamed(context, '/login');
                         } else {
                           ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(
-                                content: Text('Error: ${response['message']}')),
+                            SnackBar(content: Text('Error: ${response.body}')),
                           );
                         }
                       } catch (e) {
@@ -233,14 +276,47 @@ class _RegisterViewState extends State<RegisterView> {
                     padding: const EdgeInsets.symmetric(
                         vertical: 10, horizontal: 135),
                     shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(14),
-                    ),
+                        borderRadius: BorderRadius.circular(14)),
                   ),
                 ),
               ],
             ),
           ),
         ),
+      ),
+    );
+  }
+
+  // Define inputForm as a reusable form field widget
+  Widget inputForm(String? Function(String?) validator,
+      {required TextEditingController controller,
+      required String hintTxt,
+      required String helperTxt,
+      required IconData iconData,
+      bool password = false}) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 20),
+      child: TextFormField(
+        controller: controller,
+        obscureText: password,
+        style: const TextStyle(color: Colors.white),
+        decoration: InputDecoration(
+          filled: true,
+          fillColor: const Color(0xFF636363),
+          hintText: hintTxt,
+          hintStyle: const TextStyle(color: Colors.white),
+          helperText: helperTxt,
+          helperStyle: const TextStyle(color: Colors.white),
+          prefixIcon: Icon(iconData, color: Colors.white),
+          border: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(20),
+          ),
+          focusedBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(20),
+            borderSide: BorderSide(color: Colors.white),
+          ),
+        ),
+        validator: validator,
       ),
     );
   }
