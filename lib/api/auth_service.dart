@@ -2,10 +2,8 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 
 class AuthService {
-  static const String apiUrl =
-      'https://your-api-url.com'; // Update with your API URL
+  static const String apiUrl = 'https://your-api-url.com';
 
-  // Function to register a user
   static Future<Map<String, dynamic>> register(
       Map<String, dynamic> userData) async {
     try {
@@ -18,15 +16,17 @@ class AuthService {
       if (response.statusCode == 201) {
         return {'status': 'success', 'message': 'Registration successful'};
       } else {
-        return {'status': 'error', 'message': 'Registration failed'};
+        return {
+          'status': 'error',
+          'message':
+              json.decode(response.body)['message'] ?? 'Registration failed'
+        };
       }
     } catch (e) {
       return {'status': 'error', 'message': 'An error occurred: $e'};
     }
   }
 
-  // Function to login a user
-  // In the AuthService class
   static Future<Map<String, dynamic>> login({
     required String email,
     required String password,
@@ -44,9 +44,18 @@ class AuthService {
       );
 
       if (response.statusCode == 200) {
-        return {'status': 'success', 'message': 'Login successful'};
+        var data = json.decode(response.body);
+        return {
+          'status': 'success',
+          'message': 'Login successful',
+          'token': data['token'],
+          'user': data['user'],
+        };
       } else {
-        return {'status': 'error', 'message': 'Invalid email or password'};
+        return {
+          'status': 'error',
+          'message': 'Invalid email or password',
+        };
       }
     } catch (e) {
       return {'status': 'error', 'message': 'An error occurred: $e'};

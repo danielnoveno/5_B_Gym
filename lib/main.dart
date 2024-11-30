@@ -15,9 +15,16 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      routes: {
-        '/login': (context) => const LoginView(),
-        '/register': (context) => const RegisterView(),
+      onGenerateRoute: (settings) {
+        switch (settings.name) {
+          case '/login':
+            return MaterialPageRoute(builder: (context) => const LoginView());
+          case '/register':
+            return MaterialPageRoute(
+                builder: (context) => const RegisterView());
+          default:
+            return MaterialPageRoute(builder: (context) => const LoginView());
+        }
       },
       initialRoute: '/login',
     );
