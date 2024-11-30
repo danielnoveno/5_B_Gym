@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:tubes_pbp_gym/view/datadiri/jeniskelamin.dart';
-import 'package:tubes_pbp_gym/view/login.dart';
+import 'package:tubes_pbp_gym/entitiy/Pelanggan.dart';
+import 'package:tubes_pbp_gym/client/PelangganClient.dart';
 import 'package:tubes_pbp_gym/components/form_component2.dart';
 import 'package:tubes_pbp_gym/service/directToLink.dart';
-
 
 class RegisterView extends StatefulWidget {
   const RegisterView({super.key});
@@ -19,6 +20,7 @@ class _RegisterViewState extends State<RegisterView> {
   TextEditingController passwordController = TextEditingController();
   TextEditingController notelpController = TextEditingController();
   TextEditingController tglLahirController = TextEditingController();
+  TextEditingController alamatController = TextEditingController();
 
   String? selectedValue;
   List<String> dropdownItems = ['Pengguna', 'Trainer'];
@@ -27,16 +29,10 @@ class _RegisterViewState extends State<RegisterView> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text(
-          'Kembali',
-          style: TextStyle(color: Colors.white),
-        ),
+        title: const Text('Kembali', style: TextStyle(color: Colors.white)),
         backgroundColor: Colors.black,
         leading: IconButton(
-          icon: Icon(
-            Icons.arrow_back,
-            color: Colors.white,
-          ),
+          icon: Icon(Icons.arrow_back, color: Colors.white),
           onPressed: () {
             Navigator.pop(context);
           },
@@ -138,6 +134,18 @@ class _RegisterViewState extends State<RegisterView> {
                   helperTxt: "Masukkan Tanggal Lahir Anda",
                   iconData: Icons.date_range,
                 ),
+                inputForm(
+                  (p0) {
+                    if (p0 == null || p0.isEmpty) {
+                      return 'Alamat Tidak Boleh Kosong';
+                    }
+                    return null;
+                  },
+                  controller: alamatController,
+                  hintTxt: "Alamat",
+                  helperTxt: "Masukkan Alamat Anda",
+                  iconData: Icons.location_on,
+                ),
                 Padding(
                   padding: const EdgeInsets.symmetric(vertical: 16.0),
                   child: SizedBox(
@@ -184,18 +192,59 @@ class _RegisterViewState extends State<RegisterView> {
                   ),
                 ),
                 ElevatedButton(
-                  onPressed: () {
+                  onPressed: () async {
                     if (_formKey.currentState!.validate()) {
-                      Map<String, dynamic> formData = {};
-                      formData['nama'] = namaController.text;
-                      formData['email'] = emailController.text;
-                      formData['password'] = passwordController.text;
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (_) => JenisKelamin(data: formData),
-                        ),
-                      );
+                      try {
+                        // Parsing the date using DateFormat from intl package
+                        DateFormat format = DateFormat("dd/MM/yyyy");
+                        DateTime birthDate =
+                            format.parse(tglLahirController.text);
+
+                        // Calculate age from date of birth
+                        int age = DateTime.now().year - birthDate.year;
+                        if (DateTime.now().month < birthDate.month ||
+                            (DateTime.now().month == birthDate.month &&
+                                DateTime.now().day < birthDate.day)) {
+                          age--;
+                        }
+
+                        // Use default value for alamat if empty
+                        String alamat = alamatController.text.isEmpty
+                            ? "Alamat tidak tersedia"
+                            : alamatController.text;
+
+                        // Corrected DateTime assignment for tanggalDaftar
+                        DateTime tanggalDaftar = DateTime.now();
+
+                        Pelanggan pelanggan = Pelanggan(
+                          idPelanggan: 0, // Assuming ID is auto-generated
+                          nama: namaController.text,
+                          umur: age, // Age calculated from birth date
+                          alamat: alamat, // Using the alamat value
+                          noTelepon: notelpController.text,
+                          email: emailController.text,
+                          tanggalDaftar: tanggalDaftar, // Now using DateTime
+                        );
+
+                        // Send data to the API
+                        var response = await PelangganClient.create(pelanggan);
+                        if (response.statusCode == 201) {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (_) => JenisKelamin(data: {}),
+                            ),
+                          );
+                        } else {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(content: Text('Error: ${response.body}')),
+                          );
+                        }
+                      } catch (e) {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(content: Text('Error: $e')),
+                        );
+                      }
                     }
                   },
                   child: const Text('Lanjut',
@@ -211,60 +260,36 @@ class _RegisterViewState extends State<RegisterView> {
                 ),
                 Padding(
                   padding: const EdgeInsets.only(bottom: 20, top: 20, left: 15),
-                  child: Text(
-                    '━━━━━━━━━ OR ━━━━━━━━━',
-                    style: TextStyle(
-                        fontSize: 24,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.white),
+                  child: Row(
+                    children: [
+                      const Text(
+                        "Sudah Punya Akun?",
+                        style: TextStyle(
+                          fontSize: 15,
+                          color: Colors.white,
+                        ),
+                      ),
+                      TextButton(
+                        onPressed: () {
+                          Navigator.pushNamed(context, '/login');
+                        },
+                        child: const Text(
+                          "Masuk",
+                          style: TextStyle(
+                            fontSize: 15,
+                            color: Color.fromARGB(255, 52, 118, 236),
+                          ),
+                        ),
+                      )
+                    ],
                   ),
                 ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    ElevatedButton.icon(
-                      icon: Icon(Icons.g_mobiledata, size: 24),
-                      label: Text(''),
-                      onPressed: () {
-                        Direct.launchURL('https://g.co/kgs/R9fTeVW');
-                      },
-                    ),
-                    SizedBox(width: 10),
-                    ElevatedButton.icon(
-                      icon: Icon(Icons.apple, size: 24),
-                      label: Text(''),
-                      onPressed: () {
-                        Direct.launchURL('https://www.apple.com/id/');
-                      },
-                    ),
-                    SizedBox(width: 10),
-                    ElevatedButton.icon(
-                      icon: Icon(Icons.facebook, size: 24),
-                      label: Text(''),
-                      onPressed: () {
-                        Direct.launchURL(
-                            'https://www.facebook.com/?locale=id_ID');
-                      },
-                    ),
-                  ],
-                ),
-                TextButton(
-                  onPressed: () => pushLogin(context),
-                  child: const Text('Sudah Punya Akun? Masuk'),
-                ),
+                // Add additional social media login options if needed here
               ],
             ),
           ),
         ),
       ),
     );
-  }
-
-  void pushLogin(BuildContext context) {
-    Navigator.push(
-        context,
-        MaterialPageRoute(
-          builder: (_) => JenisKelamin(data: {}),
-        ));
   }
 }
