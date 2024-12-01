@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 import 'package:tubes_pbp_gym/view/datadiri/jeniskelamin.dart';
 import 'package:tubes_pbp_gym/entitiy/Pelanggan.dart';
 import 'package:tubes_pbp_gym/client/PelangganClient.dart';
@@ -18,7 +17,7 @@ class _RegisterViewState extends State<RegisterView> {
   TextEditingController passwordController = TextEditingController();
   TextEditingController confirmPasswordController = TextEditingController();
   TextEditingController notelpController = TextEditingController();
-  TextEditingController tglLahirController = TextEditingController();
+  TextEditingController umurController = TextEditingController(); // Age field
   TextEditingController alamatController = TextEditingController();
 
   String? selectedValue;
@@ -132,6 +131,21 @@ class _RegisterViewState extends State<RegisterView> {
                   helperTxt: "Masukkan Alamat Anda",
                   iconData: Icons.location_on,
                 ),
+                inputForm(
+                  (p0) {
+                    if (p0 == null || p0.isEmpty) {
+                      return 'Umur tidak boleh kosong';
+                    }
+                    if (int.tryParse(p0) == null) {
+                      return 'Umur harus berupa angka';
+                    }
+                    return null;
+                  },
+                  controller: umurController,
+                  hintTxt: "Umur",
+                  helperTxt: "Masukkan Umur Anda",
+                  iconData: Icons.cake,
+                ),
                 Padding(
                   padding: const EdgeInsets.symmetric(vertical: 16.0),
                   child: SizedBox(
@@ -181,18 +195,8 @@ class _RegisterViewState extends State<RegisterView> {
                   onPressed: () async {
                     if (_formKey.currentState!.validate()) {
                       try {
-                        // Parsing the date using DateFormat from intl package
-                        DateFormat format = DateFormat("dd/MM/yyyy");
-                        DateTime birthDate =
-                            format.parse(tglLahirController.text);
-
-                        // Calculate age from date of birth
-                        int age = DateTime.now().year - birthDate.year;
-                        if (DateTime.now().month < birthDate.month ||
-                            (DateTime.now().month == birthDate.month &&
-                                DateTime.now().day < birthDate.day)) {
-                          age--;
-                        }
+                        // Directly using the umurController value for age
+                        int age = int.parse(umurController.text);
 
                         // Use default value for alamat if empty
                         String alamat = alamatController.text.isEmpty
@@ -206,7 +210,7 @@ class _RegisterViewState extends State<RegisterView> {
                         Pelanggan pelanggan = Pelanggan(
                           idPelanggan: 0, // Assuming ID is auto-generated
                           nama: namaController.text,
-                          umur: age, // Age calculated from birth date
+                          umur: age, // Age taken from input
                           alamat: alamat, // Using the alamat value
                           noTelepon: notelpController.text,
                           email: emailController.text,
@@ -225,6 +229,10 @@ class _RegisterViewState extends State<RegisterView> {
                             ),
                           );
                         } else {
+                          // Log the error response to inspect the details
+                          print('Error: ${response.statusCode}');
+                          print('Response Body: ${response.body}');
+
                           ScaffoldMessenger.of(context).showSnackBar(
                             SnackBar(content: Text('Error: ${response.body}')),
                           );
