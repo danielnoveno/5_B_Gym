@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 import 'package:tubes_pbp_gym/view/datadiri/jeniskelamin.dart';
 import 'package:tubes_pbp_gym/entitiy/Pelanggan.dart';
 import 'package:tubes_pbp_gym/client/PelangganClient.dart';
@@ -18,7 +17,7 @@ class _RegisterViewState extends State<RegisterView> {
   TextEditingController passwordController = TextEditingController();
   TextEditingController confirmPasswordController = TextEditingController();
   TextEditingController notelpController = TextEditingController();
-  TextEditingController tglLahirController = TextEditingController();
+  TextEditingController umurController = TextEditingController(); // Age field
   TextEditingController alamatController = TextEditingController();
 
   String? selectedValue;
@@ -28,15 +27,16 @@ class _RegisterViewState extends State<RegisterView> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Kembali'),
+        title: const Text('Kembali', style: TextStyle(color: Colors.white)),
         backgroundColor: Colors.black,
         leading: IconButton(
-          icon: Icon(Icons.arrow_back),
+          icon: Icon(Icons.arrow_back, color: Colors.white),
           onPressed: () {
             Navigator.pop(context);
           },
         ),
       ),
+      backgroundColor: Colors.black,
       body: SafeArea(
         child: SingleChildScrollView(
           child: Form(
@@ -110,22 +110,6 @@ class _RegisterViewState extends State<RegisterView> {
                 inputForm(
                   (p0) {
                     if (p0 == null || p0.isEmpty) {
-                      return 'Konfirmasi Password tidak boleh kosong';
-                    }
-                    if (p0 != passwordController.text) {
-                      return 'Password dan Konfirmasi Password tidak sama';
-                    }
-                    return null;
-                  },
-                  controller: confirmPasswordController,
-                  hintTxt: "Konfirmasi Password",
-                  helperTxt: "Konfirmasi Password Anda",
-                  iconData: Icons.password,
-                  password: true,
-                ),
-                inputForm(
-                  (p0) {
-                    if (p0 == null || p0.isEmpty) {
                       return 'Nomor Telepon tidak boleh kosong';
                     }
                     return null;
@@ -134,24 +118,6 @@ class _RegisterViewState extends State<RegisterView> {
                   hintTxt: "No Telp",
                   helperTxt: "Masukkan Nomor Telepon Anda",
                   iconData: Icons.phone_android,
-                ),
-                inputForm(
-                  (p0) {
-                    if (p0 == null || p0.isEmpty) {
-                      return 'Tanggal Lahir Tidak Boleh Kosong';
-                    }
-                    try {
-                      DateFormat format = DateFormat("dd/MM/yyyy");
-                      format.parse(p0); // Try parsing the entered date
-                    } catch (e) {
-                      return 'Format Tanggal Tidak Valid. Gunakan DD/MM/YYYY';
-                    }
-                    return null;
-                  },
-                  controller: tglLahirController,
-                  hintTxt: "DD/MM/YYYY",
-                  helperTxt: "Masukkan Tanggal Lahir Anda",
-                  iconData: Icons.date_range,
                 ),
                 inputForm(
                   (p0) {
@@ -165,14 +131,29 @@ class _RegisterViewState extends State<RegisterView> {
                   helperTxt: "Masukkan Alamat Anda",
                   iconData: Icons.location_on,
                 ),
+                inputForm(
+                  (p0) {
+                    if (p0 == null || p0.isEmpty) {
+                      return 'Umur tidak boleh kosong';
+                    }
+                    if (int.tryParse(p0) == null) {
+                      return 'Umur harus berupa angka';
+                    }
+                    return null;
+                  },
+                  controller: umurController,
+                  hintTxt: "Umur",
+                  helperTxt: "Masukkan Umur Anda",
+                  iconData: Icons.cake,
+                ),
                 Padding(
                   padding: const EdgeInsets.symmetric(vertical: 16.0),
                   child: SizedBox(
-                    width: 350,
+                    width: 390,
                     child: DropdownButtonHideUnderline(
                       child: DropdownButtonFormField<String>(
                         value: selectedValue,
-                        dropdownColor: Color(0xFF636363),
+                        dropdownColor: const Color(0xFF636363),
                         items: dropdownItems.map((item) {
                           return DropdownMenuItem(
                             value: item,
@@ -194,7 +175,7 @@ class _RegisterViewState extends State<RegisterView> {
                           helperText: 'Masukkan Peran Anda',
                           helperStyle: const TextStyle(color: Colors.white),
                           filled: true,
-                          fillColor: Color(0xFF636363),
+                          fillColor: const Color(0xFF636363),
                           prefixIcon: Icon(Icons.person, color: Colors.white),
                           border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(20),
@@ -214,18 +195,8 @@ class _RegisterViewState extends State<RegisterView> {
                   onPressed: () async {
                     if (_formKey.currentState!.validate()) {
                       try {
-                        // Parsing the date using DateFormat from intl package
-                        DateFormat format = DateFormat("dd/MM/yyyy");
-                        DateTime birthDate =
-                            format.parse(tglLahirController.text);
-
-                        // Calculate age from date of birth
-                        int age = DateTime.now().year - birthDate.year;
-                        if (DateTime.now().month < birthDate.month ||
-                            (DateTime.now().month == birthDate.month &&
-                                DateTime.now().day < birthDate.day)) {
-                          age--;
-                        }
+                        // Directly using the umurController value for age
+                        int age = int.parse(umurController.text);
 
                         // Use default value for alamat if empty
                         String alamat = alamatController.text.isEmpty
@@ -239,7 +210,7 @@ class _RegisterViewState extends State<RegisterView> {
                         Pelanggan pelanggan = Pelanggan(
                           idPelanggan: 0, // Assuming ID is auto-generated
                           nama: namaController.text,
-                          umur: age, // Age calculated from birth date
+                          umur: age, // Age taken from input
                           alamat: alamat, // Using the alamat value
                           noTelepon: notelpController.text,
                           email: emailController.text,
@@ -258,6 +229,10 @@ class _RegisterViewState extends State<RegisterView> {
                             ),
                           );
                         } else {
+                          // Log the error response to inspect the details
+                          print('Error: ${response.statusCode}');
+                          print('Response Body: ${response.body}');
+
                           ScaffoldMessenger.of(context).showSnackBar(
                             SnackBar(content: Text('Error: ${response.body}')),
                           );
@@ -274,7 +249,7 @@ class _RegisterViewState extends State<RegisterView> {
                   style: ElevatedButton.styleFrom(
                     backgroundColor: const Color.fromARGB(175, 194, 73, 255),
                     padding: const EdgeInsets.symmetric(
-                        vertical: 10, horizontal: 135),
+                        vertical: 15, horizontal: 170),
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(14)),
                   ),
@@ -287,36 +262,37 @@ class _RegisterViewState extends State<RegisterView> {
     );
   }
 
-  // Define inputForm as a reusable form field widget
-  Widget inputForm(String? Function(String?) validator,
-      {required TextEditingController controller,
-      required String hintTxt,
-      required String helperTxt,
-      required IconData iconData,
-      bool password = false}) {
+  Padding inputForm(
+    String? Function(String?)? validator, {
+    required TextEditingController controller,
+    required String hintTxt,
+    required String helperTxt,
+    required IconData iconData,
+    bool password = false,
+  }) {
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 20),
+      padding: const EdgeInsets.all(10),
       child: TextFormField(
         controller: controller,
         obscureText: password,
+        validator: validator,
         style: const TextStyle(color: Colors.white),
         decoration: InputDecoration(
+          prefixIcon: Icon(iconData, color: Colors.white),
           filled: true,
           fillColor: const Color(0xFF636363),
           hintText: hintTxt,
           hintStyle: const TextStyle(color: Colors.white),
           helperText: helperTxt,
           helperStyle: const TextStyle(color: Colors.white),
-          prefixIcon: Icon(iconData, color: Colors.white),
           border: OutlineInputBorder(
             borderRadius: BorderRadius.circular(20),
           ),
           focusedBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(20),
-            borderSide: BorderSide(color: Colors.white),
+            borderSide: const BorderSide(color: Colors.white),
           ),
         ),
-        validator: validator,
       ),
     );
   }

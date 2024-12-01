@@ -4,7 +4,32 @@ import 'package:http/http.dart' as http;
 
 class PelangganClient {
   static const String url = '10.0.2.2:8000'; // Base URL
-  static const String endpoint = '/api/pelanggan'; // Base endpoint
+  static const String endpoint = '/api/register'; // Base endpoint
+  static const String loginEndpoint = '/api/login'; // Endpoint Login
+
+  // Fungsi Login
+  static Future<Map<String, dynamic>> login(
+      String email, String password) async {
+    try {
+      var response = await http.post(
+        Uri.http(url, loginEndpoint),
+        headers: {"Content-Type": "application/json"},
+        body: json.encode({
+          "email": email,
+          "password": password,
+        }),
+      );
+
+      if (response.statusCode == 200) {
+        return json
+            .decode(response.body); // Return response with token and user data
+      } else {
+        throw Exception("Login failed: ${response.reasonPhrase}");
+      }
+    } catch (e) {
+      return Future.error(e.toString());
+    }
+  }
 
   // Fetch all pelanggans
   static Future<List<Pelanggan>> fetchAll() async {
