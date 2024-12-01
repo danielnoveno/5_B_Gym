@@ -21,32 +21,36 @@ class Pelanggan {
     required this.tanggalDaftar,
   });
 
-  // Membuat objek Pelanggan dari data JSON yang diterima dari API
-  factory Pelanggan.fromRawJson(String str) =>
-      Pelanggan.fromJson(json.decode(str));
+  // Convert a Pelanggan into a Map
+  Map<String, dynamic> toMap() {
+    return {
+      'idPelanggan': idPelanggan,
+      'nama': nama,
+      'umur': umur,
+      'alamat': alamat,
+      'noTelepon': noTelepon,
+      'email': email,
+      'password': password,
+      'tanggalDaftar': tanggalDaftar.toIso8601String(),
+    };
+  }
 
-  factory Pelanggan.fromJson(Map<String, dynamic> json) => Pelanggan(
-        idPelanggan: json["id_pelanggan"],
-        nama: json["nama"],
-        umur: json["umur"],
-        alamat: json["alamat"],
-        noTelepon: json["no_telepon"],
-        email: json["email"],
-        password: json["password"],
-        tanggalDaftar: DateTime.parse(json["tanggal_daftar"]),
-      );
+  // Convert a Pelanggan into a JSON string
+  String toRawJson() {
+    return json.encode(toMap());
+  }
 
-  // Mengonversi objek Pelanggan menjadi data JSON untuk dikirim ke API
-  String toRawJson() => json.encode(toJson());
-
-  Map<String, dynamic> toJson() => {
-        "id_pelanggan": idPelanggan,
-        "nama": nama,
-        "umur": umur,
-        "alamat": alamat,
-        "no_telepon": noTelepon,
-        "email": email,
-        "password": password,
-        "tanggal_daftar": tanggalDaftar.toIso8601String(),
-      };
+  // Convert a JSON string into a Pelanggan object
+  factory Pelanggan.fromJson(Map<String, dynamic> json) {
+    return Pelanggan(
+      idPelanggan: json['idPelanggan'],
+      nama: json['nama'],
+      umur: json['umur'],
+      alamat: json['alamat'],
+      noTelepon: json['noTelepon'],
+      email: json['email'],
+      password: json['password'],
+      tanggalDaftar: DateTime.parse(json['tanggalDaftar']),
+    );
+  }
 }
