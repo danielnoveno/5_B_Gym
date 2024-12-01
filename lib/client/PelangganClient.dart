@@ -1,18 +1,18 @@
 import 'dart:convert';
-import 'package:http/http.dart' as http;
 import 'package:tubes_pbp_gym/entitiy/Pelanggan.dart';
+import 'package:http/http.dart' as http;
 
 class PelangganClient {
-  static const String baseUrl = '10.0.2.2:8000'; // Base URL
+  static const String url = '10.0.2.2:8000'; // Base URL
   static const String endpoint = '/api/register'; // Base endpoint
-  static const String loginEndpoint = '/api/login'; // Endpoint login
+  static const String loginEndpoint = '/api/login'; // Endpoint Login
 
   // Fungsi Login
   static Future<Map<String, dynamic>> login(
       String email, String password) async {
     try {
-      final response = await http.post(
-        Uri.http(baseUrl, loginEndpoint),
+      var response = await http.post(
+        Uri.http(url, loginEndpoint),
         headers: {"Content-Type": "application/json"},
         body: json.encode({
           "email": email,
@@ -21,7 +21,8 @@ class PelangganClient {
       );
 
       if (response.statusCode == 200) {
-        return json.decode(response.body); // Return token and user data
+        return json
+            .decode(response.body); // Return response with token and user data
       } else {
         throw Exception("Login failed: ${response.reasonPhrase}");
       }
@@ -33,14 +34,15 @@ class PelangganClient {
   // Fetch all pelanggans
   static Future<List<Pelanggan>> fetchAll() async {
     try {
-      final response = await http.get(
-        Uri.http(baseUrl, endpoint),
+      var response = await http.get(
+        Uri.http(url, endpoint),
       );
 
       if (response.statusCode != 200) throw Exception(response.reasonPhrase);
 
-      Iterable list = json.decode(response.body); // Expecting JSON array
-      return list.map((json) => Pelanggan.fromJson(json)).toList();
+      Iterable list =
+          json.decode(response.body); // Laravel returns plain JSON array
+      return list.map((e) => Pelanggan.fromJson(e)).toList();
     } catch (e) {
       return Future.error(e.toString());
     }
@@ -49,8 +51,8 @@ class PelangganClient {
   // Fetch a single pelanggan by ID
   static Future<Pelanggan> find(int id) async {
     try {
-      final response = await http.get(
-        Uri.http(baseUrl, '$endpoint/$id'),
+      var response = await http.get(
+        Uri.http(url, '$endpoint/$id'),
       );
 
       if (response.statusCode == 404) throw Exception("Pelanggan not found");
@@ -62,15 +64,17 @@ class PelangganClient {
     }
   }
 
+  // Create a new pelanggan
   static Future<http.Response> create(Pelanggan pelanggan) async {
     try {
-      final response = await http.post(
-        Uri.http(baseUrl, endpoint),
+      var response = await http.post(
+        Uri.http(url, endpoint),
         headers: {"Content-Type": "application/json"},
         body: pelanggan.toRawJson(),
       );
 
       if (response.statusCode != 201) throw Exception(response.reasonPhrase);
+
       return response;
     } catch (e) {
       return Future.error(e.toString());
@@ -78,10 +82,10 @@ class PelangganClient {
   }
 
   // Update an existing pelanggan
-  static Future<Pelanggan> update(Pelanggan pelanggan) async {
+  static Future<http.Response> update(Pelanggan pelanggan) async {
     try {
-      final response = await http.put(
-        Uri.http(baseUrl, '$endpoint/${pelanggan.idPelanggan}'),
+      var response = await http.put(
+        Uri.http(url, '$endpoint/${pelanggan.idPelanggan}'),
         headers: {"Content-Type": "application/json"},
         body: pelanggan.toRawJson(),
       );
@@ -89,23 +93,23 @@ class PelangganClient {
       if (response.statusCode == 404) throw Exception("Pelanggan not found");
       if (response.statusCode != 200) throw Exception(response.reasonPhrase);
 
-      return Pelanggan.fromJson(json.decode(response.body));
+      return response;
     } catch (e) {
       return Future.error(e.toString());
     }
   }
 
   // Delete a pelanggan by ID
-  static Future<bool> destroy(int id) async {
+  static Future<http.Response> destroy(int id) async {
     try {
-      final response = await http.delete(
-        Uri.http(baseUrl, '$endpoint/$id'),
+      var response = await http.delete(
+        Uri.http(url, '$endpoint/$id'),
       );
 
       if (response.statusCode == 404) throw Exception("Pelanggan not found");
       if (response.statusCode != 200) throw Exception(response.reasonPhrase);
 
-      return true;
+      return response;
     } catch (e) {
       return Future.error(e.toString());
     }
