@@ -1,8 +1,10 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 class AuthService {
-  static const String apiUrl = 'https://your-api-url.com';
+  static const String apiUrl = 'http://10.0.2.2:8000/api';
+  static const _storage = FlutterSecureStorage();
 
   static Future<Map<String, dynamic>> register(
       Map<String, dynamic> userData) async {
@@ -43,19 +45,24 @@ class AuthService {
         }),
       );
 
-      if (response.statusCode == 200) {
-        var data = json.decode(response.body);
-        return {
-          'status': 'success',
-          'message': 'Login successful',
-          'token': data['token'],
-          'user': data['user'],
-        };
+      // Check for valid JSON
+      if (response.body.isNotEmpty) {
+        final data = json.decode(response.body);
+        if (response.statusCode == 200) {
+          await _storage.write(key: 'auth_token', value: data['data']['token']);
+          return {
+            'status': 'success',
+            'message': 'Login successful',
+            'user': data['data']['pelanggan'],
+          };
+        } else {
+          return {
+            'status': 'error',
+            'message': data['message'] ?? 'Login failed',
+          };
+        }
       } else {
-        return {
-          'status': 'error',
-          'message': 'Invalid email or password',
-        };
+        return {'status': 'error', 'message': 'Empty response from server'};
       }
     } catch (e) {
       return {'status': 'error', 'message': 'An error occurred: $e'};

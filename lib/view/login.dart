@@ -3,6 +3,7 @@ import 'package:tubes_pbp_gym/view/home.dart';
 import 'package:tubes_pbp_gym/view/register.dart';
 import 'package:tubes_pbp_gym/components/form_component.dart';
 import 'package:tubes_pbp_gym/service/directToLink.dart';
+import 'package:tubes_pbp_gym/api/auth_service.dart';
 
 class LoginView extends StatefulWidget {
   const LoginView({super.key});
@@ -117,11 +118,25 @@ class _LoginViewState extends State<LoginView> {
                 ElevatedButton(
                   onPressed: () async {
                     if (_formKey.currentState!.validate()) {
-                      // Handle login logic (e.g. API request)
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (_) => const HomeView()),
+                      final response = await AuthService.login(
+                        email: emailController.text,
+                        password: passwordController.text,
+                        role: selectedValue,
                       );
+
+                      if (response['status'] == 'success') {
+                        // Save token (optional: use a secure storage package)
+                        // Navigate to the home page
+                        Navigator.pushReplacement(
+                          context,
+                          MaterialPageRoute(builder: (_) => const HomeView()),
+                        );
+                      } else {
+                        // Show error message
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(content: Text(response['message'])),
+                        );
+                      }
                     }
                   },
                   child: const Text('Masuk',
