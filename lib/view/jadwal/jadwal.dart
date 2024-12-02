@@ -35,8 +35,9 @@ class _JadwalState extends State<Jadwal> {
       body: SafeArea(
         child: Column(
           children: [
+            const SizedBox(height: 15),
             Padding(
-              padding: const EdgeInsets.all(20.0),
+              padding: const EdgeInsets.symmetric(horizontal: 20.0),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -48,12 +49,32 @@ class _JadwalState extends State<Jadwal> {
                       fontWeight: FontWeight.bold,
                     ),
                   ),
-                  IconButton(
-                    onPressed: () {},
-                    icon: const Icon(
-                      Icons.calendar_today_outlined,
-                      color: Colors.white,
-                    ),
+                ],
+              ),
+            ),
+            Padding(
+              padding:
+                  const EdgeInsets.symmetric(horizontal: 20.0, vertical: 10),
+              child: Row(
+                children: [
+                  CircleAvatar(
+                    radius: 24,
+                    backgroundImage: AssetImage(
+                        'images/FotoProfil.png'), // Replace with your asset path
+                  ),
+                  const SizedBox(width: 12),
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: const [
+                      Text(
+                        'You have a 1 week streak going!',
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ],
                   ),
                 ],
               ),
@@ -106,7 +127,18 @@ class _JadwalState extends State<Jadwal> {
                 ),
               ),
             ),
-            const SizedBox(height: 20),
+            const SizedBox(height: 10),
+            ElevatedButton(
+              onPressed: () => _showAddEventDialog(context),
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.purple,
+              ),
+              child: const Text(
+                'Add Event',
+                style: TextStyle(color: Colors.white),
+              ),
+            ),
+            const SizedBox(height: 10),
             const Text(
               'Detail',
               style: TextStyle(
@@ -114,13 +146,6 @@ class _JadwalState extends State<Jadwal> {
                 fontSize: 32,
                 fontWeight: FontWeight.bold,
               ),
-            ),
-            ElevatedButton(
-              onPressed: () => _showAddEventDialog(context),
-              style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.purple,
-              ),
-              child: const Text('Add Event'),
             ),
             const SizedBox(height: 10),
             Expanded(

@@ -7,26 +7,34 @@ import 'package:tubes_pbp_gym/view/beranda/notifikasi.dart';
 import 'package:tubes_pbp_gym/view/beranda/cart/cart.dart';
 
 class HomeViewContent extends StatefulWidget {
-  const HomeViewContent({super.key});
+  final int initialMenuIndex; // Menyimpan nilai menu awal
+
+  const HomeViewContent({super.key, this.initialMenuIndex = 0});
 
   @override
   _HomeViewContentState createState() => _HomeViewContentState();
 }
 
 class _HomeViewContentState extends State<HomeViewContent> {
-  int _activeMenuIndex = 0;
+  late int _activeMenuIndex;
 
-  // Helper method untuk menampilkan tampilan sesuai kategori yang aktif
+  @override
+  void initState() {
+    super.initState();
+    _activeMenuIndex =
+        widget.initialMenuIndex; // Menggunakan nilai dari konstruktor
+  }
+
   Widget _getViewForActiveMenu() {
     switch (_activeMenuIndex) {
       case 0:
-        return MembershipView(); // Menampilkan MembershipView
+        return MembershipView();
       case 1:
-        return PersonalTrainerView(); // Menampilkan PersonalTrainerView
+        return PersonalTrainerView();
       case 2:
-        return HealthyClubView(); // Menampilkan HealthyClubView
+        return HealthyClubView();
       case 3:
-        return GymEquipmentView(); // Menampilkan GymEquipmentView
+        return GymEquipmentView();
       default:
         return const Center(child: Text('No View Available'));
     }
@@ -42,21 +50,19 @@ class _HomeViewContentState extends State<HomeViewContent> {
         width: width,
         child: Column(
           children: [
-            // Header Section dengan greeting, icons, dan promotional card
             Padding(
               padding:
                   const EdgeInsets.symmetric(horizontal: 12.0, vertical: 10.0),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  // Greeting dan Icons
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
-                        children: const [
-                          Text(
+                        children: [
+                          const Text(
                             "Halo, Mariwow!",
                             style: TextStyle(
                               fontSize: 24,
@@ -64,10 +70,15 @@ class _HomeViewContentState extends State<HomeViewContent> {
                               fontWeight: FontWeight.bold,
                             ),
                           ),
-                          SizedBox(height: 4),
+                          const SizedBox(height: 4),
                           Text(
-                            "Sekecil apapun progressnya tetap progress",
-                            style: TextStyle(
+                            "Anda berada di: ${[
+                              'Membership',
+                              'Personal Trainer',
+                              'Healthy Club',
+                              'Alat Gym'
+                            ][_activeMenuIndex]}",
+                            style: const TextStyle(
                               fontSize: 14,
                               color: Colors.white70,
                             ),
@@ -77,7 +88,6 @@ class _HomeViewContentState extends State<HomeViewContent> {
                       Row(
                         children: [
                           _buildCircleIcon(Icons.notifications, () {
-                            // Arahkan ke halaman notifikasi
                             Navigator.push(
                               context,
                               MaterialPageRoute(
@@ -86,7 +96,6 @@ class _HomeViewContentState extends State<HomeViewContent> {
                           }),
                           const SizedBox(width: 10),
                           _buildCircleIcon(Icons.shopping_cart, () {
-                            // Arahkan ke halaman notifikasi
                             Navigator.push(
                               context,
                               MaterialPageRoute(
@@ -98,22 +107,19 @@ class _HomeViewContentState extends State<HomeViewContent> {
                     ],
                   ),
                   const SizedBox(height: 16),
-
-                  // Promotional Card
                   Container(
                     width: 382,
                     height: 150,
                     padding: const EdgeInsets.only(left: 16, right: 16),
                     clipBehavior: Clip.antiAlias,
                     decoration: ShapeDecoration(
-                      color: Color(0xFF673296),
+                      color: const Color(0xFF673296),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(20),
                       ),
                     ),
                     child: Stack(
                       children: [
-                        // Oval shapes in the background
                         Positioned(
                           right: 0,
                           top: -10,
@@ -122,7 +128,7 @@ class _HomeViewContentState extends State<HomeViewContent> {
                             height: 128,
                             decoration: ShapeDecoration(
                               color: Colors.black.withOpacity(0.08),
-                              shape: OvalBorder(),
+                              shape: const OvalBorder(),
                             ),
                           ),
                         ),
@@ -134,11 +140,10 @@ class _HomeViewContentState extends State<HomeViewContent> {
                             height: 127.52,
                             decoration: ShapeDecoration(
                               color: Colors.black.withOpacity(0.08),
-                              shape: OvalBorder(),
+                              shape: const OvalBorder(),
                             ),
                           ),
                         ),
-                        // Content of the card
                         Row(
                           children: [
                             Image.asset(
@@ -176,12 +181,10 @@ class _HomeViewContentState extends State<HomeViewContent> {
                         ),
                       ],
                     ),
-                  )
+                  ),
                 ],
               ),
             ),
-
-            // Horizontal Scrollable Menu
             Padding(
               padding:
                   const EdgeInsets.symmetric(horizontal: 12.0, vertical: 2.0),
@@ -197,10 +200,7 @@ class _HomeViewContentState extends State<HomeViewContent> {
                 ),
               ),
             ),
-
-            SizedBox(height: 10),
-
-            // Menampilkan tampilan sesuai kategori yang dipilih
+            const SizedBox(height: 10),
             Expanded(
               child: _getViewForActiveMenu(),
             ),
@@ -210,7 +210,6 @@ class _HomeViewContentState extends State<HomeViewContent> {
     );
   }
 
-  // Helper method untuk membuat tombol dengan ikon bundar
   Widget _buildCircleIcon(IconData icon, VoidCallback onTap) {
     return GestureDetector(
       onTap: onTap,
@@ -229,21 +228,19 @@ class _HomeViewContentState extends State<HomeViewContent> {
     );
   }
 
-  // Helper method untuk membuat tombol menu dengan state aktif
   Widget _buildMenuButton(String label, int index) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 5.0),
       child: ElevatedButton(
         onPressed: () {
           setState(() {
-            _activeMenuIndex = index; // Set active menu index saat ditekan
+            _activeMenuIndex = index;
           });
         },
         style: ElevatedButton.styleFrom(
           backgroundColor: _activeMenuIndex == index
-              ? Color(0xFF673296) // Jika aktif, background menjadi ungu
-              : Color(
-                  0xFF404040), // Jika tidak aktif, background menjadi abu-abu
+              ? const Color(0xFF673296)
+              : const Color(0xFF404040),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(20),
           ),
@@ -256,3 +253,4 @@ class _HomeViewContentState extends State<HomeViewContent> {
     );
   }
 }
+

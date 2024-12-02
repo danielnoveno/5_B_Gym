@@ -3,19 +3,16 @@ import 'package:tubes_pbp_gym/view/home.dart';
 import 'package:tubes_pbp_gym/view/register.dart';
 import 'package:tubes_pbp_gym/components/form_component.dart';
 import 'package:tubes_pbp_gym/service/directToLink.dart';
+import 'package:tubes_pbp_gym/api/auth_service.dart';
 
 class LoginView extends StatefulWidget {
-  final Map? data;
-  const LoginView({super.key, this.data});
+  const LoginView({super.key});
 
   @override
   State<LoginView> createState() => _LoginViewState();
 }
 
-List<String> dropdownItems = [
-  'Pengguna',
-  'Trainer',
-];
+List<String> dropdownItems = ['Pengguna', 'Trainer'];
 
 class _LoginViewState extends State<LoginView> {
   final _formKey = GlobalKey<FormState>();
@@ -25,8 +22,6 @@ class _LoginViewState extends State<LoginView> {
 
   @override
   Widget build(BuildContext context) {
-    Map dataForm = widget.data ?? {}; // Mengatasi null pada widget.data
-
     return Scaffold(
       backgroundColor: Colors.black,
       body: SafeArea(
@@ -120,57 +115,40 @@ class _LoginViewState extends State<LoginView> {
                     ),
                   ),
                 ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    ElevatedButton(
-                      onPressed: () {
-                        if (_formKey.currentState!.validate()) {
-                          if (dataForm.isNotEmpty &&
-                              dataForm['email'] ==
-                                  emailController.text.trim() &&
-                              dataForm['password'] ==
-                                  passwordController.text.trim()) {
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (c) => const HomeView()));
-                          } else {
-                            showDialog(
-                                context: context,
-                                builder: (_) => AlertDialog(
-                                      title: const Text('Login Gagal'),
-                                      content: const Text(
-                                          'Email atau Password salah. Periksa kembali.'),
-                                      actions: <Widget>[
-                                        TextButton(
-                                          onPressed: () =>
-                                              Navigator.pop(context, 'Cancel'),
-                                          child: const Text('Cancel'),
-                                        ),
-                                        TextButton(
-                                          onPressed: () =>
-                                              Navigator.pop(context, 'OK'),
-                                          child: const Text('OK'),
-                                        ),
-                                      ],
-                                    ));
-                          }
-                        }
-                      },
-                      child: const Text('Masuk',
-                          style: TextStyle(color: Colors.white)),
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor:
-                            const Color.fromARGB(175, 194, 73, 255),
-                        padding: const EdgeInsets.symmetric(
-                            vertical: 10, horizontal: 135),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(14),
-                        ),
-                      ),
+                ElevatedButton(
+                  onPressed: () async {
+                    if (_formKey.currentState!.validate()) {
+                      final response = await AuthService.login(
+                        email: emailController.text,
+                        password: passwordController.text,
+                        role: selectedValue,
+                      );
+
+                      if (response['status'] == 'success') {
+                        // Save token (optional: use a secure storage package)
+                        // Navigate to the home page
+                        Navigator.pushReplacement(
+                          context,
+                          MaterialPageRoute(builder: (_) => const HomeView()),
+                        );
+                      } else {
+                        // Show error message
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(content: Text(response['message'])),
+                        );
+                      }
+                    }
+                  },
+                  child: const Text('Masuk',
+                      style: TextStyle(color: Colors.white)),
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: const Color.fromARGB(175, 194, 73, 255),
+                    padding: const EdgeInsets.symmetric(
+                        vertical: 10, horizontal: 135),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(14),
                     ),
-                  ],
+                  ),
                 ),
                 Padding(
                   padding: const EdgeInsets.only(bottom: 20, top: 20, left: 15),
@@ -189,7 +167,8 @@ class _LoginViewState extends State<LoginView> {
                       icon: Icon(Icons.g_mobiledata, size: 24),
                       label: Text(''),
                       onPressed: () {
-                        Direct.launchURL('https://g.co/kgs/R9fTeVW');
+                        Direct.launchURL(
+                            'https://g.co/kgs/R9fTeVW'); // Google login link
                       },
                     ),
                     SizedBox(width: 10),
@@ -197,7 +176,8 @@ class _LoginViewState extends State<LoginView> {
                       icon: Icon(Icons.apple, size: 24),
                       label: Text(''),
                       onPressed: () {
-                        Direct.launchURL('https://www.apple.com/id/');
+                        Direct.launchURL(
+                            'https://www.apple.com/id/'); // Apple login link
                       },
                     ),
                     SizedBox(width: 10),
@@ -206,7 +186,7 @@ class _LoginViewState extends State<LoginView> {
                       label: Text(''),
                       onPressed: () {
                         Direct.launchURL(
-                            'https://www.facebook.com/?locale=id_ID');
+                            'https://www.facebook.com/?locale=id_ID'); // Facebook login link
                       },
                     ),
                   ],
@@ -225,9 +205,10 @@ class _LoginViewState extends State<LoginView> {
 
   void pushRegister(BuildContext context) {
     Navigator.push(
-        context,
-        MaterialPageRoute(
-          builder: (_) => const RegisterView(),
-        ));
+      context,
+      MaterialPageRoute(
+        builder: (_) => const RegisterView(),
+      ),
+    );
   }
 }

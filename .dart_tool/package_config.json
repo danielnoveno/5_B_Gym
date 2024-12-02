@@ -170,6 +170,12 @@
       "languageVersion": "3.5"
     },
     {
+      "name": "flutter_riverpod",
+      "rootUri": "file:///C:/Users/ASUS/AppData/Local/Pub/Cache/hosted/pub.dev/flutter_riverpod-2.6.1",
+      "packageUri": "lib/",
+      "languageVersion": "2.17"
+    },
+    {
       "name": "flutter_secure_storage",
       "rootUri": "file:///C:/Users/ASUS/AppData/Local/Pub/Cache/hosted/pub.dev/flutter_secure_storage-9.2.2",
       "packageUri": "lib/",
@@ -320,6 +326,12 @@
       "languageVersion": "2.19"
     },
     {
+      "name": "infinite_listview",
+      "rootUri": "file:///C:/Users/ASUS/AppData/Local/Pub/Cache/hosted/pub.dev/infinite_listview-1.1.0",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
+    },
+    {
       "name": "intl",
       "rootUri": "file:///C:/Users/ASUS/AppData/Local/Pub/Cache/hosted/pub.dev/intl-0.18.1",
       "packageUri": "lib/",
@@ -388,6 +400,12 @@
     {
       "name": "nested",
       "rootUri": "file:///C:/Users/ASUS/AppData/Local/Pub/Cache/hosted/pub.dev/nested-1.0.0",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
+    },
+    {
+      "name": "numberpicker",
+      "rootUri": "file:///C:/Users/ASUS/AppData/Local/Pub/Cache/hosted/pub.dev/numberpicker-2.1.2",
       "packageUri": "lib/",
       "languageVersion": "2.12"
     },
@@ -464,6 +482,12 @@
       "languageVersion": "2.12"
     },
     {
+      "name": "riverpod",
+      "rootUri": "file:///C:/Users/ASUS/AppData/Local/Pub/Cache/hosted/pub.dev/riverpod-2.6.1",
+      "packageUri": "lib/",
+      "languageVersion": "2.17"
+    },
+    {
       "name": "shared_preferences",
       "rootUri": "file:///C:/Users/ASUS/AppData/Local/Pub/Cache/hosted/pub.dev/shared_preferences-2.3.3",
       "packageUri": "lib/",
@@ -528,6 +552,12 @@
       "rootUri": "file:///C:/Users/ASUS/AppData/Local/Pub/Cache/hosted/pub.dev/stack_trace-1.11.1",
       "packageUri": "lib/",
       "languageVersion": "2.18"
+    },
+    {
+      "name": "state_notifier",
+      "rootUri": "file:///C:/Users/ASUS/AppData/Local/Pub/Cache/hosted/pub.dev/state_notifier-1.0.0",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
     },
     {
       "name": "stream_channel",
@@ -662,7 +692,7 @@
       "languageVersion": "3.5"
     }
   ],
-  "generated": "2024-11-28T08:46:45.102276Z",
+  "generated": "2024-12-02T15:46:53.889335Z",
   "generator": "pub",
   "generatorVersion": "3.5.4",
   "flutterRoot": "file:///D:/flutter/src/flutter",
