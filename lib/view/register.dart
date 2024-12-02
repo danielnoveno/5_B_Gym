@@ -27,6 +27,7 @@ class _RegisterViewState extends State<RegisterView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.black,
       appBar: AppBar(
         title: const Text('Kembali'),
         backgroundColor: Colors.black,
@@ -104,22 +105,6 @@ class _RegisterViewState extends State<RegisterView> {
                   controller: passwordController,
                   hintTxt: "Password",
                   helperTxt: "Masukkan Password Yang Diinginkan",
-                  iconData: Icons.password,
-                  password: true,
-                ),
-                inputForm(
-                  (p0) {
-                    if (p0 == null || p0.isEmpty) {
-                      return 'Konfirmasi Password tidak boleh kosong';
-                    }
-                    if (p0 != passwordController.text) {
-                      return 'Password dan Konfirmasi Password tidak sama';
-                    }
-                    return null;
-                  },
-                  controller: confirmPasswordController,
-                  hintTxt: "Konfirmasi Password",
-                  helperTxt: "Konfirmasi Password Anda",
                   iconData: Icons.password,
                   password: true,
                 ),
