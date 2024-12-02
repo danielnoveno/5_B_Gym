@@ -27,8 +27,9 @@ class _RegisterViewState extends State<RegisterView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.black,
       appBar: AppBar(
-        title: const Text('Kembali'),
+        title: const Text('Kembali'), 
         backgroundColor: Colors.black,
         leading: IconButton(
           icon: Icon(Icons.arrow_back),
