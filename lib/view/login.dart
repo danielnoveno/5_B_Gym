@@ -120,57 +120,26 @@ class _LoginViewState extends State<LoginView> {
                     ),
                   ),
                 ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    ElevatedButton(
-                      onPressed: () {
-                        if (_formKey.currentState!.validate()) {
-                          if (dataForm.isNotEmpty &&
-                              dataForm['email'] ==
-                                  emailController.text.trim() &&
-                              dataForm['password'] ==
-                                  passwordController.text.trim()) {
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (c) => const HomeView()));
-                          } else {
-                            showDialog(
-                                context: context,
-                                builder: (_) => AlertDialog(
-                                      title: const Text('Login Gagal'),
-                                      content: const Text(
-                                          'Email atau Password salah. Periksa kembali.'),
-                                      actions: <Widget>[
-                                        TextButton(
-                                          onPressed: () =>
-                                              Navigator.pop(context, 'Cancel'),
-                                          child: const Text('Cancel'),
-                                        ),
-                                        TextButton(
-                                          onPressed: () =>
-                                              Navigator.pop(context, 'OK'),
-                                          child: const Text('OK'),
-                                        ),
-                                      ],
-                                    ));
-                          }
-                        }
-                      },
-                      child: const Text('Masuk',
-                          style: TextStyle(color: Colors.white)),
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor:
-                            const Color.fromARGB(175, 194, 73, 255),
-                        padding: const EdgeInsets.symmetric(
-                            vertical: 10, horizontal: 135),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(14),
-                        ),
-                      ),
+                ElevatedButton(
+                  onPressed: () async {
+                    if (_formKey.currentState!.validate()) {
+                      // Handle login logic (e.g. API request)
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (_) => const HomeView()),
+                      );
+                    }
+                  },
+                  child: const Text('Masuk',
+                      style: TextStyle(color: Colors.white)),
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: const Color.fromARGB(175, 194, 73, 255),
+                    padding: const EdgeInsets.symmetric(
+                        vertical: 10, horizontal: 135),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(14),
                     ),
-                  ],
+                  ),
                 ),
                 Padding(
                   padding: const EdgeInsets.only(bottom: 20, top: 20, left: 15),
