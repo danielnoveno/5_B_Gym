@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:tubes_pbp_gym/view/datadiri/jeniskelamin.dart';
-import 'package:tubes_pbp_gym/view/login.dart';
-import 'package:tubes_pbp_gym/components/form_component2.dart';
-import 'package:tubes_pbp_gym/service/directToLink.dart';
-
+import 'package:tubes_pbp_gym/entitiy/Pelanggan.dart';
+import 'package:tubes_pbp_gym/client/PelangganClient.dart';
 
 class RegisterView extends StatefulWidget {
   const RegisterView({super.key});
@@ -17,8 +16,10 @@ class _RegisterViewState extends State<RegisterView> {
   TextEditingController namaController = TextEditingController();
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
+  TextEditingController confirmPasswordController = TextEditingController();
   TextEditingController notelpController = TextEditingController();
   TextEditingController tglLahirController = TextEditingController();
+  TextEditingController alamatController = TextEditingController();
 
   String? selectedValue;
   List<String> dropdownItems = ['Pengguna', 'Trainer'];
@@ -26,29 +27,22 @@ class _RegisterViewState extends State<RegisterView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.black,
       appBar: AppBar(
-        title: const Text(
-          'Kembali',
-          style: TextStyle(color: Colors.white),
-        ),
+        title: const Text('Kembali'), 
         backgroundColor: Colors.black,
         leading: IconButton(
-          icon: Icon(
-            Icons.arrow_back,
-            color: Colors.white,
-          ),
+          icon: Icon(Icons.arrow_back),
           onPressed: () {
             Navigator.pop(context);
           },
         ),
       ),
-      backgroundColor: Colors.black,
       body: SafeArea(
         child: SingleChildScrollView(
           child: Form(
             key: _formKey,
             child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Padding(
                   padding: const EdgeInsets.only(top: 20),
@@ -117,6 +111,22 @@ class _RegisterViewState extends State<RegisterView> {
                 inputForm(
                   (p0) {
                     if (p0 == null || p0.isEmpty) {
+                      return 'Konfirmasi Password tidak boleh kosong';
+                    }
+                    if (p0 != passwordController.text) {
+                      return 'Password dan Konfirmasi Password tidak sama';
+                    }
+                    return null;
+                  },
+                  controller: confirmPasswordController,
+                  hintTxt: "Konfirmasi Password",
+                  helperTxt: "Konfirmasi Password Anda",
+                  iconData: Icons.password,
+                  password: true,
+                ),
+                inputForm(
+                  (p0) {
+                    if (p0 == null || p0.isEmpty) {
                       return 'Nomor Telepon tidak boleh kosong';
                     }
                     return null;
@@ -131,12 +141,30 @@ class _RegisterViewState extends State<RegisterView> {
                     if (p0 == null || p0.isEmpty) {
                       return 'Tanggal Lahir Tidak Boleh Kosong';
                     }
+                    try {
+                      DateFormat format = DateFormat("dd/MM/yyyy");
+                      format.parse(p0); // Try parsing the entered date
+                    } catch (e) {
+                      return 'Format Tanggal Tidak Valid. Gunakan DD/MM/YYYY';
+                    }
                     return null;
                   },
                   controller: tglLahirController,
                   hintTxt: "DD/MM/YYYY",
                   helperTxt: "Masukkan Tanggal Lahir Anda",
                   iconData: Icons.date_range,
+                ),
+                inputForm(
+                  (p0) {
+                    if (p0 == null || p0.isEmpty) {
+                      return 'Alamat Tidak Boleh Kosong';
+                    }
+                    return null;
+                  },
+                  controller: alamatController,
+                  hintTxt: "Alamat",
+                  helperTxt: "Masukkan Alamat Anda",
+                  iconData: Icons.location_on,
                 ),
                 Padding(
                   padding: const EdgeInsets.symmetric(vertical: 16.0),
@@ -184,18 +212,62 @@ class _RegisterViewState extends State<RegisterView> {
                   ),
                 ),
                 ElevatedButton(
-                  onPressed: () {
+                  onPressed: () async {
                     if (_formKey.currentState!.validate()) {
-                      Map<String, dynamic> formData = {};
-                      formData['nama'] = namaController.text;
-                      formData['email'] = emailController.text;
-                      formData['password'] = passwordController.text;
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (_) => JenisKelamin(data: formData),
-                        ),
-                      );
+                      try {
+                        // Parsing the date using DateFormat from intl package
+                        DateFormat format = DateFormat("dd/MM/yyyy");
+                        DateTime birthDate =
+                            format.parse(tglLahirController.text);
+
+                        // Calculate age from date of birth
+                        int age = DateTime.now().year - birthDate.year;
+                        if (DateTime.now().month < birthDate.month ||
+                            (DateTime.now().month == birthDate.month &&
+                                DateTime.now().day < birthDate.day)) {
+                          age--;
+                        }
+
+                        // Use default value for alamat if empty
+                        String alamat = alamatController.text.isEmpty
+                            ? "Alamat tidak tersedia"
+                            : alamatController.text;
+
+                        // Corrected DateTime assignment for tanggalDaftar
+                        DateTime tanggalDaftar = DateTime.now();
+
+                        // Include password in the Pelanggan object
+                        Pelanggan pelanggan = Pelanggan(
+                          idPelanggan: 0, // Assuming ID is auto-generated
+                          nama: namaController.text,
+                          umur: age, // Age calculated from birth date
+                          alamat: alamat, // Using the alamat value
+                          noTelepon: notelpController.text,
+                          email: emailController.text,
+                          password:
+                              passwordController.text, // Add password here
+                          tanggalDaftar: tanggalDaftar, // Now using DateTime
+                        );
+
+                        // Send data to the API
+                        var response = await PelangganClient.create(pelanggan);
+                        if (response.statusCode == 201) {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (_) => JenisKelamin(data: {}),
+                            ),
+                          );
+                        } else {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(content: Text('Error: ${response.body}')),
+                          );
+                        }
+                      } catch (e) {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(content: Text('Error: $e')),
+                        );
+                      }
                     }
                   },
                   child: const Text('Lanjut',
@@ -205,52 +277,8 @@ class _RegisterViewState extends State<RegisterView> {
                     padding: const EdgeInsets.symmetric(
                         vertical: 10, horizontal: 135),
                     shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(14),
-                    ),
+                        borderRadius: BorderRadius.circular(14)),
                   ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(bottom: 20, top: 20, left: 15),
-                  child: Text(
-                    '━━━━━━━━━ OR ━━━━━━━━━',
-                    style: TextStyle(
-                        fontSize: 24,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.white),
-                  ),
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    ElevatedButton.icon(
-                      icon: Icon(Icons.g_mobiledata, size: 24),
-                      label: Text(''),
-                      onPressed: () {
-                        Direct.launchURL('https://g.co/kgs/R9fTeVW');
-                      },
-                    ),
-                    SizedBox(width: 10),
-                    ElevatedButton.icon(
-                      icon: Icon(Icons.apple, size: 24),
-                      label: Text(''),
-                      onPressed: () {
-                        Direct.launchURL('https://www.apple.com/id/');
-                      },
-                    ),
-                    SizedBox(width: 10),
-                    ElevatedButton.icon(
-                      icon: Icon(Icons.facebook, size: 24),
-                      label: Text(''),
-                      onPressed: () {
-                        Direct.launchURL(
-                            'https://www.facebook.com/?locale=id_ID');
-                      },
-                    ),
-                  ],
-                ),
-                TextButton(
-                  onPressed: () => pushLogin(context),
-                  child: const Text('Sudah Punya Akun? Masuk'),
                 ),
               ],
             ),
@@ -260,11 +288,37 @@ class _RegisterViewState extends State<RegisterView> {
     );
   }
 
-  void pushLogin(BuildContext context) {
-    Navigator.push(
-        context,
-        MaterialPageRoute(
-          builder: (_) => JenisKelamin(data: {}),
-        ));
+  // Define inputForm as a reusable form field widget
+  Widget inputForm(String? Function(String?) validator,
+      {required TextEditingController controller,
+      required String hintTxt,
+      required String helperTxt,
+      required IconData iconData,
+      bool password = false}) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 20),
+      child: TextFormField(
+        controller: controller,
+        obscureText: password,
+        style: const TextStyle(color: Colors.white),
+        decoration: InputDecoration(
+          filled: true,
+          fillColor: const Color(0xFF636363),
+          hintText: hintTxt,
+          hintStyle: const TextStyle(color: Colors.white),
+          helperText: helperTxt,
+          helperStyle: const TextStyle(color: Colors.white),
+          prefixIcon: Icon(iconData, color: Colors.white),
+          border: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(20),
+          ),
+          focusedBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(20),
+            borderSide: BorderSide(color: Colors.white),
+          ),
+        ),
+        validator: validator,
+      ),
+    );
   }
 }

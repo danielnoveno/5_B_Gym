@@ -3,19 +3,16 @@ import 'package:tubes_pbp_gym/view/home.dart';
 import 'package:tubes_pbp_gym/view/register.dart';
 import 'package:tubes_pbp_gym/components/form_component.dart';
 import 'package:tubes_pbp_gym/service/directToLink.dart';
+import 'package:tubes_pbp_gym/api/auth_service.dart';
 
 class LoginView extends StatefulWidget {
-  final Map? data;
-  const LoginView({super.key, this.data});
+  const LoginView({super.key});
 
   @override
   State<LoginView> createState() => _LoginViewState();
 }
 
-List<String> dropdownItems = [
-  'Pengguna',
-  'Trainer',
-];
+List<String> dropdownItems = ['Pengguna', 'Trainer'];
 
 class _LoginViewState extends State<LoginView> {
   final _formKey = GlobalKey<FormState>();
@@ -25,8 +22,6 @@ class _LoginViewState extends State<LoginView> {
 
   @override
   Widget build(BuildContext context) {
-    Map dataForm = widget.data ?? {}; // Mengatasi null pada widget.data
-
     return Scaffold(
       backgroundColor: Colors.black,
       body: SafeArea(
@@ -123,11 +118,25 @@ class _LoginViewState extends State<LoginView> {
                 ElevatedButton(
                   onPressed: () async {
                     if (_formKey.currentState!.validate()) {
-                      // Handle login logic (e.g. API request)
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (_) => const HomeView()),
+                      final response = await AuthService.login(
+                        email: emailController.text,
+                        password: passwordController.text,
+                        role: selectedValue,
                       );
+
+                      if (response['status'] == 'success') {
+                        // Save token (optional: use a secure storage package)
+                        // Navigate to the home page
+                        Navigator.pushReplacement(
+                          context,
+                          MaterialPageRoute(builder: (_) => const HomeView()),
+                        );
+                      } else {
+                        // Show error message
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(content: Text(response['message'])),
+                        );
+                      }
                     }
                   },
                   child: const Text('Masuk',
@@ -158,7 +167,8 @@ class _LoginViewState extends State<LoginView> {
                       icon: Icon(Icons.g_mobiledata, size: 24),
                       label: Text(''),
                       onPressed: () {
-                        Direct.launchURL('https://g.co/kgs/R9fTeVW');
+                        Direct.launchURL(
+                            'https://g.co/kgs/R9fTeVW'); // Google login link
                       },
                     ),
                     SizedBox(width: 10),
@@ -166,7 +176,8 @@ class _LoginViewState extends State<LoginView> {
                       icon: Icon(Icons.apple, size: 24),
                       label: Text(''),
                       onPressed: () {
-                        Direct.launchURL('https://www.apple.com/id/');
+                        Direct.launchURL(
+                            'https://www.apple.com/id/'); // Apple login link
                       },
                     ),
                     SizedBox(width: 10),
@@ -175,7 +186,7 @@ class _LoginViewState extends State<LoginView> {
                       label: Text(''),
                       onPressed: () {
                         Direct.launchURL(
-                            'https://www.facebook.com/?locale=id_ID');
+                            'https://www.facebook.com/?locale=id_ID'); // Facebook login link
                       },
                     ),
                   ],
@@ -194,9 +205,10 @@ class _LoginViewState extends State<LoginView> {
 
   void pushRegister(BuildContext context) {
     Navigator.push(
-        context,
-        MaterialPageRoute(
-          builder: (_) => const RegisterView(),
-        ));
+      context,
+      MaterialPageRoute(
+        builder: (_) => const RegisterView(),
+      ),
+    );
   }
 }
