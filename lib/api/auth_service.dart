@@ -44,7 +44,6 @@ class AuthService {
           'role': role ?? 'Pengguna',
         }),
       );
-
       // Check for valid JSON
       if (response.body.isNotEmpty) {
         final data = json.decode(response.body);
