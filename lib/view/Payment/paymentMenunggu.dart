@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:tubes_pbp_gym/view/Payment/invoice.dart';
+import 'package:tubes_pbp_gym/view/Payment/paymentMethod.dart';
 
 class PaymentMenunggu extends StatelessWidget {
   @override
@@ -34,19 +36,27 @@ class Payment extends StatelessWidget {
               Positioned(
                 left: 25,
                 top: 25,
-                child: Row(
-                  children: [
-                    Icon(Icons.arrow_back, color: Colors.white),
-                    const SizedBox(width: 10),
-                    Text(
-                      'Kembali',
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 36,
-                        fontWeight: FontWeight.w700,
+                child: GestureDetector(
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => PaymentPage()),
+                    );
+                  },
+                  child: Row(
+                    children: [
+                      Icon(Icons.arrow_back, color: Colors.white),
+                      const SizedBox(width: 10),
+                      Text(
+                        'Kembali',
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 36,
+                          fontWeight: FontWeight.w700,
+                        ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               ),
               Positioned(
@@ -82,7 +92,7 @@ class Payment extends StatelessWidget {
                       ),
                       Positioned(
                         left: 20,
-                        top: 370,
+                        top: 300,
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
@@ -112,7 +122,7 @@ class Payment extends StatelessWidget {
                       ),
                       Positioned(
                         left: 30,
-                        top: 49,
+                        top: 20,
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
@@ -137,7 +147,7 @@ class Payment extends StatelessWidget {
                       ),
                       Positioned(
                         left: 30,
-                        top: 126,
+                        top: 80,
                         child: Row(
                           children: [
                             Text(
@@ -173,7 +183,7 @@ class Payment extends StatelessWidget {
                       Positioned(
                         left: 12,
                         right: 12,
-                        top: 169,
+                        top: 130,
                         child: Container(
                           width: MediaQuery.of(context).size.width -
                               58, // Menyesuaikan dengan lebar layar
@@ -245,7 +255,10 @@ class Payment extends StatelessWidget {
                             padding: const EdgeInsets.symmetric(
                                 vertical: 16), // Padding vertikal untuk tombol
                           ),
-                          onPressed: () {},
+                          onPressed: () {
+                            Navigator.push(
+                              context, MaterialPageRoute(builder: (c) => PdfInvoicePage()));
+                          },
                           child: Text(
                             'Lihat Order',
                             style: TextStyle(

@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:tubes_pbp_gym/view/Payment/paymentMenunggu.dart';
+import 'package:tubes_pbp_gym/view/beranda/cart/cart.dart';
 
 List<String> Ewallet = ['QRIS', 'OVO', 'Shopee Pay', 'Gopay'];
 List<String> VirtualAcc = [
@@ -30,19 +32,27 @@ class _PaymentPageState extends State<PaymentPage> {
             Positioned(
               left: 25,
               top: 25,
-              child: Row(
-                children: [
-                  Icon(Icons.arrow_back, color: Colors.white),
-                  SizedBox(width: 10),
-                  Text(
-                    'Pembayaran',
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 36,
-                      fontWeight: FontWeight.w700,
+              child: GestureDetector(
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => CartPage()),
+                  );
+                },
+                child: Row(
+                  children: [
+                    Icon(Icons.arrow_back, color: Colors.white),
+                    const SizedBox(width: 10),
+                    Text(
+                      'Pembayaran',
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 36,
+                        fontWeight: FontWeight.w700,
+                      ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
             ),
             // Konten utama
@@ -185,9 +195,11 @@ class _PaymentPageState extends State<PaymentPage> {
                     ));
                   } else {
                     ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                      content: Text('Pembayaran berhasil!'),
+                      content: Text('Lakukan Pembayaran!'),
                     ));
                   }
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (c) => PaymentMenunggu()));
                 },
                 child: Container(
                   width: double.infinity,

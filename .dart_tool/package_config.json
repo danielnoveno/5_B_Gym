@@ -27,13 +27,13 @@
     },
     {
       "name": "barcode",
-      "rootUri": "file:///C:/Users/acer/AppData/Local/Pub/Cache/hosted/pub.dev/barcode-2.2.8",
+      "rootUri": "file:///C:/Users/A%20S%20U%20S/AppData/Local/Pub/Cache/hosted/pub.dev/barcode-2.2.8",
       "packageUri": "lib/",
       "languageVersion": "2.12"
     },
     {
       "name": "bidi",
-      "rootUri": "file:///C:/Users/acer/AppData/Local/Pub/Cache/hosted/pub.dev/bidi-2.0.12",
+      "rootUri": "file:///C:/Users/A%20S%20U%20S/AppData/Local/Pub/Cache/hosted/pub.dev/bidi-2.0.12",
       "packageUri": "lib/",
       "languageVersion": "2.12"
     },
@@ -123,7 +123,7 @@
     },
     {
       "name": "file_selector_linux",
-      "rootUri": "file:///C:/Users/A%20S%20U%20S/AppData/Local/Pub/Cache/hosted/pub.dev/file_selector_linux-0.9.3+1",
+      "rootUri": "file:///C:/Users/A%20S%20U%20S/AppData/Local/Pub/Cache/hosted/pub.dev/file_selector_linux-0.9.3+2",
       "packageUri": "lib/",
       "languageVersion": "3.3"
     },
@@ -147,7 +147,7 @@
     },
     {
       "name": "flutter",
-      "rootUri": "file:///C:/flutter/src/flutter/packages/flutter",
+      "rootUri": "file:///D:/flutter/src/flutter/packages/flutter",
       "packageUri": "lib/",
       "languageVersion": "3.3"
     },
@@ -225,13 +225,13 @@
     },
     {
       "name": "flutter_test",
-      "rootUri": "file:///C:/flutter/src/flutter/packages/flutter_test",
+      "rootUri": "file:///D:/flutter/src/flutter/packages/flutter_test",
       "packageUri": "lib/",
       "languageVersion": "3.3"
     },
     {
       "name": "flutter_web_plugins",
-      "rootUri": "file:///C:/flutter/src/flutter/packages/flutter_web_plugins",
+      "rootUri": "file:///D:/flutter/src/flutter/packages/flutter_web_plugins",
       "packageUri": "lib/",
       "languageVersion": "3.2"
     },
@@ -297,7 +297,7 @@
     },
     {
       "name": "image_picker_android",
-      "rootUri": "file:///C:/Users/A%20S%20U%20S/AppData/Local/Pub/Cache/hosted/pub.dev/image_picker_android-0.8.12+17",
+      "rootUri": "file:///C:/Users/A%20S%20U%20S/AppData/Local/Pub/Cache/hosted/pub.dev/image_picker_android-0.8.12+18",
       "packageUri": "lib/",
       "languageVersion": "3.5"
     },
@@ -435,7 +435,7 @@
     },
     {
       "name": "path_parsing",
-      "rootUri": "file:///C:/Users/acer/AppData/Local/Pub/Cache/hosted/pub.dev/path_parsing-1.1.0",
+      "rootUri": "file:///C:/Users/A%20S%20U%20S/AppData/Local/Pub/Cache/hosted/pub.dev/path_parsing-1.1.0",
       "packageUri": "lib/",
       "languageVersion": "3.3"
     },
@@ -447,7 +447,7 @@
     },
     {
       "name": "path_provider_android",
-      "rootUri": "file:///C:/Users/A%20S%20U%20S/AppData/Local/Pub/Cache/hosted/pub.dev/path_provider_android-2.2.12",
+      "rootUri": "file:///C:/Users/A%20S%20U%20S/AppData/Local/Pub/Cache/hosted/pub.dev/path_provider_android-2.2.14",
       "packageUri": "lib/",
       "languageVersion": "3.5"
     },
@@ -477,13 +477,13 @@
     },
     {
       "name": "pdf",
-      "rootUri": "file:///C:/Users/acer/AppData/Local/Pub/Cache/hosted/pub.dev/pdf-3.11.1",
+      "rootUri": "file:///C:/Users/A%20S%20U%20S/AppData/Local/Pub/Cache/hosted/pub.dev/pdf-3.11.1",
       "packageUri": "lib/",
       "languageVersion": "2.19"
     },
     {
       "name": "pdf_widget_wrapper",
-      "rootUri": "file:///C:/Users/acer/AppData/Local/Pub/Cache/hosted/pub.dev/pdf_widget_wrapper-1.0.4",
+      "rootUri": "file:///C:/Users/A%20S%20U%20S/AppData/Local/Pub/Cache/hosted/pub.dev/pdf_widget_wrapper-1.0.4",
       "packageUri": "lib/",
       "languageVersion": "2.18"
     },
@@ -507,7 +507,7 @@
     },
     {
       "name": "printing",
-      "rootUri": "file:///C:/Users/acer/AppData/Local/Pub/Cache/hosted/pub.dev/printing-5.13.4",
+      "rootUri": "file:///C:/Users/A%20S%20U%20S/AppData/Local/Pub/Cache/hosted/pub.dev/printing-5.13.4",
       "packageUri": "lib/",
       "languageVersion": "3.3"
     },
@@ -519,7 +519,7 @@
     },
     {
       "name": "qr",
-      "rootUri": "file:///C:/Users/acer/AppData/Local/Pub/Cache/hosted/pub.dev/qr-3.0.2",
+      "rootUri": "file:///C:/Users/A%20S%20U%20S/AppData/Local/Pub/Cache/hosted/pub.dev/qr-3.0.2",
       "packageUri": "lib/",
       "languageVersion": "3.4"
     },
@@ -537,7 +537,7 @@
     },
     {
       "name": "shared_preferences_android",
-      "rootUri": "file:///C:/Users/A%20S%20U%20S/AppData/Local/Pub/Cache/hosted/pub.dev/shared_preferences_android-2.3.3",
+      "rootUri": "file:///C:/Users/A%20S%20U%20S/AppData/Local/Pub/Cache/hosted/pub.dev/shared_preferences_android-2.3.4",
       "packageUri": "lib/",
       "languageVersion": "3.5"
     },
@@ -579,7 +579,7 @@
     },
     {
       "name": "sky_engine",
-      "rootUri": "file:///C:/flutter/src/flutter/bin/cache/pkg/sky_engine",
+      "rootUri": "file:///D:/flutter/src/flutter/bin/cache/pkg/sky_engine",
       "packageUri": "lib/",
       "languageVersion": "3.2"
     },
@@ -705,7 +705,7 @@
     },
     {
       "name": "win32",
-      "rootUri": "file:///C:/Users/A%20S%20U%20S/AppData/Local/Pub/Cache/hosted/pub.dev/win32-5.8.0",
+      "rootUri": "file:///C:/Users/A%20S%20U%20S/AppData/Local/Pub/Cache/hosted/pub.dev/win32-5.9.0",
       "packageUri": "lib/",
       "languageVersion": "3.5"
     },
@@ -734,7 +734,7 @@
       "languageVersion": "3.5"
     }
   ],
-  "generated": "2024-12-03T09:18:06.286626Z",
+  "generated": "2024-12-03T14:50:33.229906Z",
   "generator": "pub",
   "generatorVersion": "3.5.4",
   "flutterRoot": "file:///D:/flutter/src/flutter",
