@@ -20,7 +20,7 @@ class Membership {
   factory Membership.fromJson(Map<String, dynamic> json) => Membership(
         idMembership: json["id_membership"],
         title: json["title"],
-        image: json["image"],
+        image: json["image"], // Nama gambar yang diterima dari API
         duration: json["duration"],
       );
 
@@ -33,4 +33,10 @@ class Membership {
         "image": image,
         "duration": duration,
       };
+
+  // Menambahkan metode untuk mendapatkan URL gambar lengkap
+  String getImageUrl() {
+    if (image == null) return 'assets/images/placeholder.png';
+    return 'http://127.0.0.1:8000/storage/app/public/images/$image'; // Menyesuaikan URL berdasarkan image
+  }
 }
