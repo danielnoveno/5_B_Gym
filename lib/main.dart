@@ -1,11 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:tubes_pbp_gym/providers/cart_provider.dart';
+import 'package:tubes_pbp_gym/view/home.dart';
 import 'package:tubes_pbp_gym/view/register.dart';
 import 'package:tubes_pbp_gym/view/login.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 void main() {
   runApp(
-    ProviderScope(
+    MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (_) => CartProvider()),
+      ],
       child: MyApp(),
     ),
   );
@@ -22,11 +27,13 @@ class MyApp extends StatelessWidget {
           case '/register':
             return MaterialPageRoute(
                 builder: (context) => const RegisterView());
+          case '/home':
+            return MaterialPageRoute(builder: (context) => const HomeView());
           default:
             return MaterialPageRoute(builder: (context) => const LoginView());
         }
       },
-      initialRoute: '/login',
+      initialRoute: '/home',
     );
   }
 }
