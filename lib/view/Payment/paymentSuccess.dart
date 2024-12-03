@@ -4,164 +4,141 @@ class PaymentSuccessful extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SingleChildScrollView(
-        // Membungkus seluruh konten dengan SingleChildScrollView
-        child: Column(
-          children: [
-            Container(
-              width: 430,
-              height: 932,
-              decoration: BoxDecoration(color: Colors.white),
-              child: Stack(
-                children: [
-                  Positioned(
-                    left: 25,
-                    top: 25,
-                    child: Row(
-                      children: [
-                        Icon(Icons.arrow_back, color: Colors.black),
-                        const SizedBox(width: 10),
-                        Text(
-                          'Kembali',
-                          style: TextStyle(
-                            color: Colors.black,
-                            fontSize: 36,
-                            fontWeight: FontWeight.w700,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  Positioned(
-                    left: 107,
-                    top: 99,
-                    child: Row(
-                      children: [
-                        Container(
-                          width: 215,
-                          height: 215,
-                          decoration: ShapeDecoration(
-                            color: Color(0xFF04C17D),
-                            shape: CircleBorder(),
-                          ),
-                        ),
-                        const SizedBox(width: 16.8),
-                        Container(
-                          width: 154.53,
-                          height: 154.53,
-                          decoration: ShapeDecoration(
-                            color: Color(0xFFEFFCF6),
-                            shape: OvalBorder(),
-                          ),
-                        ),
-                        const SizedBox(width: 16.8),
-                        Icon(Icons.check_circle,
-                            size: 72.6, color: Color(0xFF04C17D)),
-                      ],
-                    ),
-                  ),
-                  Positioned(
-                    left: 70,
-                    top: 314,
-                    child: Text(
-                      'Pembayaran berhasil',
+      body: Center(
+        child: Container(
+          width: 430, // Sesuaikan dengan lebar yang diinginkan
+          height: 932, // Sesuaikan dengan tinggi yang diinginkan
+          padding: const EdgeInsets.symmetric(horizontal: 24),
+          decoration: BoxDecoration(color: Colors.white),
+          child: Column(
+            children: [
+              // Header "Kembali"
+              Container(
+                padding: const EdgeInsets.only(top: 40, bottom: 16),
+                child: Row(
+                  children: [
+                    Icon(Icons.arrow_back, color: Colors.black),
+                    const SizedBox(width: 10),
+                    Text(
+                      'Kembali',
                       style: TextStyle(
                         color: Colors.black,
-                        fontSize: 32,
-                        fontWeight: FontWeight.w500,
+                        fontSize: 24,
+                        fontWeight: FontWeight.bold,
                       ),
                     ),
-                  ),
-                  Positioned(
-                    left: 102,
-                    top: 360,
-                    child: Text(
-                      'Berhasil membayar Rp4.640.000',
-                      style: TextStyle(
-                        color: Color(0xFF676767),
-                        fontSize: 15,
-                        fontWeight: FontWeight.w500,
-                      ),
-                    ),
-                  ),
-                  Positioned(
-                    left: 23,
-                    top: 458,
-                    child: Container(
-                      width: 384,
-                      child: Column(
-                        children: [
-                          buildTransactionRow('Transaksi ID', '4521 1102 5678'),
-                          buildTransactionRow('Tanggal', '1 September 2024'),
-                          buildTransactionRow('Metode Transaksi', 'BRIVA'),
-                          buildTransactionRow('Nominal', 'Rp4.640.000'),
-                          buildTransactionRow('Status', 'Success'),
-                        ],
-                      ),
-                    ),
-                  ),
-                  Positioned(
-                    left: 20,
-                    top: 786,
-                    child: Container(
-                      width: 390,
-                      height: 66,
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 17, vertical: 18),
-                      decoration: ShapeDecoration(
-                        color: Color(0xFF673296),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(23),
-                        ),
-                      ),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text(
-                            'Total',
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 20,
-                              fontWeight: FontWeight.w500,
-                            ),
-                          ),
-                          Text(
-                            'Rp4.640.000',
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 20,
-                              fontWeight: FontWeight.w500,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                  Positioned(
-                    left: 143,
-                    top: 872,
-                    child: TextButton(
-                      onPressed: () {},
-                      child: Row(
-                        children: [
-                          Text(
-                            'Buat Invoice',
-                            style: TextStyle(
-                              color: Color(0xFF5D5D5D),
-                              fontSize: 20,
-                              fontWeight: FontWeight.w500,
-                            ),
-                          ),
-                          const SizedBox(width: 8),
-                          Icon(Icons.arrow_forward, color: Color(0xFF5D5D5D)),
-                        ],
-                      ),
-                    ),
-                  ),
-                ],
+                  ],
+                ),
               ),
-            ),
-          ],
+
+              // Lingkaran hijau dengan ikon centang
+              Container(
+                margin: const EdgeInsets.only(top: 24),
+                width: 150,
+                height: 150,
+                decoration: BoxDecoration(
+                  color: Color(0xFF04C17D),
+                  shape: BoxShape.circle,
+                ),
+                child: Center(
+                  child: Icon(
+                    Icons.check,
+                    size: 72,
+                    color: Colors.white,
+                  ),
+                ),
+              ),
+
+              // Teks "Pembayaran berhasil"
+              const SizedBox(height: 16),
+              Text(
+                'Pembayaran berhasil',
+                style: TextStyle(
+                  color: Colors.black,
+                  fontSize: 28,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+
+              // Subjudul
+              const SizedBox(height: 8),
+              Text(
+                'Berhasil membayar Rp4.640.000',
+                style: TextStyle(
+                  color: Colors.grey,
+                  fontSize: 16,
+                ),
+              ),
+
+              // Informasi transaksi
+              const SizedBox(height: 32),
+              Expanded(
+                child: ListView(
+                  children: [
+                    buildTransactionRow('Transaksi ID', '4521 1102 5678'),
+                    buildTransactionRow('Tanggal', '1 September 2024'),
+                    buildTransactionRow('Metode Transaksi', 'BRIVA'),
+                    buildTransactionRow('Nominal', 'Rp4.640.000'),
+                    buildTransactionRow('Status', 'Success'),
+                  ],
+                ),
+              ),
+
+              // Total pembayaran
+              Container(
+                width: double.infinity,
+                padding: const EdgeInsets.all(16),
+                decoration: BoxDecoration(
+                  color: Color(0xFF673296),
+                  borderRadius: BorderRadius.circular(12),
+                ),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      'Total',
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    Text(
+                      'Rp4.640.000',
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+
+              // Tombol Buat Invoice
+              const SizedBox(height: 16),
+              TextButton(
+                onPressed: () {
+                  // Aksi tombol
+                },
+                child: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Text(
+                      'Buat Invoice',
+                      style: TextStyle(
+                        color: Colors.grey[800],
+                        fontSize: 18,
+                        fontWeight: FontWeight.w500,
+                      ),
+                    ),
+                    const SizedBox(width: 8),
+                    Icon(Icons.arrow_forward, color: Colors.grey[800]),
+                  ],
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );
@@ -169,23 +146,23 @@ class PaymentSuccessful extends StatelessWidget {
 
   Widget buildTransactionRow(String label, String value) {
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 10),
+      padding: const EdgeInsets.symmetric(vertical: 8),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Text(
             label,
             style: TextStyle(
-              color: Color(0xFF676767),
-              fontSize: 20,
+              color: Colors.grey[700],
+              fontSize: 16,
               fontWeight: FontWeight.w400,
             ),
           ),
           Text(
             value,
             style: TextStyle(
-              color: Color(0xFF454545),
-              fontSize: 20,
+              color: Colors.black,
+              fontSize: 16,
               fontWeight: FontWeight.w500,
             ),
           ),
