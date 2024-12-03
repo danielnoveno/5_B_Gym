@@ -26,6 +26,8 @@ dependencies:
   numberpicker: ^2.1.2
   http: ^1.2.2
   flutter_riverpod: ^2.6.1
+  pdf: ^3.6.0
+  printing: ^5.4.0
 
 dev_dependencies:
   flutter_test:

@@ -24,8 +24,10 @@ class Payment extends StatelessWidget {
     return Column(
       children: [
         Container(
-          width: 430,
-          height: 932,
+          width: double.infinity, // Menggunakan lebar penuh
+          height: MediaQuery.of(context)
+              .size
+              .height, // Menggunakan tinggi layar penuh
           decoration: BoxDecoration(color: Color(0xFF0A0A0A)),
           child: Stack(
             children: [
@@ -51,8 +53,10 @@ class Payment extends StatelessWidget {
                 left: 29,
                 top: 119,
                 child: Container(
-                  width: 379,
-                  height: 790,
+                  width: MediaQuery.of(context).size.width -
+                      58, // Menyesuaikan dengan lebar layar
+                  height: MediaQuery.of(context).size.height -
+                      150, // Menyesuaikan dengan tinggi layar
                   decoration: ShapeDecoration(
                     color: Color(0xFF673296),
                     shape: RoundedRectangleBorder(
@@ -151,7 +155,8 @@ class Payment extends StatelessWidget {
                               decoration: ShapeDecoration(
                                 color: Color(0xFF4B0C83),
                                 shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(9)),
+                                  borderRadius: BorderRadius.circular(9),
+                                ),
                               ),
                               child: Text(
                                 '23:59:58',
@@ -165,11 +170,13 @@ class Payment extends StatelessWidget {
                           ],
                         ),
                       ),
+                      // Pastikan gambar berada di atas elemen lainnya
                       Positioned(
                         left: 12,
                         top: 169,
                         child: Container(
-                          width: 356,
+                          width: MediaQuery.of(context).size.width -
+                              58, // Menyesuaikan dengan lebar layar
                           padding: const EdgeInsets.all(10),
                           decoration: ShapeDecoration(
                             color: Colors.white.withOpacity(0.8),
@@ -181,8 +188,14 @@ class Payment extends StatelessWidget {
                           ),
                           child: Column(
                             children: [
-                              Image.network("https://via.placeholder.com/61x21",
-                                  width: 61, height: 21),
+                              // Ganti dengan gambar lokal
+                              Image.asset(
+                                "images/Payment/BRI.jpg", // Path gambar yang benar
+                                width: 61,
+                                height: 21,
+                                fit: BoxFit
+                                    .cover, // Sesuaikan gambar agar tidak terdistorsi
+                              ),
                               const SizedBox(height: 20),
                               Text(
                                 '14107 0678  2442 23',
@@ -227,7 +240,8 @@ class Payment extends StatelessWidget {
                           style: ElevatedButton.styleFrom(
                             backgroundColor: Color(0xFF4B0C83),
                             shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(6)),
+                              borderRadius: BorderRadius.circular(6),
+                            ),
                             padding: const EdgeInsets.symmetric(
                                 horizontal: 50, vertical: 14),
                           ),
