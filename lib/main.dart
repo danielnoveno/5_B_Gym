@@ -4,6 +4,7 @@ import 'package:tubes_pbp_gym/providers/cart_provider.dart';
 import 'package:tubes_pbp_gym/view/home.dart';
 import 'package:tubes_pbp_gym/view/register.dart';
 import 'package:tubes_pbp_gym/view/login.dart';
+import 'package:tubes_pbp_gym/view/riwayat.dart';
 
 void main() {
   runApp(
@@ -22,18 +23,18 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       onGenerateRoute: (settings) {
         switch (settings.name) {
-          case '/login':
-            return MaterialPageRoute(builder: (context) => const LoginView());
+          case '/home':
+            return MaterialPageRoute(builder: (context) => const HomeView());
           case '/register':
             return MaterialPageRoute(
                 builder: (context) => const RegisterView());
           case '/home':
             return MaterialPageRoute(builder: (context) => const HomeView());
           default:
-            return MaterialPageRoute(builder: (context) => const LoginView());
+            return MaterialPageRoute(builder: (context) => const Riwayat());
         }
       },
-      initialRoute: '/login',
+      initialRoute: '/home',
     );
   }
 }
