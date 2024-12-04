@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 
-Widget form_edit(String label, String value, {bool editable = false}) {
-  TextEditingController controller = TextEditingController(text: value);
-
+Widget form_edit(String label, String value,
+    {bool editable = false, TextEditingController? controller}) {
   return Padding(
     padding: const EdgeInsets.symmetric(vertical: 10),
     child: Column(
