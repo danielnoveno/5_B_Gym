@@ -32,38 +32,41 @@ class AuthService {
   }
 
   static Future<Map<String, dynamic>> login({
-  required String email,
-  required String password,
-  required String? role,
-}) async {
-  try {
-    final response = await http.post(
-      Uri.parse('$apiUrl/login'),
-      headers: {'Content-Type': 'application/json'},
-      body: json.encode({
-        'email': email,
-        'password': password,
-        'role': role ?? 'Pengguna',
-      }),
-    );
-
-    if (response.statusCode == 200) {
-      final data = json.decode(response.body);
-      // Save the token and userId in SharedPreferences or secure storage
-      await _storage.write(key: 'auth_token', value: data['data']['token']);
-      final prefs = await SharedPreferences.getInstance();
-      prefs.setInt('userId', data['data']['pelanggan']['id_pelanggan']); // Store userId
-
-      return {
-        'status': 'success',
-        'message': 'Login successful',
-        'user': data['data']['pelanggan'],
-      };
-    } else {
-      return {
-        'status': 'error',
-        'message': 'Login failed: ${response.body}',
-      };
+    required String email,
+    required String password,
+    required String? role,
+  }) async {
+    try {
+      final response = await http.post(
+        Uri.parse('$apiUrl/login'),
+        headers: {'Content-Type': 'application/json'},
+        body: json.encode({
+          'email': email,
+          'password': password,
+          'role': role ?? 'Pengguna',
+        }),
+      );
+      // Check for valid JSON
+      if (response.body.isNotEmpty) {
+        final data = json.decode(response.body);
+        if (response.statusCode == 200) {
+          await _storage.write(key: 'auth_token', value: data['data']['token']);
+          return {
+            'status': 'success',
+            'message': 'Login successful',
+            'user': data['data']['pelanggan'],
+          };
+        } else {
+          return {
+            'status': 'error',
+            'message': data['message'] ?? 'Login failed',
+          };
+        }
+      } else {
+        return {'status': 'error', 'message': 'Empty response from server'};
+      }
+    } catch (e) {
+      return {'status': 'error', 'message': 'An error occurred: $e'};
     }
   } catch (e) {
     return {'status': 'error', 'message': 'An error occurred: $e'};

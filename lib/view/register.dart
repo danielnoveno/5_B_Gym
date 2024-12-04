@@ -4,6 +4,8 @@ import 'package:tubes_pbp_gym/view/datadiri/jeniskelamin.dart';
 import 'package:tubes_pbp_gym/entitiy/Pelanggan.dart';
 import 'package:tubes_pbp_gym/client/PelangganClient.dart';
 
+//fix register
+
 class RegisterView extends StatefulWidget {
   const RegisterView({super.key});
 
