@@ -1,6 +1,8 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
 
 class AuthService {
   static const String apiUrl = 'http://10.0.2.2:8000/api';
@@ -66,5 +68,10 @@ class AuthService {
     } catch (e) {
       return {'status': 'error', 'message': 'An error occurred: $e'};
     }
+  } catch (e) {
+    return {'status': 'error', 'message': 'An error occurred: $e'};
   }
+}
+
+
 }
