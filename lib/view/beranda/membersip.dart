@@ -85,7 +85,7 @@ class MembershipView extends StatelessWidget {
                           const BorderRadius.all(Radius.circular(16.0)),
                       child: membership.image != null
                           ? Image.network(
-                              'http://127.0.0.1:8000//storage/app/public/images/${membership.image}',
+                              'http://10.0.2.2:8000/api/image/${membership.image}',
                               height: 180,
                               width: double.infinity,
                               fit: BoxFit.cover,
