@@ -1,4 +1,6 @@
+import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
 import 'package:tubes_pbp_gym/entitiy/Membership.dart';
 import 'package:tubes_pbp_gym/client/MembershipClient.dart';
 import 'package:tubes_pbp_gym/view/beranda/card_membership/solo.dart';
@@ -83,43 +85,12 @@ class MembershipView extends StatelessWidget {
                     ClipRRect(
                       borderRadius:
                           const BorderRadius.all(Radius.circular(16.0)),
-                      child: membership.image != null
-                          ? Image.network(
-                              'http://10.0.2.2:8000/api/image/${membership.image}',
-                              height: 180,
-                              width: double.infinity,
-                              fit: BoxFit.cover,
-                              loadingBuilder:
-                                  (context, child, loadingProgress) {
-                                if (loadingProgress == null) return child;
-                                return Center(
-                                  child: CircularProgressIndicator(
-                                    value: loadingProgress.expectedTotalBytes !=
-                                            null
-                                        ? loadingProgress
-                                                .cumulativeBytesLoaded /
-                                            (loadingProgress
-                                                    .expectedTotalBytes ??
-                                                1)
-                                        : null,
-                                  ),
-                                );
-                              },
-                              errorBuilder: (context, error, stackTrace) {
-                                return Image.asset(
-                                  'assets/images/placeholder.png',
-                                  height: 180,
-                                  width: double.infinity,
-                                  fit: BoxFit.cover,
-                                );
-                              },
-                            )
-                          : Image.asset(
-                              'assets/images/placeholder.png', // Placeholder image
-                              height: 180,
-                              width: double.infinity,
-                              fit: BoxFit.cover,
-                            ),
+                      child: Image.asset(
+                        membership.image ?? 'assets/images/placeholder.png',
+                        height: 180,
+                        width: double.infinity,
+                        fit: BoxFit.cover,
+                      ),
                     ),
                     // Gradient overlay
                     Positioned.fill(
