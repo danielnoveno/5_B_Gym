@@ -3,7 +3,7 @@ import '../models/membership_package.dart';
 // Data Solo Packages
 final List<MembershipPackage> soloPackages = [
   MembershipPackage(
-    type: '30 Hari',
+    title: '30 Hari',
     description: [
       "Akses penuh ke gym dan fasilitas",
       "Tidak ada sesi personal trainer",
@@ -12,7 +12,7 @@ final List<MembershipPackage> soloPackages = [
     total: 'Rp 300.000',
   ),
   MembershipPackage(
-    type: '12 Bulan',
+    title: '12 Bulan',
     description: [
       "Akses penuh ke gym dan fasilitas",
       "Dua sesi personal trainer",
@@ -22,7 +22,7 @@ final List<MembershipPackage> soloPackages = [
     total: "Rp 3.300.000",
   ),
   MembershipPackage(
-    type: '24 Bulan',
+    title: '24 Bulan',
     description: [
       "Akses penuh ke gym dan fasilitas",
       "Dua sesi personal trainer",
@@ -38,7 +38,7 @@ final List<MembershipPackage> soloPackages = [
 // Data Couple Packages
 final List<MembershipPackage> couplePackages = [
   MembershipPackage(
-    type: '30 Hari',
+    title: '30 Hari',
     description: [
       "Akses penuh untuk 2 orang ke gym dan fasilitas",
       "Tidak ada sesi personal trainer",
@@ -47,7 +47,7 @@ final List<MembershipPackage> couplePackages = [
     total: "Rp 550.000",
   ),
   MembershipPackage(
-    type: '12 Bulan',
+    title: '12 Bulan',
     description: [
       "Akses penuh untuk 2 orang ke gym dan fasilitas",
       "Dua sesi personal trainer per-orang",
@@ -57,7 +57,7 @@ final List<MembershipPackage> couplePackages = [
     total: "Rp 6.000.000",
   ),
   MembershipPackage(
-    type: '24 Bulan',
+    title: '24 Bulan',
     description: [
       "Akses penuh untuk 2 orang ke gym dan fasilitas",
       "Dua sesi personal trainer",
@@ -73,7 +73,7 @@ final List<MembershipPackage> couplePackages = [
 // Data Group Packages
 final List<MembershipPackage> groupPackages = [
   MembershipPackage(
-    type: '30 Hari',
+    title: '30 Hari',
     description: [
       "Akses penuh untuk 4 orang ke gym dan fasilitas",
       "Tidak ada sesi personal trainer",
@@ -82,7 +82,7 @@ final List<MembershipPackage> groupPackages = [
     total: "Rp 1.000.000",
   ),
   MembershipPackage(
-    type: '12 Bulan',
+    title: '12 Bulan',
     description: [
       "Akses penuh untuk 4 orang ke gym dan fasilitas",
       "Dua sesi personal trainer per-orang",
@@ -92,7 +92,7 @@ final List<MembershipPackage> groupPackages = [
     total: "Rp 10.800.000",
   ),
   MembershipPackage(
-    type: '24 Bulan',
+    title: '24 Bulan',
     description: [
       "Akses penuh untuk 4 orang ke gym dan fasilitas",
       "Dua sesi personal trainer per-orang",
