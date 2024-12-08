@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:tubes_pbp_gym/view/Payment/invoice.dart';
+import 'package:tubes_pbp_gym/view/Payment/paymentMethod.dart';
 
 class PaymentMenunggu extends StatelessWidget {
   @override
@@ -24,35 +26,47 @@ class Payment extends StatelessWidget {
     return Column(
       children: [
         Container(
-          width: 430,
-          height: 932,
+          width: double.infinity, // Menggunakan lebar penuh
+          height: MediaQuery.of(context)
+              .size
+              .height, // Menggunakan tinggi layar penuh
           decoration: BoxDecoration(color: Color(0xFF0A0A0A)),
           child: Stack(
             children: [
               Positioned(
                 left: 25,
                 top: 25,
-                child: Row(
-                  children: [
-                    Icon(Icons.arrow_back, color: Colors.white),
-                    const SizedBox(width: 10),
-                    Text(
-                      'Kembali',
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 36,
-                        fontWeight: FontWeight.w700,
+                child: GestureDetector(
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => PaymentPage()),
+                    );
+                  },
+                  child: Row(
+                    children: [
+                      Icon(Icons.arrow_back, color: Colors.white),
+                      const SizedBox(width: 10),
+                      Text(
+                        'Kembali',
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 36,
+                          fontWeight: FontWeight.w700,
+                        ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               ),
               Positioned(
                 left: 29,
                 top: 119,
                 child: Container(
-                  width: 379,
-                  height: 790,
+                  width: MediaQuery.of(context).size.width -
+                      58, // Menyesuaikan dengan lebar layar
+                  height: MediaQuery.of(context).size.height -
+                      120, // Menyesuaikan dengan tinggi layar
                   decoration: ShapeDecoration(
                     color: Color(0xFF673296),
                     shape: RoundedRectangleBorder(
@@ -78,7 +92,7 @@ class Payment extends StatelessWidget {
                       ),
                       Positioned(
                         left: 20,
-                        top: 445,
+                        top: 300,
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
@@ -86,17 +100,17 @@ class Payment extends StatelessWidget {
                               'Cara membayar dengan BRI',
                               style: TextStyle(
                                 color: Colors.white,
-                                fontSize: 24,
+                                fontSize: 20,
                                 fontWeight: FontWeight.w700,
                               ),
                             ),
-                            const SizedBox(height: 32),
+                            const SizedBox(height: 16),
                             Text(
-                              '1. Masuk Aplikasi BRI Mobile dan pilih BRI Mobile Banking.\n'
+                              '1. Masuk Aplikasi BRI Mobile dan pilih \n    BRI Mobile Banking.\n'
                               '2. Pilih informasi menu.\n'
                               '3. Pilih BRIVA menu.\n'
-                              '4. Masukkan nomor Virtual Account (Bank) dari halaman order.\n'
-                              '5. Kamu akan menerima notifikasi pesan dari SMS.',
+                              '4. Masukkan nomor Virtual Account \n   (Bank) dari halaman order.\n'
+                              '5. Kamu akan menerima notifikasi pesan \n    dari SMS.',
                               style: TextStyle(
                                 color: Colors.white,
                                 fontSize: 16,
@@ -108,7 +122,7 @@ class Payment extends StatelessWidget {
                       ),
                       Positioned(
                         left: 30,
-                        top: 49,
+                        top: 20,
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
@@ -116,7 +130,7 @@ class Payment extends StatelessWidget {
                               'Menunggu Pembayaran',
                               style: TextStyle(
                                 color: Colors.white,
-                                fontSize: 24,
+                                fontSize: 20,
                                 fontWeight: FontWeight.w400,
                               ),
                             ),
@@ -124,7 +138,7 @@ class Payment extends StatelessWidget {
                               'Rp 4.640.000',
                               style: TextStyle(
                                 color: Colors.white,
-                                fontSize: 20,
+                                fontSize: 18,
                                 fontWeight: FontWeight.w700,
                               ),
                             ),
@@ -133,7 +147,7 @@ class Payment extends StatelessWidget {
                       ),
                       Positioned(
                         left: 30,
-                        top: 126,
+                        top: 80,
                         child: Row(
                           children: [
                             Text(
@@ -151,7 +165,8 @@ class Payment extends StatelessWidget {
                               decoration: ShapeDecoration(
                                 color: Color(0xFF4B0C83),
                                 shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(9)),
+                                  borderRadius: BorderRadius.circular(9),
+                                ),
                               ),
                               child: Text(
                                 '23:59:58',
@@ -167,9 +182,11 @@ class Payment extends StatelessWidget {
                       ),
                       Positioned(
                         left: 12,
-                        top: 169,
+                        right: 12,
+                        top: 130,
                         child: Container(
-                          width: 356,
+                          width: MediaQuery.of(context).size.width -
+                              58, // Menyesuaikan dengan lebar layar
                           padding: const EdgeInsets.all(10),
                           decoration: ShapeDecoration(
                             color: Colors.white.withOpacity(0.8),
@@ -181,15 +198,19 @@ class Payment extends StatelessWidget {
                           ),
                           child: Column(
                             children: [
-                              Image.network("https://via.placeholder.com/61x21",
-                                  width: 61, height: 21),
-                              const SizedBox(height: 20),
+                              Image.asset(
+                                "images/Payment/BRI.jpg",
+                                width: 61,
+                                height: 21,
+                                fit: BoxFit.cover,
+                              ),
+                              const SizedBox(height: 10),
                               Text(
                                 '14107 0678  2442 23',
                                 textAlign: TextAlign.center,
                                 style: TextStyle(
                                   color: Colors.black,
-                                  fontSize: 24,
+                                  fontSize: 22,
                                   fontWeight: FontWeight.w700,
                                 ),
                               ),
@@ -220,23 +241,29 @@ class Payment extends StatelessWidget {
                           ),
                         ),
                       ),
+                      // Tombol "Lihat Order" dengan margin kiri-kanan 25px
                       Positioned(
-                        left: 38,
-                        top: 707,
+                        left: 25,
+                        right: 25,
+                        bottom: 20, // Menambahkan posisi tombol di bawah
                         child: ElevatedButton(
                           style: ElevatedButton.styleFrom(
-                            backgroundColor: Color(0xFF4B0C83),
+                            backgroundColor: Color(0xFF4B0C83), // Warna ungu
                             shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(6)),
+                              borderRadius: BorderRadius.circular(8),
+                            ),
                             padding: const EdgeInsets.symmetric(
-                                horizontal: 50, vertical: 14),
+                                vertical: 16), // Padding vertikal untuk tombol
                           ),
-                          onPressed: () {},
+                          onPressed: () {
+                            Navigator.push(
+                              context, MaterialPageRoute(builder: (c) => PdfInvoicePage()));
+                          },
                           child: Text(
                             'Lihat Order',
                             style: TextStyle(
                               color: Colors.white,
-                              fontSize: 14,
+                              fontSize: 16,
                               fontWeight: FontWeight.w500,
                             ),
                           ),
