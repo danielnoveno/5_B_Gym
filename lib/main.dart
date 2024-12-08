@@ -4,6 +4,7 @@ import 'package:tubes_pbp_gym/providers/cart_provider.dart';
 import 'package:tubes_pbp_gym/view/home.dart';
 import 'package:tubes_pbp_gym/view/register.dart';
 import 'package:tubes_pbp_gym/view/login.dart';
+import 'package:tubes_pbp_gym/view/riwayat.dart';
 
 void main() {
   runApp(
@@ -30,7 +31,7 @@ class MyApp extends StatelessWidget {
           case '/home':
             return MaterialPageRoute(builder: (context) => const HomeView());
           default:
-            return MaterialPageRoute(builder: (context) => const LoginView());
+            return MaterialPageRoute(builder: (context) => const Riwayat());
         }
       },
       initialRoute: '/home',

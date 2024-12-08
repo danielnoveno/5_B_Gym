@@ -3,6 +3,7 @@ import 'package:tubes_pbp_gym/view/beranda/cart/cart_item_widget.dart';
 import 'package:tubes_pbp_gym/view/beranda/cart/bottom_bar.dart';
 import 'package:tubes_pbp_gym/providers/cart_provider.dart';
 import 'package:provider/provider.dart';
+import 'package:tubes_pbp_gym/view/home.dart';
 
 class CartPage extends StatefulWidget {
   @override
@@ -23,26 +24,13 @@ class _CartPageState extends State<CartPage> {
           icon: Icon(Icons.arrow_back),
           color: Colors.white,
           onPressed: () {
-            Navigator.pop(context);
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => HomeView()),
+            );
           },
         ),
         title: Text('Keranjang', style: TextStyle(color: Colors.white)),
-        actions: [
-          TextButton(
-            onPressed: () {
-              setState(() {
-                isEditing = !isEditing; // Toggle edit mode
-                if (!isEditing) {
-                  isSelectAll = false; // Reset select all when not editing
-                }
-              });
-            },
-            child: Text(
-              isEditing ? 'Done' : 'Edit', // Toggle button text
-              style: TextStyle(color: Colors.white),
-            ),
-          ),
-        ],
       ),
       body: Consumer<CartProvider>(
         builder: (context, cartProvider, child) {
