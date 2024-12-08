@@ -5,12 +5,14 @@ import 'package:tubes_pbp_gym/entitiy/HealthyClub.dart';
 
 class KelasOlahragaClient {
   static const String url = '10.0.2.2:8000'; // Ganti dengan URL backend
-  static const String endpoint = '/api/kelas_olahragas'; // Endpoint API
+  static const String endpoint = '/api/kelas_olahraga'; // Endpoint API
 
   // Fetch semua KelasOlahragas
   static Future<List<KelasOlahragas>> fetchAll() async {
     try {
       final response = await http.get(Uri.http(url, endpoint));
+      print('Response status: ${response.statusCode}');
+      print('Response body: ${response.body}');
 
       if (response.statusCode != 200) throw Exception('Failed to load data');
 
@@ -22,6 +24,7 @@ class KelasOlahragaClient {
       Iterable list = decodedResponse['data'];
       return list.map((e) => KelasOlahragas.fromJson(e)).toList();
     } catch (e) {
+      print('Error: $e');
       return Future.error(e.toString());
     }
   }

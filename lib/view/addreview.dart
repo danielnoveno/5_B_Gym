@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:tubes_pbp_gym/view/beranda/review_trainer/index_review.dart';
-import 'package:tubes_pbp_gym/view/profile.dart';
-import 'package:tubes_pbp_gym/data/trainer_data.dart';
-import 'package:tubes_pbp_gym/models/personal_trainer.dart';
-import 'package:tubes_pbp_gym/view/beranda/personal_trainer.dart';
+// import 'package:tubes_pbp_gym/view/profile.dart';
+// import 'package:tubes_pbp_gym/data/trainer_data.dart';
+// import 'package:tubes_pbp_gym/models/personal_trainer.dart';
+// import 'package:tubes_pbp_gym/view/beranda/personal_trainer.dart';
 
 class Addreview extends StatefulWidget {
   final Map? data;

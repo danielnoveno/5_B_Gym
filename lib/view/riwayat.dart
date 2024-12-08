@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:tubes_pbp_gym/view/profile.dart';
+// import 'package:tubes_pbp_gym/view/profile.dart';
 import 'package:tubes_pbp_gym/view/addreview.dart';
 
 

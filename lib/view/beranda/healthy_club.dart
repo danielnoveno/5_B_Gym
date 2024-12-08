@@ -99,8 +99,8 @@ class HealthyClubView extends StatelessWidget {
                     ClipRRect(
                       borderRadius:
                           const BorderRadius.all(Radius.circular(16.0)),
-                      child: Image.network(
-                        kelasOlahraga.imagePath, // Use network image here
+                      child: Image.asset(
+                        kelasOlahraga.imagePath,
                         height: 180,
                         width: double.infinity,
                         fit: BoxFit.cover,

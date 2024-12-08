@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:tubes_pbp_gym/view/edit_profile.dart';
+// import 'package:tubes_pbp_gym/view/edit_profile.dart';
 
 // Modify your profileButton2 widget to have a style similar to profileButton
 Widget profileButton2(BuildContext context, String label, {required VoidCallback onPressed}) {

@@ -3,20 +3,20 @@ import 'package:tubes_pbp_gym/entitiy/Pelanggan.dart';
 import 'package:http/http.dart' as http;
 
 class PelangganClient {
-  static const String url = '172.20.10.2:8000'; // Base URL
+  static const String url = '10.0.2.2:8000'; // Base URL
   static const String endpoint = '/api/pelanggan'; // Base endpoint
 
   // Fetch all pelanggans
-  static Future<List<Pelanggan>> fetchAll() async {
+  static Future<List<Pelanggan>> fetchAll(String token) async {
     try {
       var response = await http.get(
         Uri.http(url, endpoint),
+        headers: {"Authorization": "Bearer $token"},
       );
 
       if (response.statusCode != 200) throw Exception(response.reasonPhrase);
 
-      Iterable list =
-          json.decode(response.body); // Laravel returns plain JSON array
+      Iterable list = json.decode(response.body);
       return list.map((e) => Pelanggan.fromJson(e)).toList();
     } catch (e) {
       return Future.error(e.toString());
@@ -48,7 +48,12 @@ class PelangganClient {
         body: pelanggan.toRawJson(),
       );
 
-      if (response.statusCode != 201) throw Exception(response.reasonPhrase);
+      print("Response status: ${response.statusCode}");
+      print("Response body: ${response.body}");
+
+      if (response.statusCode != 201) {
+        throw Exception('Failed to create: ${response.body}');
+      }
 
       return response;
     } catch (e) {
