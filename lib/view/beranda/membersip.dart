@@ -28,7 +28,7 @@ class MembershipView extends StatelessWidget {
       case "GROUP":
         Navigator.push(
           context,
-          MaterialPageRoute(builder: (context) => GroupPage()),
+            MaterialPageRoute(builder: (context) => GroupPage()),
         );
         break;
       default:

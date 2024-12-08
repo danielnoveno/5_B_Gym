@@ -1,6 +1,7 @@
+// D:\Github\5_B_Gym\lib\entitiy\HealthyClub.dart
 import 'dart:convert';
 
-class KelasOlahraga {
+class KelasOlahragas {
   int idKelas;
   String judul;
   String harga;
@@ -11,7 +12,7 @@ class KelasOlahraga {
   int? idCoach;
   List<String> kelas;
 
-  KelasOlahraga({
+  KelasOlahragas({
     required this.idKelas,
     required this.judul,
     required this.harga,
@@ -23,10 +24,10 @@ class KelasOlahraga {
     required this.kelas,
   });
 
-  factory KelasOlahraga.fromRawJson(String str) =>
-      KelasOlahraga.fromJson(json.decode(str));
+  factory KelasOlahragas.fromRawJson(String str) =>
+      KelasOlahragas.fromJson(json.decode(str));
 
-  factory KelasOlahraga.fromJson(Map<String, dynamic> json) => KelasOlahraga(
+  factory KelasOlahragas.fromJson(Map<String, dynamic> json) => KelasOlahragas(
         idKelas: json["id_kelas"] ?? 0,
         judul: json["judul"] ?? '',
         harga: json["harga"] ?? '',

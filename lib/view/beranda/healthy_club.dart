@@ -1,17 +1,19 @@
 import 'package:flutter/material.dart';
-import 'package:tubes_pbp_gym/entitiy/HealthyClub.dart';
-import 'package:tubes_pbp_gym/client/Healthy_clubClient.dart';
 import 'package:tubes_pbp_gym/view/beranda/card_healthy_club/1_sesi.dart';
 import 'package:tubes_pbp_gym/view/beranda/card_healthy_club/4_sesi.dart';
 import 'package:tubes_pbp_gym/view/beranda/card_healthy_club/8_sesi.dart';
 import 'package:tubes_pbp_gym/view/beranda/card_healthy_club/unlimited.dart';
+import 'package:tubes_pbp_gym/client/Healthy_clubClient.dart';
+import 'package:tubes_pbp_gym/entitiy/HealthyClub.dart';
 
 class HealthyClubView extends StatelessWidget {
   HealthyClubView({super.key});
 
+  get kelasOlahraga => null;
+
   // Function to navigate to the appropriate page based on the title
   void _navigateToPage(
-      BuildContext context, String title, KelasOlahraga kelasOlahraga) {
+      BuildContext context, String title, KelasOlahragas kelasOlahragas) {
     switch (title) {
       case "1 Sesi":
         Navigator.push(
@@ -56,28 +58,30 @@ class HealthyClubView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder<List<KelasOlahraga>>(
-      future: KelasOlahragaClient.fetchAll(), // Fetching data from API
+    return FutureBuilder<List<KelasOlahragas>>(
+      future: KelasOlahragaClient.fetchAll(), // Fetch data from the API
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
-          return Center(child: CircularProgressIndicator());
+          return Center(
+              child: CircularProgressIndicator()); // Show loading spinner
         }
 
         if (snapshot.hasError) {
-          return Center(child: Text('Error: ${snapshot.error}'));
+          return Center(
+              child: Text('Error: ${snapshot.error}')); // Show error message
         }
 
         if (!snapshot.hasData || snapshot.data!.isEmpty) {
-          return Center(child: Text('No Data Available'));
+          return Center(child: Text('No data available')); // Show if no data
         }
 
-        final kelasOlahragaList = snapshot.data!;
+        final List<KelasOlahragas> kelasOlahragasList = snapshot.data!;
 
         return ListView.builder(
           padding: const EdgeInsets.symmetric(horizontal: 12),
-          itemCount: kelasOlahragaList.length,
+          itemCount: kelasOlahragasList.length,
           itemBuilder: (context, index) {
-            final kelasOlahraga = kelasOlahragaList[index];
+            final kelasOlahraga = kelasOlahragasList[index];
 
             return GestureDetector(
               onTap: () {
@@ -96,7 +100,7 @@ class HealthyClubView extends StatelessWidget {
                       borderRadius:
                           const BorderRadius.all(Radius.circular(16.0)),
                       child: Image.network(
-                        kelasOlahraga.imagePath,
+                        kelasOlahraga.imagePath, // Use network image here
                         height: 180,
                         width: double.infinity,
                         fit: BoxFit.cover,
@@ -145,9 +149,7 @@ class HealthyClubView extends StatelessWidget {
                                   ),
                                   const SizedBox(height: 4),
                                   Text(
-                                    kelasOlahraga.deskripsi.isNotEmpty
-                                        ? kelasOlahraga.deskripsi.join(', ')
-                                        : 'No description available',
+                                    kelasOlahraga.deskripsi.join(", "),
                                     style: const TextStyle(
                                       fontSize: 14,
                                       color: Colors.white70,
