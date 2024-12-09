@@ -3,22 +3,36 @@ import 'package:http/http.dart' as http;
 import 'package:tubes_pbp_gym/entitiy/Jadwal.dart';
 
 class ActivityClient {
-  static const String url = '10.0.2.2:8000'; // Base URL untuk Android Emulator
-  static const String endpoint = '/api/activity'; // Endpoint Laravel
+  static const String url = '10.0.2.2:8000'; // Base URL
+  static const String endpoint = '/api/activity'; // Base endpoint
 
   // Fetch all activities
-  static Future<List<Activity>> fetchAll({String? date}) async {
+  // Fetch all activities
+  static Future<List<Activity>> fetchAll() async {
     try {
-      final uri = date != null
-          ? Uri.http(url, endpoint, {"date": date})
-          : Uri.http(url, endpoint);
-
-      var response = await http.get(uri);
+      var response = await http.get(
+        Uri.http(url, endpoint),
+      );
 
       if (response.statusCode != 200) throw Exception(response.reasonPhrase);
 
-      Iterable list = json.decode(response.body)['data'];
-      return list.map((e) => Activity.fromJson(e)).toList();
+      var decodedResponse = json.decode(response.body);
+
+      // Check if the decoded response is a map
+      if (decodedResponse is Map<String, dynamic>) {
+        // If the response is a map, check if it contains the expected array
+        if (decodedResponse.containsKey('data')) {
+          Iterable list = decodedResponse['data'];
+          return list.map((e) => Activity.fromJson(e)).toList();
+        } else {
+          throw Exception('Response does not contain "data" key');
+        }
+      } else if (decodedResponse is List) {
+        // If the response is a direct list, handle it as expected
+        return decodedResponse.map((e) => Activity.fromJson(e)).toList();
+      } else {
+        throw Exception('Unexpected response format');
+      }
     } catch (e) {
       return Future.error(e.toString());
     }
@@ -34,7 +48,7 @@ class ActivityClient {
       if (response.statusCode == 404) throw Exception("Activity not found");
       if (response.statusCode != 200) throw Exception(response.reasonPhrase);
 
-      return Activity.fromJson(json.decode(response.body)['data']);
+      return Activity.fromJson(json.decode(response.body));
     } catch (e) {
       return Future.error(e.toString());
     }
@@ -60,17 +74,22 @@ class ActivityClient {
   // Update an existing activity
   static Future<http.Response> update(Activity activity) async {
     try {
+      print('Updating activity with ID: ${activity.id}');
       var response = await http.put(
         Uri.http(url, '$endpoint/${activity.id}'),
         headers: {"Content-Type": "application/json"},
         body: activity.toRawJson(),
       );
 
+      print('Response status: ${response.statusCode}');
+      print('Response body: ${response.body}');
+
       if (response.statusCode == 404) throw Exception("Activity not found");
       if (response.statusCode != 200) throw Exception(response.reasonPhrase);
 
       return response;
     } catch (e) {
+      print('Error: $e');
       return Future.error(e.toString());
     }
   }
