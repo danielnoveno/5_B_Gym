@@ -163,9 +163,9 @@ class _addReview extends State<Addreview> {
                                   // Button at the bottom of the box
                                   onPressed: () {
                                     Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                              builder: (c) => ReadReview()));
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (c) => ReadReview()));
                                   },
                                   child: Text(
                                     'Press Me', // Button text
