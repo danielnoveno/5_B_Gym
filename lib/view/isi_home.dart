@@ -34,7 +34,7 @@ class _HomeViewContentState extends State<HomeViewContent> {
       case 2:
         return HealthyClubView();
       case 3:
-        return GymEquipmentView();
+        return AlatGymView();
       default:
         return const Center(child: Text('No View Available'));
     }
@@ -253,4 +253,3 @@ class _HomeViewContentState extends State<HomeViewContent> {
     );
   }
 }
-
