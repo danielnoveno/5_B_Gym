@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:nfc_manager/nfc_manager.dart';
 import 'package:table_calendar/table_calendar.dart';
-import 'package:tubes_pbp_gym/entitiy/Jadwal.dart';
-import 'package:tubes_pbp_gym/client/JadwalClient.dart';
 
 class Jadwal extends StatefulWidget {
   const Jadwal({super.key});
@@ -13,13 +11,13 @@ class Jadwal extends StatefulWidget {
 
 class _JadwalState extends State<Jadwal> {
   DateTime today = DateTime.now();
-  Map<DateTime, List<Activity>> activities = {}; // Store activities
+  Map<DateTime, List<Map<String, dynamic>>> activities =
+      {}; // Store activity with creation time
 
   @override
   void initState() {
     super.initState();
     _startNFCReading(); // Start NFC reading when the app starts
-    _fetchActivities(); // Fetch activities from the API
   }
 
   void _onDaySelected(DateTime day, DateTime focusedDay) {
@@ -28,43 +26,24 @@ class _JadwalState extends State<Jadwal> {
     });
   }
 
-  // Add activity and send it to the server
-  void _addActivity(DateTime date, String activityName) async {
-    Activity newActivity = Activity(
-      activity: activityName,
-      createdAt: DateTime.now(),
-      finishAt: null,
-      date: date,
-    );
-
-    try {
-      // Create activity using ActivityClient API
-      await ActivityClient.create(newActivity);
-      // After creating, fetch the updated list
-      _fetchActivities();
-    } catch (e) {
-      debugPrint('Failed to add activity: $e');
-    }
-  }
-
-  // Fetch activities from API and update the state
-  void _fetchActivities() async {
-    try {
-      List<Activity> allActivities = await ActivityClient.fetchAll();
-      debugPrint(
-          'Fetched Activities: ${allActivities.toString()}'); // Tambahkan debug print
-      setState(() {
-        activities.clear(); // Clear existing activities
-        for (var activity in allActivities) {
-          if (!activities.containsKey(activity.date)) {
-            activities[activity.date] = [];
+  void _addActivity(DateTime date, String activity) {
+    setState(() {
+      if (activities[date] != null) {
+        activities[date]!.add({
+          'activity': activity,
+          'createdAt': DateTime.now(),
+          'finishAt': null, // This will be set later
+        });
+      } else {
+        activities[date] = [
+          {
+            'activity': activity,
+            'createdAt': DateTime.now(),
+            'finishAt': null,
           }
-          activities[activity.date]!.add(activity);
-        }
-      });
-    } catch (e) {
-      debugPrint('Failed to fetch activities: $e');
-    }
+        ];
+      }
+    });
   }
 
   // NFC Reading Logic
@@ -90,9 +69,10 @@ class _JadwalState extends State<Jadwal> {
     }
   }
 
-  void _showActivityDetail(BuildContext context, Activity activity) {
-    final DateTime createdAt = activity.createdAt;
-    final DateTime? finishAt = activity.finishAt;
+  void _showActivityDetail(
+      BuildContext context, Map<String, dynamic> activityData) {
+    final DateTime createdAt = activityData['createdAt'];
+    final DateTime? finishAt = activityData['finishAt'];
 
     showDialog(
       context: context,
@@ -107,7 +87,7 @@ class _JadwalState extends State<Jadwal> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              'Activity: ${activity.activity}',
+              'Activity: ${activityData['activity']}',
               style: const TextStyle(color: Colors.white),
             ),
             const SizedBox(height: 10),
@@ -132,7 +112,7 @@ class _JadwalState extends State<Jadwal> {
             TextButton(
               onPressed: () {
                 setState(() {
-                  activity.finishAt = DateTime.now();
+                  activityData['finishAt'] = DateTime.now();
                 });
                 Navigator.pop(context);
               },
@@ -277,15 +257,13 @@ class _JadwalState extends State<Jadwal> {
             const SizedBox(height: 10),
             Expanded(
               child: ListView(
-                children: activities[today]?.map((activity) {
-                      debugPrint(
-                          'Displaying activity: ${activity.activity} for ${today.toString()}');
+                children: activities[today]?.map((activityData) {
                       return ListTile(
                         title: Text(
-                          activity.activity,
+                          activityData['activity'],
                           style: const TextStyle(color: Colors.white),
                         ),
-                        onTap: () => _showActivityDetail(context, activity),
+                        onTap: () => _showActivityDetail(context, activityData),
                       );
                     }).toList() ??
                     [

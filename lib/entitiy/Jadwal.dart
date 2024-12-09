@@ -1,35 +1,44 @@
+import 'dart:convert';
+
 class Activity {
-  final String activity;
-  final DateTime createdAt;
-  DateTime? finishAt;
-  final DateTime date;
+  int id;
+  String activity;
+  String? finishAt; // Nullable, sesuai dengan `finish_at` yang bisa null
+  String date;
+  DateTime createdAt;
+  DateTime updatedAt;
 
   Activity({
+    required this.id,
     required this.activity,
-    required this.createdAt,
     this.finishAt,
     required this.date,
+    required this.createdAt,
+    required this.updatedAt,
   });
 
-  factory Activity.fromJson(Map<String, dynamic> json) {
-    return Activity(
-      activity: json['activity'],
-      createdAt: DateTime.parse(json['created_at'])
-          .toLocal(), // Mengubah ke waktu lokal
-      finishAt: json['finish_at'] != null
-          ? DateTime.parse(json['finish_at'])
-              .toLocal() // Mengubah ke waktu lokal
-          : null,
-      date: DateTime.parse(json['date']).toLocal(), // Mengubah ke waktu lokal
-    );
-  }
+  // Membuat objek Activity dari data JSON yang diterima dari API
+  factory Activity.fromRawJson(String str) =>
+      Activity.fromJson(json.decode(str));
 
-  Map<String, dynamic> toJson() {
-    return {
-      'activity': activity,
-      'created_at': createdAt.toUtc().toIso8601String(), // Mengirim waktu UTC
-      'finish_at': finishAt?.toUtc().toIso8601String(),
-      'date': date.toUtc().toIso8601String(), // Mengirim waktu UTC
-    };
-  }
+  factory Activity.fromJson(Map<String, dynamic> json) => Activity(
+        id: json["id"],
+        activity: json["activity"],
+        finishAt: json["finish_at"],
+        date: json["date"],
+        createdAt: DateTime.parse(json["created_at"]),
+        updatedAt: DateTime.parse(json["updated_at"]),
+      );
+
+  // Mengonversi objek Activity menjadi data JSON untuk dikirim ke API
+  String toRawJson() => json.encode(toJson());
+
+  Map<String, dynamic> toJson() => {
+        "id": id,
+        "activity": activity,
+        "finish_at": finishAt,
+        "date": date,
+        "created_at": createdAt.toIso8601String(),
+        "updated_at": updatedAt.toIso8601String(),
+      };
 }
