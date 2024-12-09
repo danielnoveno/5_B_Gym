@@ -71,12 +71,14 @@ class ActivityClient {
     }
   }
 
-  // Update an existing activity
-  static Future<http.Response> update(Activity activity) async {
+  // Update an existing activity by time or any other unique attribute
+  static Future<http.Response> updateByTime(Activity activity) async {
     try {
-      print('Updating activity with ID: ${activity.id}');
+      print('Updating activity with time: ${activity.createdAt}');
+      // Misalnya `createdAt` adalah waktu pembuatan aktivitas
       var response = await http.put(
-        Uri.http(url, '$endpoint/${activity.id}'),
+        Uri.http(url,
+            '$endpoint/by-time'), // Buat endpoint baru untuk pencarian berdasarkan waktu
         headers: {"Content-Type": "application/json"},
         body: activity.toRawJson(),
       );
