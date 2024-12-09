@@ -20,8 +20,7 @@ class _HealthyClub1SesiState extends State<HealthyClub1Sesi> {
   @override
   void initState() {
     super.initState();
-    selectedOlahraga = widget
-        .kelasOlahraga.availableClasses[0];
+    selectedOlahraga = widget.kelasOlahraga.availableClasses[0];
   }
 
   double parsePrice(String price) {
@@ -35,7 +34,7 @@ class _HealthyClub1SesiState extends State<HealthyClub1Sesi> {
       backgroundColor: Colors.black,
       appBar: AppBar(
         title: Text(
-          widget.kelasOlahraga.title, 
+          widget.kelasOlahraga.title,
           style: TextStyle(color: Colors.white),
         ),
         leading: IconButton(

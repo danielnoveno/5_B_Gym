@@ -5,6 +5,7 @@ import 'package:tubes_pbp_gym/view/home.dart';
 import 'package:tubes_pbp_gym/view/register.dart';
 // import 'package:tubes_pbp_gym/view/login.dart';
 import 'package:tubes_pbp_gym/view/riwayat.dart';
+import 'package:tubes_pbp_gym/nfc/read_write.dart';
 
 void main() {
   runApp(
@@ -23,13 +24,16 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       onGenerateRoute: (settings) {
         switch (settings.name) {
-          case '/home':
-            return MaterialPageRoute(builder: (context) => const HomeView());
+          case '/login':
+            return MaterialPageRoute(builder: (context) => const LoginView());
           case '/register':
             return MaterialPageRoute(
                 builder: (context) => const RegisterView());
           case '/home':
             return MaterialPageRoute(builder: (context) => const HomeView());
+          case '/nfc':
+            return MaterialPageRoute(
+                builder: (context) => const ReadWriteNFCScreen());
           default:
             return MaterialPageRoute(builder: (context) => const Riwayat());
         }

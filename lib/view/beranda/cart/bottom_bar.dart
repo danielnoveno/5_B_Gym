@@ -3,6 +3,7 @@ import 'package:tubes_pbp_gym/models/items_cart.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:tubes_pbp_gym/providers/cart_provider.dart';
+import 'package:tubes_pbp_gym/view/Payment/paymentMethod.dart';
 
 class BottomBar extends StatelessWidget {
   final List<CartItem> cartItems;
@@ -84,7 +85,8 @@ class BottomBar extends StatelessWidget {
                     }
                   }
                 : () {
-                    // Implementasi untuk tombol bayar
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: (c) => PaymentPage()));
                   },
             child: Text(
               isEditing ? 'Hapus' : 'Bayar',
