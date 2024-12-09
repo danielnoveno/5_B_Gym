@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:nfc_manager/nfc_manager.dart';
 import 'package:table_calendar/table_calendar.dart';
+import 'package:tubes_pbp_gym/entitiy/Jadwal.dart';
+import 'package:tubes_pbp_gym/client/JadwalClient.dart';
 
 class Jadwal extends StatefulWidget {
   const Jadwal({super.key});
@@ -11,13 +13,13 @@ class Jadwal extends StatefulWidget {
 
 class _JadwalState extends State<Jadwal> {
   DateTime today = DateTime.now();
-  Map<DateTime, List<Map<String, dynamic>>> events =
-      {}; // Store event with creation time
+  Map<DateTime, List<Activity>> activities = {}; // Store activities
 
   @override
   void initState() {
     super.initState();
     _startNFCReading(); // Start NFC reading when the app starts
+    _fetchActivities(); // Fetch activities from the API
   }
 
   void _onDaySelected(DateTime day, DateTime focusedDay) {
@@ -26,24 +28,43 @@ class _JadwalState extends State<Jadwal> {
     });
   }
 
-  void _addEvent(DateTime date, String event) {
-    setState(() {
-      if (events[date] != null) {
-        events[date]!.add({
-          'event': event,
-          'createdAt': DateTime.now(),
-          'finishAt': null, // This will be set later
-        });
-      } else {
-        events[date] = [
-          {
-            'event': event,
-            'createdAt': DateTime.now(),
-            'finishAt': null,
+  // Add activity and send it to the server
+  void _addActivity(DateTime date, String activityName) async {
+    Activity newActivity = Activity(
+      activity: activityName,
+      createdAt: DateTime.now(),
+      finishAt: null,
+      date: date,
+    );
+
+    try {
+      // Create activity using ActivityClient API
+      await ActivityClient.create(newActivity);
+      // After creating, fetch the updated list
+      _fetchActivities();
+    } catch (e) {
+      debugPrint('Failed to add activity: $e');
+    }
+  }
+
+  // Fetch activities from API and update the state
+  void _fetchActivities() async {
+    try {
+      List<Activity> allActivities = await ActivityClient.fetchAll();
+      debugPrint(
+          'Fetched Activities: ${allActivities.toString()}'); // Tambahkan debug print
+      setState(() {
+        activities.clear(); // Clear existing activities
+        for (var activity in allActivities) {
+          if (!activities.containsKey(activity.date)) {
+            activities[activity.date] = [];
           }
-        ];
-      }
-    });
+          activities[activity.date]!.add(activity);
+        }
+      });
+    } catch (e) {
+      debugPrint('Failed to fetch activities: $e');
+    }
   }
 
   // NFC Reading Logic
@@ -55,7 +76,7 @@ class _JadwalState extends State<Jadwal> {
         NfcManager.instance.startSession(
           onDiscovered: (NfcTag tag) async {
             // When NFC tag is discovered, automatically add the "Hadir" activity.
-            _addEvent(today, "Hadir");
+            _addActivity(today, "Hadir");
 
             // Stop NFC session after tag is read
             NfcManager.instance.stopSession();
@@ -69,16 +90,16 @@ class _JadwalState extends State<Jadwal> {
     }
   }
 
-  void _showEventDetail(BuildContext context, Map<String, dynamic> eventData) {
-    final DateTime createdAt = eventData['createdAt'];
-    final DateTime? finishAt = eventData['finishAt'];
+  void _showActivityDetail(BuildContext context, Activity activity) {
+    final DateTime createdAt = activity.createdAt;
+    final DateTime? finishAt = activity.finishAt;
 
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
         backgroundColor: Colors.black,
         title: const Text(
-          'Event Detail',
+          'Activity Detail',
           style: TextStyle(color: Colors.white),
         ),
         content: Column(
@@ -86,7 +107,7 @@ class _JadwalState extends State<Jadwal> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              'Event: ${eventData['event']}',
+              'Activity: ${activity.activity}',
               style: const TextStyle(color: Colors.white),
             ),
             const SizedBox(height: 10),
@@ -111,7 +132,7 @@ class _JadwalState extends State<Jadwal> {
             TextButton(
               onPressed: () {
                 setState(() {
-                  eventData['finishAt'] = DateTime.now();
+                  activity.finishAt = DateTime.now();
                 });
                 Navigator.pop(context);
               },
@@ -235,7 +256,7 @@ class _JadwalState extends State<Jadwal> {
             ),
             const SizedBox(height: 10),
             ElevatedButton(
-              onPressed: () => _showAddEventDialog(context),
+              onPressed: () => _showAddActivityDialog(context),
               style: ElevatedButton.styleFrom(
                 backgroundColor: Colors.purple,
               ),
@@ -256,17 +277,19 @@ class _JadwalState extends State<Jadwal> {
             const SizedBox(height: 10),
             Expanded(
               child: ListView(
-                children: events[today]?.map((eventData) {
+                children: activities[today]?.map((activity) {
+                      debugPrint(
+                          'Displaying activity: ${activity.activity} for ${today.toString()}');
                       return ListTile(
                         title: Text(
-                          eventData['event'],
+                          activity.activity,
                           style: const TextStyle(color: Colors.white),
                         ),
-                        onTap: () => _showEventDetail(context, eventData),
+                        onTap: () => _showActivityDetail(context, activity),
                       );
                     }).toList() ??
                     [
-                      const Text('No events',
+                      const Text('No activities',
                           style: TextStyle(color: Colors.grey))
                     ],
               ),
@@ -277,21 +300,21 @@ class _JadwalState extends State<Jadwal> {
     );
   }
 
-  void _showAddEventDialog(BuildContext context) {
+  void _showAddActivityDialog(BuildContext context) {
     final TextEditingController controller = TextEditingController();
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
         backgroundColor: Colors.black,
         title: const Text(
-          'Add Event',
+          'Add Activity',
           style: TextStyle(color: Colors.white),
         ),
         content: TextField(
           controller: controller,
           style: const TextStyle(color: Colors.white),
           decoration: const InputDecoration(
-            hintText: 'Event Name',
+            hintText: 'Activity Name',
             hintStyle: TextStyle(color: Colors.grey),
           ),
         ),
@@ -308,7 +331,7 @@ class _JadwalState extends State<Jadwal> {
           TextButton(
             onPressed: () {
               if (controller.text.isNotEmpty) {
-                _addEvent(today, controller.text);
+                _addActivity(today, controller.text);
               }
               Navigator.pop(context);
             },
