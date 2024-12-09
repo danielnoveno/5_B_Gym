@@ -1,6 +1,6 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
-import 'package:tubes_pbp_gym/entitiy/Trainer.dart'; // Pastikan path ini sesuai dengan struktur project Anda
+import 'package:tubes_pbp_gym/entity/Trainer.dart'; // Pastikan path ini sesuai dengan struktur project Anda
 
 class TrainerClient {
   static const String url = '10.0.2.2:8000'; // Base URL

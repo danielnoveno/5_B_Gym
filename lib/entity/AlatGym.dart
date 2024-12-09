@@ -2,12 +2,14 @@ import 'dart:convert';
 
 class AlatGym {
   int idAlat;
+  String imagePath;
   String namaAlat;
   String deskripsi;
   double harga;
 
   AlatGym({
     required this.idAlat,
+    required this.imagePath,
     required this.namaAlat,
     required this.deskripsi,
     required this.harga,
@@ -18,6 +20,7 @@ class AlatGym {
 
   factory AlatGym.fromJson(Map<String, dynamic> json) => AlatGym(
         idAlat: json["id_alat"],
+        imagePath: json["image_path"],
         namaAlat: json["nama_alat"],
         deskripsi: json["deskripsi"],
         harga: json["harga"].toDouble(),
@@ -28,6 +31,7 @@ class AlatGym {
 
   Map<String, dynamic> toJson() => {
         "id_alat": idAlat,
+        "image_path": imagePath,
         "nama_alat": namaAlat,
         "deskripsi": deskripsi,
         "harga": harga,

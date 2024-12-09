@@ -1,5 +1,5 @@
 import 'dart:convert';
-import 'package:tubes_pbp_gym/entitiy/Pelanggan.dart';
+import 'package:tubes_pbp_gym/entity/Pelanggan.dart';
 import 'package:http/http.dart' as http;
 
 class PelangganClient {

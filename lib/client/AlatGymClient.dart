@@ -1,59 +1,31 @@
+// lib/client/AlatGymClient.dart
+
 import 'dart:convert';
 import 'package:http/http.dart' as http;
-import 'package:tubes_pbp_gym/entitiy/AlatGym.dart'; // Sesuaikan path sesuai struktur project kamu
+import 'package:tubes_pbp_gym/entity/AlatGym.dart'; // Pastikan path sesuai dengan folder tempat file AlatGym.dart
 
 class AlatGymClient {
-  static const String url = '127.0.0.1:8000'; 
+  static const String url =
+      '127.0.0.1:8000'; // Ganti dengan URL server API yang sesuai
   static const String endpoint =
-      '/api/alat-gym'; 
+      '/api/alat_gym'; // Endpoint API Laravel untuk mengambil alat gym
 
-  // Mengambil semua alat gym
+  // Fungsi untuk mengambil semua alat gym dari API
   static Future<List<AlatGym>> fetchAll() async {
     try {
-      var response = await http.get(
-        Uri.http(url, endpoint),
-      );
+      final response = await http.get(Uri.http(url, endpoint));
 
-      if (response.statusCode != 200) throw Exception(response.reasonPhrase);
-
-      Iterable list =
-          json.decode(response.body); // Menyaring data JSON dari response
-      return list.map((e) => AlatGym.fromJson(e)).toList();
+      if (response.statusCode == 200) {
+        // Jika response berhasil, parsing JSON
+        final data = json.decode(response.body)[
+            'data']; // Ambil data dari key 'data' pada response JSON
+        // Mengubah data JSON menjadi list of AlatGym
+        return List<AlatGym>.from(data.map((item) => AlatGym.fromJson(item)));
+      } else {
+        throw Exception('Failed to load gym equipment');
+      }
     } catch (e) {
-      return Future.error(e.toString());
-    }
-  }
-
-  // Mengambil satu alat gym berdasarkan ID
-  static Future<AlatGym> find(int id) async {
-    try {
-      var response = await http.get(
-        Uri.http(url, '$endpoint/$id'),
-      );
-
-      if (response.statusCode == 404) throw Exception("Alat Gym not found");
-      if (response.statusCode != 200) throw Exception(response.reasonPhrase);
-
-      return AlatGym.fromJson(json.decode(response.body));
-    } catch (e) {
-      return Future.error(e.toString());
-    }
-  }
-
-  // Mengirim data alat gym baru ke server
-  static Future<http.Response> create(AlatGym alatGym) async {
-    try {
-      var response = await http.post(
-        Uri.http(url, endpoint),
-        headers: {"Content-Type": "application/json"},
-        body: alatGym.toRawJson(),
-      );
-
-      if (response.statusCode != 201) throw Exception(response.reasonPhrase);
-
-      return response;
-    } catch (e) {
-      return Future.error(e.toString());
+      throw Exception('Error fetching data: $e');
     }
   }
 }
