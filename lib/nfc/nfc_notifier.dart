@@ -118,4 +118,3 @@ class NFCNotifier extends ChangeNotifier {
 }
 
 enum NFCOperation { read, write }
- 
