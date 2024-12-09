@@ -28,6 +28,7 @@ dependencies:
   flutter_riverpod: ^2.6.1
   pdf: ^3.6.0
   printing: ^5.4.0
+  flutter_nfc_kit: ^3.4.2
 
 dev_dependencies:
   flutter_test:
@@ -53,4 +54,3 @@ flutter:
     - images/gym.png
     - lottie/
     - images/Payment/
-    - assets/icons/

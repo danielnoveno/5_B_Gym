@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:table_calendar/table_calendar.dart';
+import 'package:flutter_nfc_kit/flutter_nfc_kit.dart';
 
 class Jadwal extends StatefulWidget {
   const Jadwal({super.key});
@@ -11,6 +12,18 @@ class Jadwal extends StatefulWidget {
 class _JadwalState extends State<Jadwal> {
   DateTime today = DateTime.now();
   Map<DateTime, List<String>> events = {};
+
+  @override
+  void initState() {
+    super.initState();
+    startNfcPolling(); // Mulai polling NFC
+  }
+
+  @override
+  void dispose() {
+    FlutterNfcKit.finish(); // Hentikan polling NFC
+    super.dispose();
+  }
 
   void _onDaySelected(DateTime day, DateTime focusedDay) {
     setState(() {
@@ -26,6 +39,40 @@ class _JadwalState extends State<Jadwal> {
         events[date] = [event];
       }
     });
+  }
+
+  Future<void> startNfcPolling() async {
+    while (mounted) {
+      try {
+        // Mulai scanning NFC
+        NFCTag tag = await FlutterNfcKit.poll();
+
+        // Dapatkan waktu sekarang
+        String eventTime = DateTime.now().toLocal().toString();
+
+        setState(() {
+          if (events[today]?.any((e) => e.startsWith("Anda Masuk")) ?? false) {
+            // Jika event "Anda Masuk" sudah ada, hapus
+            events[today]!.removeWhere((e) => e.startsWith("Anda Masuk"));
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(content: Text("Event dihapus")),
+            );
+          } else {
+            // Jika event belum ada, tambahkan
+            _addEvent(today, "Anda Masuk pada $eventTime");
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(content: Text("Anda Masuk pada $eventTime")),
+            );
+          }
+        });
+
+        // Selesaikan proses NFC setelah mendeteksi tag
+        await FlutterNfcKit.finish();
+      } catch (e) {
+        // Jika error atau tidak ada tag, tunggu sebelum polling berikutnya
+        await Future.delayed(const Duration(seconds: 1));
+      }
+    }
   }
 
   @override
@@ -128,17 +175,6 @@ class _JadwalState extends State<Jadwal> {
               ),
             ),
             const SizedBox(height: 10),
-            ElevatedButton(
-              onPressed: () => _showAddEventDialog(context),
-              style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.purple,
-              ),
-              child: const Text(
-                'Add Event',
-                style: TextStyle(color: Colors.white),
-              ),
-            ),
-            const SizedBox(height: 10),
             const Text(
               'Detail',
               style: TextStyle(
@@ -166,51 +202,6 @@ class _JadwalState extends State<Jadwal> {
             ),
           ],
         ),
-      ),
-    );
-  }
-
-  void _showAddEventDialog(BuildContext context) {
-    final TextEditingController controller = TextEditingController();
-    showDialog(
-      context: context,
-      builder: (context) => AlertDialog(
-        backgroundColor: Colors.black,
-        title: const Text(
-          'Add Event',
-          style: TextStyle(color: Colors.white),
-        ),
-        content: TextField(
-          controller: controller,
-          style: const TextStyle(color: Colors.white),
-          decoration: const InputDecoration(
-            hintText: 'Event Name',
-            hintStyle: TextStyle(color: Colors.grey),
-          ),
-        ),
-        actions: [
-          TextButton(
-            onPressed: () {
-              Navigator.pop(context);
-            },
-            child: const Text(
-              'Cancel',
-              style: TextStyle(color: Colors.red),
-            ),
-          ),
-          TextButton(
-            onPressed: () {
-              if (controller.text.isNotEmpty) {
-                _addEvent(today, controller.text);
-              }
-              Navigator.pop(context);
-            },
-            child: const Text(
-              'Add',
-              style: TextStyle(color: Colors.purple),
-            ),
-          ),
-        ],
       ),
     );
   }
