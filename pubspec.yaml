@@ -29,6 +29,7 @@ dependencies:
   pdf: ^3.6.0
   printing: ^5.4.0
   flutter_nfc_kit: ^3.4.2
+  nfc_manager: ^3.5.0
 
 dev_dependencies:
   flutter_test:
