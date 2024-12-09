@@ -3,7 +3,7 @@ import 'package:tubes_pbp_gym/entitiy/Pelanggan.dart';
 import 'package:http/http.dart' as http;
 
 class PelangganClient {
-  static const String url = '172.20.10.2:8000'; // Base URL
+  static const String url = '10.0.2.2:8000'; // Base URL
   static const String endpoint = '/api/pelanggan'; // Base endpoint
 
   // Fetch all pelanggans

@@ -113,8 +113,8 @@ class _ProfileViewState extends State<ProfileView> {
                   const SizedBox(height: 10),
                   profileButton(context, 'Edit Profile'),
                   profileButton(context, 'Riwayat'),
-                  profileButton(context, 'Penilaian'),
-                  const SizedBox(height: 20),
+                  // profileButton(context, 'Penilaian'),
+                  const SizedBox(height: 10),
                   TextButton.icon(
                     onPressed: () {
                       Navigator.pushReplacementNamed(context, '/login');
