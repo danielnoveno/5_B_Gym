@@ -3,7 +3,7 @@ import 'package:tubes_pbp_gym/entitiy/Pelanggan.dart';
 import 'package:http/http.dart' as http;
 
 class PelangganClient {
-  static const String url = '172.20.10.2:8000'; // Base URL
+  static const String url = '10.0.2.2:8000'; // Base URL
   static const String endpoint = '/api/pelanggan'; // Base endpoint
 
   // Fetch all pelanggans
@@ -89,4 +89,21 @@ class PelangganClient {
       return Future.error(e.toString());
     }
   }
+
+  // Fetch a single pelanggan by ID
+static Future<Pelanggan> fetchById(int id) async {
+  try {
+    var response = await http.get(
+      Uri.http(url, '$endpoint/$id'),
+    );
+
+    if (response.statusCode == 404) throw Exception("Pelanggan not found");
+    if (response.statusCode != 200) throw Exception(response.reasonPhrase);
+
+    return Pelanggan.fromJson(json.decode(response.body));
+  } catch (e) {
+    return Future.error(e.toString());
+  }
 }
+}
+

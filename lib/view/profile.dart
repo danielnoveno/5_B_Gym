@@ -111,9 +111,13 @@ class _ProfileViewState extends State<ProfileView> {
                     ],
                   ),
                   const SizedBox(height: 10),
-                  profileButton(context, 'Edit Profile'),
-                  profileButton(context, 'Riwayat'),
-                  profileButton(context, 'Penilaian'),
+                  profileButton(context, 'Edit Profile', () {
+                  setState(() {
+                    _profileFuture = _fetchProfile(); // Refresh the profile
+                    });
+                  }),
+                  profileButton(context, 'Riwayat', () {}),
+                  profileButton(context, ' Penilaian', () {}),
                   const SizedBox(height: 20),
                   TextButton.icon(
                     onPressed: () {
