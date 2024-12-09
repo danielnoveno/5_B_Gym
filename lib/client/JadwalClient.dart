@@ -7,7 +7,6 @@ class ActivityClient {
   static const String endpoint = '/api/activity'; // Base endpoint
 
   // Fetch all activities
-  // Fetch all activities
   static Future<List<Activity>> fetchAll() async {
     try {
       var response = await http.get(
@@ -20,16 +19,29 @@ class ActivityClient {
 
       // Check if the decoded response is a map
       if (decodedResponse is Map<String, dynamic>) {
-        // If the response is a map, check if it contains the expected array
         if (decodedResponse.containsKey('data')) {
           Iterable list = decodedResponse['data'];
-          return list.map((e) => Activity.fromJson(e)).toList();
+          var activities = list.map((e) => Activity.fromJson(e)).toList();
+
+          // Print ID of each activity
+          for (var activity in activities) {
+            print('Activity ID: ${activity.id}');
+          }
+
+          return activities;
         } else {
           throw Exception('Response does not contain "data" key');
         }
       } else if (decodedResponse is List) {
-        // If the response is a direct list, handle it as expected
-        return decodedResponse.map((e) => Activity.fromJson(e)).toList();
+        var activities =
+            decodedResponse.map((e) => Activity.fromJson(e)).toList();
+
+        // Print ID of each activity
+        for (var activity in activities) {
+          print('Activity ID: ${activity.id}');
+        }
+
+        return activities;
       } else {
         throw Exception('Unexpected response format');
       }
@@ -63,10 +75,26 @@ class ActivityClient {
         body: activity.toRawJson(),
       );
 
+      print('Response status: ${response.statusCode}');
+      print('Response body: ${response.body}');
+
       if (response.statusCode != 201) throw Exception(response.reasonPhrase);
+
+      // Assuming the response contains the created activity with the ID in the body
+      var decodedResponse = json.decode(response.body);
+
+      // Access the 'data' field to get the 'id'
+      if (decodedResponse.containsKey('data') &&
+          decodedResponse['data'].containsKey('id')) {
+        int activityId = decodedResponse['data']['id'];
+        print('Activity created successfully with ID: $activityId');
+      } else {
+        throw Exception('ID not found in the response');
+      }
 
       return response;
     } catch (e) {
+      print('Error creating activity: $e');
       return Future.error(e.toString());
     }
   }
@@ -75,6 +103,11 @@ class ActivityClient {
   static Future<http.Response> update(Activity activity) async {
     try {
       print('Updating activity with ID: ${activity.id}');
+      if (activity.id == 0) {
+        print('Error: Invalid activity ID (0)');
+        return Future.error('Invalid activity ID');
+      }
+
       var response = await http.put(
         Uri.http(url, '$endpoint/${activity.id}'),
         headers: {"Content-Type": "application/json"},

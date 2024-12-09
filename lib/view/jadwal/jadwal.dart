@@ -57,25 +57,29 @@ class _JadwalState extends State<Jadwal> {
   }
 
   void _addActivity(DateTime date, String activityName) async {
+    // Create activity with finishAt set to null initially
     Activity newActivity = Activity(
-      id: 0, // Temporary ID until created in API
+      id: 0, // ID sementara sampai dibuat di API
       activity: activityName,
-      finishAt: null,
+      finishAt: DateTime.now(),
       date: date.toIso8601String(),
-      createdAt: DateTime.now(),
+      createdAt: DateTime.now(), // Set createdAt to current time
       updatedAt: DateTime.now(),
     );
 
     try {
       var response = await ActivityClient.create(newActivity);
       if (response.statusCode == 201) {
-        // Add to local state after successful creation
+        // After activity is created, update its ID from API response
+        var createdActivity =
+            Activity.fromJson(json.decode(response.body)['data']);
         setState(() {
-          if (activities[date] != null) {
-            activities[date]!.add(newActivity);
-          } else {
-            activities[date] = [newActivity];
-          }
+          setState(() {
+            if (activities[date] == null) {
+              activities[date] = [];
+            }
+            activities[date]!.add(createdActivity);
+          });
         });
       }
     } catch (e) {
@@ -83,14 +87,36 @@ class _JadwalState extends State<Jadwal> {
     }
   }
 
-  // NFC Reading Logic
+// NFC Reading Logic
   void _startNFCReading() async {
     try {
       bool isAvailable = await NfcManager.instance.isAvailable();
       if (isAvailable) {
         NfcManager.instance.startSession(
           onDiscovered: (NfcTag tag) async {
+            // Tandai aktivitas sebagai hadir ketika NFC terbaca
             _addActivity(today, "Hadir");
+
+            // Cari aktivitas berdasarkan tanggal
+            List<Activity>? activitiesToday = activities[today];
+            if (activitiesToday != null && activitiesToday.isNotEmpty) {
+              Activity activity =
+                  activitiesToday.first; // Ambil aktivitas pertama
+              activity.finishAt =
+                  DateTime.now(); // Set finishAt dengan waktu sekarang
+              // Update aktivitas di API setelah NFC terbaca
+              try {
+                var response = await ActivityClient.update(activity);
+                if (response.statusCode == 200) {
+                  setState(() {
+                    activities[today]![activitiesToday.indexOf(activity)] =
+                        activity;
+                  });
+                }
+              } catch (e) {
+                debugPrint('Error finishing activity: $e');
+              }
+            }
             NfcManager.instance.stopSession();
           },
         );
@@ -102,9 +128,10 @@ class _JadwalState extends State<Jadwal> {
     }
   }
 
+// Show activity detail and enable finishing the activity
   void _showActivityDetail(BuildContext context, Activity activity, int index) {
     final DateTime createdAt = activity.createdAt;
-    final String? finishAt = activity.finishAt;
+    final DateTime? finishAt = activity.finishAt;
 
     showDialog(
       context: context,
@@ -127,6 +154,7 @@ class _JadwalState extends State<Jadwal> {
               'Created At: ${createdAt.toString()}',
               style: const TextStyle(color: Colors.white),
             ),
+            // Show finishAt only if it's not null
             if (finishAt != null)
               Text(
                 'Finished At: ${finishAt.toString()}',
@@ -140,27 +168,31 @@ class _JadwalState extends State<Jadwal> {
           ],
         ),
         actions: [
-          if (finishAt == null)
+          if (finishAt == null) // Only show finish button if finishAt is null
             TextButton(
               onPressed: () async {
-                // Set finish time for activity and update
-                activity.finishAt = DateTime.now().toIso8601String();
+                if (activity.id == 0) {
+                  debugPrint('Invalid activity ID');
+                  return;
+                }
+                // Set finishAt when the activity is finished
+                activity.finishAt = DateTime.now();
                 try {
-                  // Update activity in the database
-                  await ActivityClient.update(activity);
-                  setState(() {
-                    // Update the activity in the local list
-                    activities[today]![index] = activity;
-                  });
-                  Navigator.pop(context);
+                  var updatedActivity = await ActivityClient.update(activity);
+                  if (updatedActivity.statusCode == 200) {
+                    setState(() {
+                      activities[today]![index] = activity;
+                    });
+                    Navigator.pop(context);
+                  } else {
+                    debugPrint('Failed to finish activity.');
+                  }
                 } catch (e) {
                   debugPrint('Error finishing activity: $e');
                 }
               },
-              child: const Text(
-                'Finish',
-                style: TextStyle(color: Colors.purple),
-              ),
+              child:
+                  const Text('Finish', style: TextStyle(color: Colors.purple)),
             ),
           TextButton(
             onPressed: () {
