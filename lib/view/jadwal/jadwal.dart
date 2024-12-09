@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:nfc_manager/nfc_manager.dart';
 import 'package:table_calendar/table_calendar.dart';
-import 'package:flutter_nfc_kit/flutter_nfc_kit.dart';
 
 class Jadwal extends StatefulWidget {
   const Jadwal({super.key});
@@ -11,28 +11,13 @@ class Jadwal extends StatefulWidget {
 
 class _JadwalState extends State<Jadwal> {
   DateTime today = DateTime.now();
-  Map<DateTime, List<String>> events = {};
+  Map<DateTime, List<Map<String, dynamic>>> events =
+      {}; // Store event with creation time
 
-  // Menambahkan fungsi untuk membaca NFC
-  Future<void> _readNfcTag() async {
-    try {
-      NfcTag tag = await NfcKit.readNfc(); // Membaca NFC tag
-      String data = tag.ndefMessage?.map((e) => e.payload).join() ?? '';
-
-      if (data.isNotEmpty) {
-        // Parsing JSON dari data yang dibaca dari NFC
-        Map<String, dynamic> nfcData =
-            Map<String, dynamic>.from(jsonDecode(data));
-
-        String event =
-            "Absen - by ${nfcData['nama']} - pukul ${DateTime.now().toString()}";
-
-        // Menambahkan event baru ke kalender
-        _addEvent(today, event);
-      }
-    } catch (e) {
-      print("Error reading NFC tag: $e");
-    }
+  @override
+  void initState() {
+    super.initState();
+    _startNFCReading(); // Start NFC reading when the app starts
   }
 
   void _onDaySelected(DateTime day, DateTime focusedDay) {
@@ -44,11 +29,109 @@ class _JadwalState extends State<Jadwal> {
   void _addEvent(DateTime date, String event) {
     setState(() {
       if (events[date] != null) {
-        events[date]!.add(event);
+        events[date]!.add({
+          'event': event,
+          'createdAt': DateTime.now(),
+          'finishAt': null, // This will be set later
+        });
       } else {
-        events[date] = [event];
+        events[date] = [
+          {
+            'event': event,
+            'createdAt': DateTime.now(),
+            'finishAt': null,
+          }
+        ];
       }
     });
+  }
+
+  // NFC Reading Logic
+  void _startNFCReading() async {
+    try {
+      bool isAvailable = await NfcManager.instance.isAvailable();
+
+      if (isAvailable) {
+        NfcManager.instance.startSession(
+          onDiscovered: (NfcTag tag) async {
+            // When NFC tag is discovered, automatically add the "Hadir" activity.
+            _addEvent(today, "Hadir");
+
+            // Stop NFC session after tag is read
+            NfcManager.instance.stopSession();
+          },
+        );
+      } else {
+        debugPrint('NFC not available.');
+      }
+    } catch (e) {
+      debugPrint('Error reading NFC: $e');
+    }
+  }
+
+  void _showEventDetail(BuildContext context, Map<String, dynamic> eventData) {
+    final DateTime createdAt = eventData['createdAt'];
+    final DateTime? finishAt = eventData['finishAt'];
+
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        backgroundColor: Colors.black,
+        title: const Text(
+          'Event Detail',
+          style: TextStyle(color: Colors.white),
+        ),
+        content: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              'Event: ${eventData['event']}',
+              style: const TextStyle(color: Colors.white),
+            ),
+            const SizedBox(height: 10),
+            Text(
+              'Created At: ${createdAt.toString()}',
+              style: const TextStyle(color: Colors.white),
+            ),
+            if (finishAt != null)
+              Text(
+                'Finished At: ${finishAt.toString()}',
+                style: const TextStyle(color: Colors.white),
+              )
+            else
+              const Text(
+                'Finish the activity by clicking the "Finish" button.',
+                style: TextStyle(color: Colors.white),
+              ),
+          ],
+        ),
+        actions: [
+          if (finishAt == null)
+            TextButton(
+              onPressed: () {
+                setState(() {
+                  eventData['finishAt'] = DateTime.now();
+                });
+                Navigator.pop(context);
+              },
+              child: const Text(
+                'Finish',
+                style: TextStyle(color: Colors.purple),
+              ),
+            ),
+          TextButton(
+            onPressed: () {
+              Navigator.pop(context);
+            },
+            child: const Text(
+              'Close',
+              style: TextStyle(color: Colors.red),
+            ),
+          ),
+        ],
+      ),
+    );
   }
 
   @override
@@ -152,13 +235,12 @@ class _JadwalState extends State<Jadwal> {
             ),
             const SizedBox(height: 10),
             ElevatedButton(
-              onPressed: () =>
-                  _readNfcTag(), // Trigger NFC read on button press
+              onPressed: () => _showAddEventDialog(context),
               style: ElevatedButton.styleFrom(
                 backgroundColor: Colors.purple,
               ),
               child: const Text(
-                'Scan NFC Tag',
+                'Add Activity',
                 style: TextStyle(color: Colors.white),
               ),
             ),
@@ -174,12 +256,13 @@ class _JadwalState extends State<Jadwal> {
             const SizedBox(height: 10),
             Expanded(
               child: ListView(
-                children: events[today]?.map((event) {
+                children: events[today]?.map((eventData) {
                       return ListTile(
                         title: Text(
-                          event,
+                          eventData['event'],
                           style: const TextStyle(color: Colors.white),
                         ),
+                        onTap: () => _showEventDetail(context, eventData),
                       );
                     }).toList() ??
                     [
@@ -190,6 +273,51 @@ class _JadwalState extends State<Jadwal> {
             ),
           ],
         ),
+      ),
+    );
+  }
+
+  void _showAddEventDialog(BuildContext context) {
+    final TextEditingController controller = TextEditingController();
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        backgroundColor: Colors.black,
+        title: const Text(
+          'Add Event',
+          style: TextStyle(color: Colors.white),
+        ),
+        content: TextField(
+          controller: controller,
+          style: const TextStyle(color: Colors.white),
+          decoration: const InputDecoration(
+            hintText: 'Event Name',
+            hintStyle: TextStyle(color: Colors.grey),
+          ),
+        ),
+        actions: [
+          TextButton(
+            onPressed: () {
+              Navigator.pop(context);
+            },
+            child: const Text(
+              'Cancel',
+              style: TextStyle(color: Colors.red),
+            ),
+          ),
+          TextButton(
+            onPressed: () {
+              if (controller.text.isNotEmpty) {
+                _addEvent(today, controller.text);
+              }
+              Navigator.pop(context);
+            },
+            child: const Text(
+              'Add',
+              style: TextStyle(color: Colors.purple),
+            ),
+          ),
+        ],
       ),
     );
   }
