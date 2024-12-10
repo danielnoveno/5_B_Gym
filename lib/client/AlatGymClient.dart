@@ -1,31 +1,34 @@
-// lib/client/AlatGymClient.dart
-
 import 'dart:convert';
 import 'package:http/http.dart' as http;
-import 'package:tubes_pbp_gym/entity/AlatGym.dart'; // Pastikan path sesuai dengan folder tempat file AlatGym.dart
+import 'package:tubes_pbp_gym/entitiy/AlatGym.dart'; // Sesuaikan dengan path yang benar
 
-class AlatGymClient {
-  static const String url =
-      '127.0.0.1:8000'; // Ganti dengan URL server API yang sesuai
+class GymEquipmentClient {
+  static const String baseUrl =
+      'http://10.0.2.2:8000'; // Pastikan menggunakan http:// atau https://
   static const String endpoint =
-      '/api/alat_gym'; // Endpoint API Laravel untuk mengambil alat gym
+      '/api/alat_gym'; // Ganti dengan endpoint yang sesuai
 
-  // Fungsi untuk mengambil semua alat gym dari API
-  static Future<List<AlatGym>> fetchAll() async {
+  // Fetch semua alat gym
+  static Future<List<GymEquipment>> fetchAll() async {
     try {
-      final response = await http.get(Uri.http(url, endpoint));
+      var response = await http.get(Uri.parse('$baseUrl$endpoint'));
 
       if (response.statusCode == 200) {
-        // Jika response berhasil, parsing JSON
-        final data = json.decode(response.body)[
-            'data']; // Ambil data dari key 'data' pada response JSON
-        // Mengubah data JSON menjadi list of AlatGym
-        return List<AlatGym>.from(data.map((item) => AlatGym.fromJson(item)));
+        // Jika responsnya mengandung objek JSON dengan field "data"
+        Map<String, dynamic> jsonData = json.decode(response.body);
+
+        // Pastikan "data" berisi list
+        if (jsonData.containsKey('data')) {
+          List<dynamic> data = jsonData['data'];
+          return data.map((item) => GymEquipment.fromJson(item)).toList();
+        } else {
+          throw Exception('Tidak ada data ditemukan');
+        }
       } else {
-        throw Exception('Failed to load gym equipment');
+        throw Exception('Gagal mengambil data alat gym');
       }
     } catch (e) {
-      throw Exception('Error fetching data: $e');
+      rethrow;
     }
   }
 }

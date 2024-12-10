@@ -3,7 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:tubes_pbp_gym/providers/cart_provider.dart';
 import 'package:tubes_pbp_gym/view/home.dart';
 import 'package:tubes_pbp_gym/view/register.dart';
-// import 'package:tubes_pbp_gym/view/login.dart';
+import 'package:tubes_pbp_gym/view/login.dart';
 import 'package:tubes_pbp_gym/view/riwayat.dart';
 import 'package:tubes_pbp_gym/nfc/read_write.dart';
 
