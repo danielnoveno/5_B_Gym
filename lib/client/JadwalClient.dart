@@ -1,5 +1,5 @@
 import 'dart:convert';
-import 'package:http/http.dart' as http;
+import 'package:http/http.dart' as https;
 import 'package:tubes_pbp_gym/entitiy/Jadwal.dart';
 
 class ActivityClient {
@@ -9,9 +9,12 @@ class ActivityClient {
   // Fetch all activities
   static Future<List<Activity>> fetchAll() async {
     try {
-      var response = await http.get(
-        Uri.http(url, endpoint),
+      var response = await https.get(
+        Uri.https(url, endpoint),
       );
+
+      print('Response status: ${response.statusCode}');
+      print('Redirect location: ${response.headers['location']}');
 
       if (response.statusCode != 200) throw Exception(response.reasonPhrase);
 
@@ -53,8 +56,8 @@ class ActivityClient {
   // Fetch a single activity by ID
   static Future<Activity> find(int id) async {
     try {
-      var response = await http.get(
-        Uri.http(url, '$endpoint/$id'),
+      var response = await https.get(
+        Uri.https(url, '$endpoint/$id'),
       );
 
       if (response.statusCode == 404) throw Exception("Activity not found");
@@ -67,10 +70,10 @@ class ActivityClient {
   }
 
   // Create a new activity
-  static Future<http.Response> create(Activity activity) async {
+  static Future<https.Response> create(Activity activity) async {
     try {
-      var response = await http.post(
-        Uri.http(url, endpoint),
+      var response = await https.post(
+        Uri.https(url, endpoint),
         headers: {"Content-Type": "application/json"},
         body: activity.toRawJson(),
       );
@@ -100,7 +103,7 @@ class ActivityClient {
   }
 
   // Update an existing activity
-  static Future<http.Response> update(Activity activity) async {
+  static Future<https.Response> update(Activity activity) async {
     try {
       print('Updating activity with ID: ${activity.id}');
       if (activity.id == 0) {
@@ -108,8 +111,8 @@ class ActivityClient {
         return Future.error('Invalid activity ID');
       }
 
-      var response = await http.put(
-        Uri.http(url, '$endpoint/${activity.id}'),
+      var response = await https.put(
+        Uri.https(url, '$endpoint/${activity.id}'),
         headers: {"Content-Type": "application/json"},
         body: activity.toRawJson(),
       );
@@ -128,10 +131,10 @@ class ActivityClient {
   }
 
   // Delete an activity by ID
-  static Future<http.Response> destroy(int id) async {
+  static Future<https.Response> destroy(int id) async {
     try {
-      var response = await http.delete(
-        Uri.http(url, '$endpoint/$id'),
+      var response = await https.delete(
+        Uri.https(url, '$endpoint/$id'),
       );
 
       if (response.statusCode == 404) throw Exception("Activity not found");

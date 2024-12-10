@@ -61,9 +61,9 @@ class _JadwalState extends State<Jadwal> {
     Activity newActivity = Activity(
       id: 0, // ID sementara sampai dibuat di API
       activity: activityName,
-      finishAt: DateTime.now(),
+      finishAt: null, // Initially, no finish time
       date: date.toIso8601String(),
-      createdAt: DateTime.now(), // Set createdAt to current time
+      createdAt: DateTime.now(),
       updatedAt: DateTime.now(),
     );
 
@@ -74,12 +74,10 @@ class _JadwalState extends State<Jadwal> {
         var createdActivity =
             Activity.fromJson(json.decode(response.body)['data']);
         setState(() {
-          setState(() {
-            if (activities[date] == null) {
-              activities[date] = [];
-            }
-            activities[date]!.add(createdActivity);
-          });
+          if (activities[date] == null) {
+            activities[date] = [];
+          }
+          activities[date]!.add(createdActivity);
         });
       }
     } catch (e) {
@@ -87,7 +85,7 @@ class _JadwalState extends State<Jadwal> {
     }
   }
 
-// NFC Reading Logic
+  // NFC Reading Logic
   void _startNFCReading() async {
     try {
       bool isAvailable = await NfcManager.instance.isAvailable();
@@ -104,6 +102,7 @@ class _JadwalState extends State<Jadwal> {
                   activitiesToday.first; // Ambil aktivitas pertama
               activity.finishAt =
                   DateTime.now(); // Set finishAt dengan waktu sekarang
+
               // Update aktivitas di API setelah NFC terbaca
               try {
                 var response = await ActivityClient.update(activity);
@@ -128,7 +127,7 @@ class _JadwalState extends State<Jadwal> {
     }
   }
 
-// Show activity detail and enable finishing the activity
+  // Show activity detail and enable finishing the activity
   void _showActivityDetail(BuildContext context, Activity activity, int index) {
     final DateTime createdAt = activity.createdAt;
     final DateTime? finishAt = activity.finishAt;
@@ -154,7 +153,6 @@ class _JadwalState extends State<Jadwal> {
               'Created At: ${createdAt.toString()}',
               style: const TextStyle(color: Colors.white),
             ),
-            // Show finishAt only if it's not null
             if (finishAt != null)
               Text(
                 'Finished At: ${finishAt.toString()}',
@@ -168,14 +166,13 @@ class _JadwalState extends State<Jadwal> {
           ],
         ),
         actions: [
-          if (finishAt == null) // Only show finish button if finishAt is null
+          if (finishAt == null)
             TextButton(
               onPressed: () async {
                 if (activity.id == 0) {
                   debugPrint('Invalid activity ID');
                   return;
                 }
-                // Set finishAt when the activity is finished
                 activity.finishAt = DateTime.now();
                 try {
                   var updatedActivity = await ActivityClient.update(activity);
@@ -239,8 +236,7 @@ class _JadwalState extends State<Jadwal> {
                 children: [
                   CircleAvatar(
                     radius: 24,
-                    backgroundImage: AssetImage(
-                        'images/FotoProfil.png'), // Replace with your asset path
+                    backgroundImage: AssetImage('images/FotoProfil.png'),
                   ),
                   const SizedBox(width: 12),
                   Column(
@@ -329,20 +325,22 @@ class _JadwalState extends State<Jadwal> {
             ),
             const SizedBox(height: 10),
             Expanded(
-              child: ListView(
-                children: activities[today]?.asMap().entries.map((entry) {
-                      int index = entry.key;
-                      Activity activity = entry.value;
-                      return ListTile(
-                        title: Text(
-                          activity.activity,
-                          style: const TextStyle(color: Colors.white),
-                        ),
-                        onTap: () =>
-                            _showActivityDetail(context, activity, index),
-                      );
-                    }).toList() ??
-                    [],
+              child: ListView.builder(
+                itemCount: activities[today]?.length ?? 0,
+                itemBuilder: (context, index) {
+                  Activity activity = activities[today]![index];
+                  return ListTile(
+                    title: Text(
+                      activity.activity,
+                      style: const TextStyle(color: Colors.white),
+                    ),
+                    subtitle: Text(
+                      'Created At: ${activity.createdAt}',
+                      style: const TextStyle(color: Colors.white),
+                    ),
+                    onTap: () => _showActivityDetail(context, activity, index),
+                  );
+                },
               ),
             ),
           ],
@@ -351,56 +349,55 @@ class _JadwalState extends State<Jadwal> {
     );
   }
 
-  // Show dialog to add a new activity
+  // Show dialog to add activity
   void _showAddActivityDialog(BuildContext context) {
+    TextEditingController activityController = TextEditingController();
     showDialog(
       context: context,
-      builder: (context) {
-        String activityName = '';
-        return AlertDialog(
-          backgroundColor: Colors.black,
-          title: const Text(
-            'Add Activity',
-            style: TextStyle(color: Colors.white),
+      builder: (context) => AlertDialog(
+        backgroundColor: Colors.black,
+        title: const Text(
+          'Add Activity',
+          style: TextStyle(color: Colors.white),
+        ),
+        content: TextField(
+          controller: activityController,
+          style: const TextStyle(color: Colors.white),
+          decoration: const InputDecoration(
+            labelText: 'Activity Name',
+            labelStyle: TextStyle(color: Colors.white),
+            enabledBorder: OutlineInputBorder(
+              borderSide: BorderSide(color: Colors.white),
+            ),
+            focusedBorder: OutlineInputBorder(
+              borderSide: BorderSide(color: Colors.purple),
+            ),
           ),
-          content: TextField(
-            onChanged: (value) {
-              setState(() {
-                activityName = value;
-              });
+        ),
+        actions: [
+          TextButton(
+            onPressed: () {
+              Navigator.pop(context);
             },
-            style: const TextStyle(color: Colors.white),
-            decoration: const InputDecoration(
-              labelText: 'Activity Name',
-              labelStyle: TextStyle(color: Colors.white),
-              border: OutlineInputBorder(),
+            child: const Text(
+              'Cancel',
+              style: TextStyle(color: Colors.red),
             ),
           ),
-          actions: [
-            TextButton(
-              onPressed: () {
+          TextButton(
+            onPressed: () {
+              if (activityController.text.isNotEmpty) {
+                _addActivity(today, activityController.text);
                 Navigator.pop(context);
-              },
-              child: const Text(
-                'Cancel',
-                style: TextStyle(color: Colors.red),
-              ),
+              }
+            },
+            child: const Text(
+              'Add',
+              style: TextStyle(color: Colors.purple),
             ),
-            TextButton(
-              onPressed: () {
-                if (activityName.isNotEmpty) {
-                  _addActivity(today, activityName);
-                  Navigator.pop(context);
-                }
-              },
-              child: const Text(
-                'Add',
-                style: TextStyle(color: Colors.purple),
-              ),
-            ),
-          ],
-        );
-      },
+          ),
+        ],
+      ),
     );
   }
 }
