@@ -11,6 +11,10 @@ List<String> VirtualAcc = [
 ];
 
 class PaymentPage extends StatefulWidget {
+  final String totalFormatted;
+
+  PaymentPage({required this.totalFormatted});
+
   @override
   _PaymentPageState createState() => _PaymentPageState();
 }
@@ -81,7 +85,7 @@ class _PaymentPageState extends State<PaymentPage> {
                     ),
                     SizedBox(height: 12),
                     Text(
-                      'Rp 4.640.000',
+                      widget.totalFormatted,
                       style: TextStyle(
                         color: Colors.white,
                         fontSize: 36,
@@ -199,7 +203,7 @@ class _PaymentPageState extends State<PaymentPage> {
                     ));
                   }
                   Navigator.push(context,
-                      MaterialPageRoute(builder: (c) => PaymentMenunggu()));
+                      MaterialPageRoute(builder: (c) => PaymentMenunggu(totalFormatted: widget.totalFormatted)));
                 },
                 child: Container(
                   width: double.infinity,
