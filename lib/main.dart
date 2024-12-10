@@ -31,11 +31,6 @@ class MyApp extends StatelessWidget {
                 builder: (context) => const RegisterView());
           case '/home':
             return MaterialPageRoute(builder: (context) => const HomeView());
-          case '/nfc':
-            return MaterialPageRoute(
-                builder: (context) => const ReadWriteNFCScreen());
-          default:
-            return MaterialPageRoute(builder: (context) => const Riwayat());
         }
       },
       initialRoute: '/home',

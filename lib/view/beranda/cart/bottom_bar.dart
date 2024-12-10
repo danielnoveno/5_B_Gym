@@ -85,8 +85,12 @@ class BottomBar extends StatelessWidget {
                     }
                   }
                 : () {
-                    Navigator.push(context,
-                        MaterialPageRoute(builder: (c) => PaymentPage()));
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (c) => PaymentPage(totalFormatted: totalFormatted),
+                      ),
+                    );
                   },
             child: Text(
               isEditing ? 'Hapus' : 'Bayar',

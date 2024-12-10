@@ -95,4 +95,21 @@ class PelangganClient {
       return Future.error(e.toString());
     }
   }
+
+  // Fetch a single pelanggan by ID
+static Future<Pelanggan> fetchById(int id) async {
+  try {
+    var response = await http.get(
+      Uri.http(url, '$endpoint/$id'),
+    );
+
+    if (response.statusCode == 404) throw Exception("Pelanggan not found");
+    if (response.statusCode != 200) throw Exception(response.reasonPhrase);
+
+    return Pelanggan.fromJson(json.decode(response.body));
+  } catch (e) {
+    return Future.error(e.toString());
+  }
 }
+}
+
