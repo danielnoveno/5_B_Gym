@@ -4,7 +4,8 @@ import 'package:http/http.dart' as https;
 
 class PelangganClient {
   static const String url = 'gym5api-production.up.railway.app'; // Base URL
-  static const String endpoint = '/api/register'; // Base endpoint
+  // static const String endpoint = '/api/register'; // Base endpoint
+  static const String endpoint = '/api/pelanggan'; // Base endpoint
 
   // Fetch all pelanggans
   static Future<List<Pelanggan>> fetchAll(String token) async {
