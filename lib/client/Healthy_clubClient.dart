@@ -4,7 +4,7 @@ import 'package:tubes_pbp_gym/entitiy/HealthyClub.dart';
 
 class KelasOlahragaClient {
   static const String url =
-      'gym5api-production.up.railway.app'; // Ganti dengan URL backend
+      'http://10.0.2.2:8000'; // Ganti dengan URL backend
   static const String endpoint = '/api/kelas_olahraga'; // Endpoint API
 
   // Fetch semua KelasOlahragas

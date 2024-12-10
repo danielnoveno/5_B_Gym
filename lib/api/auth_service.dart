@@ -4,7 +4,7 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class AuthService {
-  static const String apiUrl = 'https://gym5api-production.up.railway.app/api';
+  static const String apiUrl = 'http://10.0.2.2:8000/api';
   static const _storage = FlutterSecureStorage();
 
   static Future<Map<String, dynamic>> register(

@@ -3,7 +3,7 @@ import 'package:tubes_pbp_gym/entitiy/Membership.dart';
 import 'package:http/http.dart' as http;
 
 class MembershipClient {
-  static const String url = 'gym5api-production.up.railway.app'; // Base URL
+  static const String url = 'http://10.0.2.2:8000'; // Base URL
   static const String endpoint = '/api/membership'; // Base endpoint
 
   // Fetch all memberships
