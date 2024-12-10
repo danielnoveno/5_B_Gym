@@ -30,11 +30,9 @@ class MyApp extends StatelessWidget {
                 builder: (context) => const RegisterView());
           case '/home':
             return MaterialPageRoute(builder: (context) => const HomeView());
-          default:
-            return MaterialPageRoute(builder: (context) => const Riwayat());
         }
       },
-      initialRoute: '/home',
+      initialRoute: '/login',
     );
   }
 }

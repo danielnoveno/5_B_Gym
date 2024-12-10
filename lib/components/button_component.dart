@@ -35,7 +35,7 @@ Widget profileButton(BuildContext context, String label, VoidCallback onProfileU
           } else if (label == 'Riwayat') {
             Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => const Riwayat()),
+              MaterialPageRoute(builder: (context) => RiwayatPage()),
           );
           }
         },
