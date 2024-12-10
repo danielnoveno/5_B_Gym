@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:tubes_pbp_gym/view/addreview.dart';
 import 'package:tubes_pbp_gym/entitiy/Riwayat.dart';
 import 'package:tubes_pbp_gym/client/RiwayatClient.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 String _formatDate(DateTime date) {
   final months = [
@@ -41,11 +42,21 @@ class RiwayatPage extends StatefulWidget {
 class _RiwayatPageState extends State<RiwayatPage> {
   late Future<List<Riwayat>> futureRiwayat;
 
-  @override
+   @override
   void initState() {
     super.initState();
-    futureRiwayat =
-        RiwayatClient.fetchAll(); // Fetch data when the widget is initialized
+    futureRiwayat = _fetchRiwayat(); // Fetch data when the widget is initialized
+  }
+
+  Future<List<Riwayat>> _fetchRiwayat() async {
+    final prefs = await SharedPreferences.getInstance();
+    int? userId = prefs.getInt('userId');
+
+    if (userId == null) {
+      throw Exception('User  not logged in');
+    }
+
+    return await RiwayatClient.fetchByPelanggan(userId); // Pass userId to fetchByPelanggan
   }
 
   @override
@@ -79,7 +90,10 @@ class _RiwayatPageState extends State<RiwayatPage> {
           } else if (snapshot.hasError) {
             return Center(child: Text('Error: ${snapshot.error}'));
           } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
-            return Center(child: Text('No data available'));
+            return Center(child: Text('Belum ada riwayat pembelian', style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 18,
+                                    ),));
           }
 
           // If data is available, display it
