@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:tubes_pbp_gym/models/healthy_club.dart';
 import 'package:provider/provider.dart';
-import 'package:tubes_pbp_gym/providers/cart_provider.dart';
 import 'package:tubes_pbp_gym/models/items_cart.dart';
+import 'package:tubes_pbp_gym/providers/cart_provider.dart';
+import 'package:tubes_pbp_gym/entitiy/HealthyClub.dart';
 import 'package:tubes_pbp_gym/view/beranda/cart/cart.dart';
 
 class HealthyClubUnlimited extends StatelessWidget {
-  final KelasOlahraga kelasOlahraga;
+  final KelasOlahragas kelasOlahraga;
 
   // Constructor to accept a KelasOlahraga object
   HealthyClubUnlimited({required this.kelasOlahraga});
@@ -17,7 +17,7 @@ class HealthyClubUnlimited extends StatelessWidget {
       backgroundColor: Colors.black,
       appBar: AppBar(
         title: Text(
-          kelasOlahraga.title, // Use dynamic title
+          kelasOlahraga.judul, // Use dynamic title
           style: TextStyle(color: Colors.white),
         ),
         leading: IconButton(
@@ -53,7 +53,7 @@ class HealthyClubUnlimited extends StatelessWidget {
                   ),
                   SizedBox(height: 16),
                   Text(
-                    kelasOlahraga.price, // Use dynamic price
+                    kelasOlahraga.harga, // Use dynamic price
                     style: TextStyle(
                       fontSize: 24,
                       fontWeight: FontWeight.bold,
@@ -63,11 +63,11 @@ class HealthyClubUnlimited extends StatelessWidget {
                   Divider(color: Colors.grey),
                   SizedBox(height: 8),
                   // List features dynamically
-                  ...kelasOlahraga.features
+                  ...kelasOlahraga.deskripsi
                       .map((feature) => FeatureItem(text: feature))
                       .toList(),
                   // List available classes dynamically
-                  ...kelasOlahraga.availableClasses
+                  ...kelasOlahraga.kelas
                       .map((className) => FeatureItem(text: className))
                       .toList(),
                   SizedBox(height: 16),
@@ -82,15 +82,15 @@ class HealthyClubUnlimited extends StatelessWidget {
                       ),
                       onPressed: () {
                         // Assuming you want to add the first available class
-                        final selectedClass = kelasOlahraga.availableClasses[0];
+                        final selectedClass = kelasOlahraga.kelas[0];
 
                         // Create CartItem to be added to the cart
                         final cartItem = CartItem(
                           title: selectedClass,
-                          price: parsePrice(kelasOlahraga.price),
+                          price: parsePrice(kelasOlahraga.harga),
                           image: kelasOlahraga.imagePath,
                           membershipTitle:
-                              'Healthy Club ${kelasOlahraga.title}',
+                              'Healthy Club ${kelasOlahraga.judul}',
                           type: CartItemType.healthy_club,
                         );
 
@@ -102,7 +102,7 @@ class HealthyClubUnlimited extends StatelessWidget {
                         ScaffoldMessenger.of(context).showSnackBar(
                           SnackBar(
                             content: Text(
-                              'Healthy Club ${kelasOlahraga.title} berhasil ditambahkan ke keranjang!',
+                              'Healthy Club ${kelasOlahraga.judul} berhasil ditambahkan ke keranjang!',
                               style: TextStyle(color: Colors.white),
                             ),
                             backgroundColor: Colors.green,

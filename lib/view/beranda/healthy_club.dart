@@ -9,12 +9,9 @@ import 'package:tubes_pbp_gym/entitiy/HealthyClub.dart';
 class HealthyClubView extends StatelessWidget {
   HealthyClubView({super.key});
 
-  get kelasOlahraga => null;
-
   // Function to navigate to the appropriate page based on the title
-  void _navigateToPage(
-      BuildContext context, String title, KelasOlahragas kelasOlahragas) {
-    switch (title) {
+  void _navigateToPage(BuildContext context, KelasOlahragas kelasOlahraga) {
+    switch (kelasOlahraga.judul) {
       case "1 Sesi":
         Navigator.push(
           context,
@@ -85,7 +82,7 @@ class HealthyClubView extends StatelessWidget {
 
             return GestureDetector(
               onTap: () {
-                _navigateToPage(context, kelasOlahraga.judul, kelasOlahraga);
+                _navigateToPage(context, kelasOlahraga); // Pass the object here
               },
               child: Card(
                 color: Colors.grey[900],
@@ -161,8 +158,8 @@ class HealthyClubView extends StatelessWidget {
                             // Direct Icon for Navigation
                             GestureDetector(
                               onTap: () {
-                                _navigateToPage(context, kelasOlahraga.judul,
-                                    kelasOlahraga);
+                                _navigateToPage(context,
+                                    kelasOlahraga); // Pass the object here
                               },
                               child: Container(
                                 width: 42,

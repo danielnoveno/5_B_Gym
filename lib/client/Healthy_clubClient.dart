@@ -1,4 +1,3 @@
-// D:\Github\5_B_Gym\lib\client\Healthy_clubClient.dart
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:tubes_pbp_gym/entitiy/HealthyClub.dart';

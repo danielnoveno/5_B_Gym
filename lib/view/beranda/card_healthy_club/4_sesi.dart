@@ -1,14 +1,27 @@
 import 'package:flutter/material.dart';
-import 'package:tubes_pbp_gym/models/healthy_club.dart';
 import 'package:provider/provider.dart';
-import 'package:tubes_pbp_gym/providers/cart_provider.dart';
 import 'package:tubes_pbp_gym/models/items_cart.dart';
+import 'package:tubes_pbp_gym/providers/cart_provider.dart';
+import 'package:tubes_pbp_gym/entitiy/HealthyClub.dart';
 import 'package:tubes_pbp_gym/view/beranda/cart/cart.dart';
 
-class HealthyClub4Sesi extends StatelessWidget {
-  final KelasOlahraga kelasOlahraga;
+class HealthyClub4Sesi extends StatefulWidget {
+  final KelasOlahragas kelasOlahraga;
 
   HealthyClub4Sesi({required this.kelasOlahraga});
+
+  @override
+  _HealthyClub4SesiState createState() => _HealthyClub4SesiState();
+}
+
+class _HealthyClub4SesiState extends State<HealthyClub4Sesi> {
+  late String selectedClass;
+
+  @override
+  void initState() {
+    super.initState();
+    selectedClass = widget.kelasOlahraga.kelas[0];
+  }
 
   // Function to parse the price from string
   double parsePrice(String price) {
@@ -22,7 +35,7 @@ class HealthyClub4Sesi extends StatelessWidget {
       backgroundColor: Colors.black,
       appBar: AppBar(
         title: Text(
-          kelasOlahraga.title,
+          widget.kelasOlahraga.judul,
           style: TextStyle(color: Colors.white),
         ),
         leading: IconButton(
@@ -50,7 +63,7 @@ class HealthyClub4Sesi extends StatelessWidget {
                   ClipRRect(
                     borderRadius: BorderRadius.circular(16),
                     child: Image.asset(
-                      kelasOlahraga.imagePath,
+                      widget.kelasOlahraga.imagePath,
                       height: 150,
                       width: double.infinity,
                       fit: BoxFit.cover,
@@ -58,7 +71,7 @@ class HealthyClub4Sesi extends StatelessWidget {
                   ),
                   SizedBox(height: 16),
                   Text(
-                    kelasOlahraga.price,
+                    widget.kelasOlahraga.harga,
                     style: TextStyle(
                       fontSize: 24,
                       fontWeight: FontWeight.bold,
@@ -67,11 +80,51 @@ class HealthyClub4Sesi extends StatelessWidget {
                   ),
                   Divider(color: Colors.grey),
                   SizedBox(height: 8),
-                  // Iterate over the features and available classes
-                  for (var feature in kelasOlahraga.features)
+                  // Display deskripsi (features) as a list
+                  for (var feature in widget.kelasOlahraga.deskripsi)
                     FeatureItem(text: feature),
-                  for (var className in kelasOlahraga.availableClasses)
-                    FeatureItem(text: className),
+                  SizedBox(height: 16),
+                  // Dropdown to select the class
+                  DropdownButtonFormField<String>(
+                    value: selectedClass,
+                    items: widget.kelasOlahraga.kelas.map((String value) {
+                      return DropdownMenuItem<String>(
+                        value: value,
+                        child: Text(
+                          value,
+                          style: TextStyle(color: Colors.white),
+                        ),
+                      );
+                    }).toList(),
+                    onChanged: (newValue) {
+                      setState(() {
+                        selectedClass = newValue!;
+                      });
+                    },
+                    dropdownColor: Color(0xFF2B2B2B),
+                    decoration: InputDecoration(
+                      filled: true,
+                      fillColor: Color(0xFF673296),
+                      contentPadding:
+                          EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(16),
+                        borderSide: BorderSide(color: Colors.white),
+                      ),
+                      enabledBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(16),
+                        borderSide: BorderSide(color: Colors.white),
+                      ),
+                      focusedBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(16),
+                        borderSide: BorderSide(color: Colors.white),
+                      ),
+                    ),
+                    iconEnabledColor:
+                        Colors.white, // Color of the dropdown icon
+                    style: TextStyle(
+                        color: Colors.white), // Text color in the dropdown
+                  ),
                   SizedBox(height: 16),
                   SizedBox(
                     width: double.infinity,
@@ -83,15 +136,12 @@ class HealthyClub4Sesi extends StatelessWidget {
                         ),
                       ),
                       onPressed: () {
-                        // Create the CartItem for the first available class
-                        final selectedClass =
-                            kelasOlahraga.availableClasses.first;
                         final cartItem = CartItem(
                           title: selectedClass,
-                          price: parsePrice(kelasOlahraga.price),
-                          image: kelasOlahraga.imagePath,
+                          price: parsePrice(widget.kelasOlahraga.harga),
+                          image: widget.kelasOlahraga.imagePath,
                           membershipTitle:
-                              'Healthy Club - ${kelasOlahraga.title}',
+                              'Healthy Club 4 Sesi Kelas - $selectedClass',
                           type: CartItemType.healthy_club,
                         );
 
@@ -102,7 +152,7 @@ class HealthyClub4Sesi extends StatelessWidget {
                         ScaffoldMessenger.of(context).showSnackBar(
                           SnackBar(
                             content: Text(
-                              'Healthy Club ${kelasOlahraga.title} berhasil ditambahkan ke keranjang!',
+                              'Healthy Club 4 Sesi Kelas - $selectedClass berhasil ditambahkan ke keranjang!',
                               style: TextStyle(color: Colors.white),
                             ),
                             backgroundColor: Colors.green,
@@ -155,8 +205,9 @@ class FeatureItem extends StatelessWidget {
             child: Text(
               text,
               style: TextStyle(
-                  fontSize: 16,
-                  color: Colors.white), // Make the feature text white
+                fontSize: 16,
+                color: Colors.white,
+              ),
             ),
           ),
         ],

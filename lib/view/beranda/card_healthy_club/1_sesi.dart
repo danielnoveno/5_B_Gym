@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:tubes_pbp_gym/models/healthy_club.dart';
 import 'package:provider/provider.dart';
-import 'package:tubes_pbp_gym/providers/cart_provider.dart';
 import 'package:tubes_pbp_gym/models/items_cart.dart';
+import 'package:tubes_pbp_gym/providers/cart_provider.dart';
+import 'package:tubes_pbp_gym/entitiy/HealthyClub.dart';
 import 'package:tubes_pbp_gym/view/beranda/cart/cart.dart';
 
+
 class HealthyClub1Sesi extends StatefulWidget {
-  final KelasOlahraga kelasOlahraga;
+  final KelasOlahragas kelasOlahraga;
 
   HealthyClub1Sesi({required this.kelasOlahraga});
 
@@ -15,12 +16,12 @@ class HealthyClub1Sesi extends StatefulWidget {
 }
 
 class _HealthyClub1SesiState extends State<HealthyClub1Sesi> {
-  late String selectedOlahraga;
+  late String selectedClass;
 
   @override
   void initState() {
     super.initState();
-    selectedOlahraga = widget.kelasOlahraga.availableClasses[0];
+    selectedClass = widget.kelasOlahraga.kelas[0];
   }
 
   double parsePrice(String price) {
@@ -34,7 +35,7 @@ class _HealthyClub1SesiState extends State<HealthyClub1Sesi> {
       backgroundColor: Colors.black,
       appBar: AppBar(
         title: Text(
-          widget.kelasOlahraga.title,
+          widget.kelasOlahraga.judul,
           style: TextStyle(color: Colors.white),
         ),
         leading: IconButton(
@@ -70,7 +71,7 @@ class _HealthyClub1SesiState extends State<HealthyClub1Sesi> {
                   ),
                   SizedBox(height: 16),
                   Text(
-                    widget.kelasOlahraga.price,
+                    widget.kelasOlahraga.harga,
                     style: TextStyle(
                       fontSize: 24,
                       fontWeight: FontWeight.bold,
@@ -79,13 +80,13 @@ class _HealthyClub1SesiState extends State<HealthyClub1Sesi> {
                   ),
                   Divider(color: Colors.grey),
                   SizedBox(height: 8),
-                  for (var feature in widget.kelasOlahraga.features)
+                  // Display deskripsi (features) as a list
+                  for (var feature in widget.kelasOlahraga.deskripsi)
                     FeatureItem(text: feature),
                   SizedBox(height: 16),
                   DropdownButtonFormField<String>(
-                    value: selectedOlahraga,
-                    items: widget.kelasOlahraga.availableClasses
-                        .map((String value) {
+                    value: selectedClass,
+                    items: widget.kelasOlahraga.kelas.map((String value) {
                       return DropdownMenuItem<String>(
                         value: value,
                         child: Text(
@@ -96,7 +97,7 @@ class _HealthyClub1SesiState extends State<HealthyClub1Sesi> {
                     }).toList(),
                     onChanged: (newValue) {
                       setState(() {
-                        selectedOlahraga = newValue!;
+                        selectedClass = newValue!;
                       });
                     },
                     dropdownColor: Color(0xFF2B2B2B),
@@ -134,12 +135,9 @@ class _HealthyClub1SesiState extends State<HealthyClub1Sesi> {
                         ),
                       ),
                       onPressed: () {
-                        final selectedClass = widget
-                            .kelasOlahraga.availableClasses
-                            .firstWhere((item) => item == selectedOlahraga);
                         final cartItem = CartItem(
                           title: selectedClass,
-                          price: parsePrice(widget.kelasOlahraga.price),
+                          price: parsePrice(widget.kelasOlahraga.harga),
                           image: widget.kelasOlahraga.imagePath,
                           membershipTitle:
                               'Healthy Club 1 Sesi Kelas - $selectedClass',
