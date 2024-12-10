@@ -1,5 +1,5 @@
 import 'dart:convert';
-import 'package:http/http.dart' as http;
+import 'package:http/http.dart' as https;
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -10,7 +10,7 @@ class AuthService {
   static Future<Map<String, dynamic>> register(
       Map<String, dynamic> userData) async {
     try {
-      final response = await http.post(
+      final response = await https.post(
         Uri.parse('$apiUrl/register'),
         headers: {'Content-Type': 'application/json'},
         body: json.encode(userData),
@@ -36,7 +36,7 @@ class AuthService {
     required String? role,
   }) async {
     try {
-      final response = await http.post(
+      final response = await https.post(
         Uri.parse('$apiUrl/login'),
         headers: {'Content-Type': 'application/json'},
         body: json.encode({

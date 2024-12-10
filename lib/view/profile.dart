@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:tubes_pbp_gym/components/card_component.dart';
+// import 'package:tubes_pbp_gym/components/card_component.dart';
 import 'package:tubes_pbp_gym/components/button_component.dart';
 // import 'package:tubes_pbp_gym/view/login.dart';
 import 'package:tubes_pbp_gym/entitiy/Pelanggan.dart';

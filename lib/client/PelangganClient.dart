@@ -4,8 +4,8 @@ import 'package:http/http.dart' as https;
 
 class PelangganClient {
   static const String url = 'gym5api-production.up.railway.app'; // Base URL
-  // static const String endpoint = '/api/register'; // Base endpoint
-  static const String endpoint = '/api/pelanggan'; // Base endpoint
+  static const String endpoint = '/api/register'; // Base endpoint
+  // static const String endpoint = '/api/pelanggan'; // Base endpoint
 
   // Fetch all pelanggans
   static Future<List<Pelanggan>> fetchAll(String token) async {
@@ -51,6 +51,7 @@ class PelangganClient {
 
       print("Response status: ${response.statusCode}");
       print("Response body: ${response.body}");
+      print("Making request to: ${Uri.https(url, endpoint)}");
 
       if (response.statusCode != 201) {
         throw Exception('Failed to create: ${response.body}');
@@ -97,19 +98,18 @@ class PelangganClient {
   }
 
   // Fetch a single pelanggan by ID
-static Future<Pelanggan> fetchById(int id) async {
-  try {
-    var response = await http.get(
-      Uri.http(url, '$endpoint/$id'),
-    );
+  static Future<Pelanggan> fetchById(int id) async {
+    try {
+      var response = await https.get(
+        Uri.https(url, '$endpoint/$id'),
+      );
 
-    if (response.statusCode == 404) throw Exception("Pelanggan not found");
-    if (response.statusCode != 200) throw Exception(response.reasonPhrase);
+      if (response.statusCode == 404) throw Exception("Pelanggan not found");
+      if (response.statusCode != 200) throw Exception(response.reasonPhrase);
 
-    return Pelanggan.fromJson(json.decode(response.body));
-  } catch (e) {
-    return Future.error(e.toString());
+      return Pelanggan.fromJson(json.decode(response.body));
+    } catch (e) {
+      return Future.error(e.toString());
+    }
   }
 }
-}
-
