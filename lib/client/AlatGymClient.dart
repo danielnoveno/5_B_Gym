@@ -4,7 +4,7 @@ import 'package:tubes_pbp_gym/entitiy/AlatGym.dart'; // Sesuaikan dengan path ya
 
 class GymEquipmentClient {
   static const String baseUrl =
-      'http://10.0.2.2:8000'; // Pastikan menggunakan http:// atau https://
+      'gym5api-production.up.railway.app'; // Pastikan menggunakan http:// atau https://
   static const String endpoint =
       '/api/alat_gym'; // Ganti dengan endpoint yang sesuai
 
