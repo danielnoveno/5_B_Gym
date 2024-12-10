@@ -69,7 +69,7 @@ class _ProfileViewState extends State<ProfileView> {
                       ),
                     ),
                   ),
-                  const SizedBox(height: 10),
+                  const SizedBox(height: 50),
                   CircleAvatar(
                     radius: 80,
                     backgroundImage: AssetImage("images/FotoProfil.png"),
@@ -99,21 +99,25 @@ class _ProfileViewState extends State<ProfileView> {
                       fontSize: 16,
                     ),
                   ),
-                  const SizedBox(height: 20),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      infoCard1('75 Kg', 'Weight'),
-                      const SizedBox(width: 1),
-                      infoCard3('180 Cm', 'Height'),
-                      const SizedBox(width: 1),
-                      infoCard2('${pelanggan.umur} Yr', 'Age'), // Display dynamic age
-                    ],
-                  ),
+                  // const SizedBox(height: 20),
+                  // Row(
+                  //   mainAxisAlignment: MainAxisAlignment.center,
+                  //   children: [
+                  //     infoCard1('75 Kg', 'Weight'),
+                  //     const SizedBox(width: 1),
+                  //     infoCard3('180 Cm', 'Height'),
+                  //     const SizedBox(width: 1),
+                  //     infoCard2('${pelanggan.umur} Yr', 'Age'), // Display dynamic age
+                  //   ],
+                  // ),
                   const SizedBox(height: 10),
-                  profileButton(context, 'Edit Profile'),
-                  profileButton(context, 'Riwayat'),
-                  profileButton(context, 'Penilaian'),
+                  profileButton(context, 'Edit Profile', () {
+                  setState(() {
+                    _profileFuture = _fetchProfile(); // Refresh the profile
+                    });
+                  }),
+                  profileButton(context, 'Riwayat', () {}),
+                  // profileButton(context, ' Penilaian', () {}),
                   const SizedBox(height: 20),
                   TextButton.icon(
                     onPressed: () {

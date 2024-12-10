@@ -3,6 +3,7 @@ import 'package:intl/intl.dart';
 import 'package:tubes_pbp_gym/view/datadiri/jeniskelamin.dart';
 import 'package:tubes_pbp_gym/entitiy/Pelanggan.dart';
 import 'package:tubes_pbp_gym/client/PelangganClient.dart';
+import 'package:tubes_pbp_gym/view/login.dart';
 
 //fix register
 
@@ -152,51 +153,51 @@ class _RegisterViewState extends State<RegisterView> {
                   helperTxt: "Masukkan Alamat Anda",
                   iconData: Icons.location_on,
                 ),
-                Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 16.0),
-                  child: SizedBox(
-                    width: 350,
-                    child: DropdownButtonHideUnderline(
-                      child: DropdownButtonFormField<String>(
-                        value: selectedValue,
-                        dropdownColor: Color(0xFF636363),
-                        items: dropdownItems.map((item) {
-                          return DropdownMenuItem(
-                            value: item,
-                            child: Text(
-                              item,
-                              style: TextStyle(color: Colors.white),
-                            ),
-                          );
-                        }).toList(),
-                        onChanged: (value) {
-                          setState(() {
-                            selectedValue = value;
-                          });
-                        },
-                        style: const TextStyle(color: Colors.white),
-                        decoration: InputDecoration(
-                          hintText: 'Peran',
-                          hintStyle: const TextStyle(color: Colors.white),
-                          helperText: 'Masukkan Peran Anda',
-                          helperStyle: const TextStyle(color: Colors.white),
-                          filled: true,
-                          fillColor: Color(0xFF636363),
-                          prefixIcon: Icon(Icons.person, color: Colors.white),
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(20),
-                          ),
-                          focusedBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(20),
-                            borderSide: BorderSide(color: Colors.white),
-                          ),
-                        ),
-                        validator: (value) =>
-                            value == null ? 'Please select an option' : null,
-                      ),
-                    ),
-                  ),
-                ),
+                // Padding(
+                //   padding: const EdgeInsets.symmetric(vertical: 16.0),
+                //   child: SizedBox(
+                //     width: 350,
+                //     child: DropdownButtonHideUnderline(
+                //       child: DropdownButtonFormField<String>(
+                //         value: selectedValue,
+                //         dropdownColor: Color(0xFF636363),
+                //         items: dropdownItems.map((item) {
+                //           return DropdownMenuItem(
+                //             value: item,
+                //             child: Text(
+                //               item,
+                //               style: TextStyle(color: Colors.white),
+                //             ),
+                //           );
+                //         }).toList(),
+                //         onChanged: (value) {
+                //           setState(() {
+                //             selectedValue = value;
+                //           });
+                //         },
+                //         style: const TextStyle(color: Colors.white),
+                //         decoration: InputDecoration(
+                //           hintText: 'Peran',
+                //           hintStyle: const TextStyle(color: Colors.white),
+                //           helperText: 'Masukkan Peran Anda',
+                //           helperStyle: const TextStyle(color: Colors.white),
+                //           filled: true,
+                //           fillColor: Color(0xFF636363),
+                //           prefixIcon: Icon(Icons.person, color: Colors.white),
+                //           border: OutlineInputBorder(
+                //             borderRadius: BorderRadius.circular(20),
+                //           ),
+                //           focusedBorder: OutlineInputBorder(
+                //             borderRadius: BorderRadius.circular(20),
+                //             borderSide: BorderSide(color: Colors.white),
+                //           ),
+                //         ),
+                //         validator: (value) =>
+                //             value == null ? 'Please select an option' : null,
+                //       ),
+                //     ),
+                //   ),
+                // ),
                 ElevatedButton(
                   onPressed: () async {
                     if (_formKey.currentState!.validate()) {
@@ -241,7 +242,7 @@ class _RegisterViewState extends State<RegisterView> {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (_) => JenisKelamin(data: {}),
+                              builder: (_) => LoginView(),
                             ),
                           );
                         } else {

@@ -7,7 +7,8 @@ import 'package:image_picker/image_picker.dart';
 import 'package:tubes_pbp_gym/components/form_edit.dart';
 
 class EditProfile extends StatefulWidget {
-  const EditProfile({super.key});
+  final VoidCallback onProfileUpdated;
+  const EditProfile({super.key, required this.onProfileUpdated});
 
   @override
   _EditProfileState createState() => _EditProfileState();
@@ -62,13 +63,8 @@ class _EditProfileState extends State<EditProfile> {
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(content: Text('Profile updated successfully!')),
         );
-        final prefs = await SharedPreferences.getInstance();
-      prefs.setString('userName', _nameController.text);
-      prefs.setString('userEmail', _emailController.text);
-      prefs.setString('userPhone', _phoneController.text);
-
-      // Refresh profile data after update
-      _fetchProfile();
+        
+        widget.onProfileUpdated();
 
         Navigator.pop(context);
       } else {
@@ -147,17 +143,17 @@ class _EditProfileState extends State<EditProfile> {
                         style: TextStyle(
                           color: Colors.white,
                           fontSize: 30,
-                          fontWeight: FontWeight.bold,
+                          fontWeight: FontWeight.bold
                         ),
                       ),
                     ),
-                    const SizedBox(height: 10),
+                    const SizedBox(height: 50),
                     // Profile picture with edit icon overlay
                     Stack(
                       alignment: Alignment.center,
                       children: [
                         CircleAvatar(
-                          radius: 60,
+                          radius: 90,
                           backgroundImage: _image != null
                               ? FileImage(_image!)
                               : AssetImage("images/FotoProfil.png")

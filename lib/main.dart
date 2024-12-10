@@ -35,7 +35,7 @@ class MyApp extends StatelessWidget {
             return MaterialPageRoute(
                 builder: (context) => const ReadWriteNFCScreen());
           default:
-            return MaterialPageRoute(builder: (context) => const Riwayat());
+            return MaterialPageRoute(builder: (context) => RiwayatPage());
         }
       },
       initialRoute: '/home',
