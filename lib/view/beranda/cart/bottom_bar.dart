@@ -84,14 +84,26 @@ class BottomBar extends StatelessWidget {
                       });
                     }
                   }
-                : () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (c) => PaymentPage(totalFormatted: totalFormatted),
-                      ),
-                    );
-                  },
+                : total > 0
+                    ? () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (c) =>
+                                PaymentPage(totalFormatted: totalFormatted),
+                          ),
+                        );
+                      }
+                    : () {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(
+                            content: Text(
+                              "Masukkan sesuatu ke dalam keranjang terlebih dahulu!",
+                            ),
+                            backgroundColor: Colors.red,
+                          ),
+                        );
+                      },
             child: Text(
               isEditing ? 'Hapus' : 'Bayar',
               style: TextStyle(color: Colors.white),
@@ -107,7 +119,6 @@ class BottomBar extends StatelessWidget {
     return 'Rp ${formatCurrency.format(amount)}';
   }
 
-  // Konfirmasi untuk menghapus semua item yang dipilih
   void _showDeleteAllConfirmationDialog(BuildContext context) {
     showDialog(
       context: context,
@@ -136,7 +147,6 @@ class BottomBar extends StatelessWidget {
     );
   }
 
-  // Konfirmasi untuk menghapus item individu
   void _showDeleteConfirmationDialog(BuildContext context, CartItem item) {
     showDialog(
       context: context,
@@ -154,7 +164,6 @@ class BottomBar extends StatelessWidget {
             ),
             TextButton(
               onPressed: () {
-                // Panggil fungsi untuk menghapus item ini
                 _removeItemFromCart(context, item);
                 Navigator.of(context).pop(); // Menutup dialog
               },
@@ -166,9 +175,7 @@ class BottomBar extends StatelessWidget {
     );
   }
 
-// Fungsi untuk menghapus item dari cart berdasarkan indeks
   void _removeItemFromCart(BuildContext context, CartItem item) {
-    // Akses provider untuk menghapus item dari cart berdasarkan indeks
     final cartProvider = Provider.of<CartProvider>(context, listen: false);
     int index = cartProvider.cartItems.indexOf(item); // Menemukan indeks item
     if (index != -1) {

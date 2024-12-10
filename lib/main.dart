@@ -34,7 +34,7 @@ class MyApp extends StatelessWidget {
             return MaterialPageRoute(builder: (context) => const Riwayat());
         }
       },
-      initialRoute: '/home',
+      initialRoute: '/login',
     );
   }
 }
