@@ -69,7 +69,7 @@ class _ProfileViewState extends State<ProfileView> {
                       ),
                     ),
                   ),
-                  const SizedBox(height: 10),
+                  const SizedBox(height: 50),
                   CircleAvatar(
                     radius: 80,
                     backgroundImage: AssetImage("images/FotoProfil.png"),
@@ -99,17 +99,17 @@ class _ProfileViewState extends State<ProfileView> {
                       fontSize: 16,
                     ),
                   ),
-                  const SizedBox(height: 20),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      infoCard1('75 Kg', 'Weight'),
-                      const SizedBox(width: 1),
-                      infoCard3('180 Cm', 'Height'),
-                      const SizedBox(width: 1),
-                      infoCard2('${pelanggan.umur} Yr', 'Age'), // Display dynamic age
-                    ],
-                  ),
+                  // const SizedBox(height: 20),
+                  // Row(
+                  //   mainAxisAlignment: MainAxisAlignment.center,
+                  //   children: [
+                  //     infoCard1('75 Kg', 'Weight'),
+                  //     const SizedBox(width: 1),
+                  //     infoCard3('180 Cm', 'Height'),
+                  //     const SizedBox(width: 1),
+                  //     infoCard2('${pelanggan.umur} Yr', 'Age'), // Display dynamic age
+                  //   ],
+                  // ),
                   const SizedBox(height: 10),
                   profileButton(context, 'Edit Profile', () {
                   setState(() {
@@ -117,7 +117,7 @@ class _ProfileViewState extends State<ProfileView> {
                     });
                   }),
                   profileButton(context, 'Riwayat', () {}),
-                  profileButton(context, ' Penilaian', () {}),
+                  // profileButton(context, ' Penilaian', () {}),
                   const SizedBox(height: 20),
                   TextButton.icon(
                     onPressed: () {

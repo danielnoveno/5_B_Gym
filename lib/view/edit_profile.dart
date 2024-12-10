@@ -143,17 +143,17 @@ class _EditProfileState extends State<EditProfile> {
                         style: TextStyle(
                           color: Colors.white,
                           fontSize: 30,
-                          fontWeight: FontWeight.bold,
+                          fontWeight: FontWeight.bold
                         ),
                       ),
                     ),
-                    const SizedBox(height: 10),
+                    const SizedBox(height: 50),
                     // Profile picture with edit icon overlay
                     Stack(
                       alignment: Alignment.center,
                       children: [
                         CircleAvatar(
-                          radius: 60,
+                          radius: 90,
                           backgroundImage: _image != null
                               ? FileImage(_image!)
                               : AssetImage("images/FotoProfil.png")
