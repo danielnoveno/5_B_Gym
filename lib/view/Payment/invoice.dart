@@ -8,6 +8,31 @@ import 'package:tubes_pbp_gym/entitiy/Pelanggan.dart';
 import 'package:tubes_pbp_gym/client/PelangganClient.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tubes_pbp_gym/models/items_cart.dart';
+import 'package:intl/intl.dart';
+
+String _formatDate(DateTime date) {
+  final months = [
+    "Jan", "Feb", "Mar", "Apr", "May", "Jun",
+    "Jul", "Agu", "Sep", "Okt", "Nov", "Des"
+  ];
+  final days = [
+    "Minggu", "Senin", "Selasa", "Rabu",
+    "Kamis", "Jumat", "Sabtu"
+  ];
+
+  String dayName = days[date.weekday % 7];
+  String day = date.day.toString().padLeft(2, '0');
+  String month = months[date.month - 1];
+  String year = date.year.toString();
+
+  return '$dayName, $day $month $year';
+}
+
+String formatCurrency(double amount) {
+  final formatter = NumberFormat('#,###', 'id_ID');
+  return formatter.format(amount.round()).replaceAll(',', '.');
+}
+
 
 class InvoicePdfGenerator {
   Future<Uint8List> generateInvoice(Pelanggan pelanggan, List<CartItem> cartItems) async {
@@ -67,7 +92,7 @@ class InvoicePdfGenerator {
                         pw.Column(
                           crossAxisAlignment: pw.CrossAxisAlignment.start,
                           children: [
-                            pw.Text('Tanggal Nota: Rabu, 01 Sep 2024'),
+                            pw.Text('Tanggal Nota: ${_formatDate(DateTime.now())}'),
                             pw.Text('Jatuh Tempo: -'),
                           ],
                         ),
@@ -140,7 +165,7 @@ class InvoicePdfGenerator {
                             item.membershipTitle,
                             item.quantity.toString(),
                             item.title,
-                            'Rp ${item.price * item.quantity}',
+                            'Rp ${formatCurrency(item.price * item.quantity)}',
                           );
                         }).toList(),
                         pw.TableRow(
@@ -156,7 +181,7 @@ class InvoicePdfGenerator {
                             pw.Padding(
                               padding: const pw.EdgeInsets.all(8),
                               child: pw.Text(
-                                'Rp ${cartItems.fold(0.0, (total, item) => total + (item.price * item.quantity)).toInt()}',
+                                'Rp ${formatCurrency(cartItems.fold(0, (total, item) => total + (item.price * item.quantity)))}',
                                 style: pw.TextStyle(fontWeight: pw.FontWeight.bold),
                               ),
                             ),
@@ -175,7 +200,7 @@ class InvoicePdfGenerator {
                               children: [
                                 pw.Text('Jumlah Total: ',
                                     style: pw.TextStyle(fontWeight: pw.FontWeight.bold)),
-                                pw.Text('Rp ${cartItems.fold(0.0, (total, item) => total + (item.price * item.quantity)).toInt()}'),
+                                pw.Text('Rp ${formatCurrency(cartItems.fold(0, (total, item) => total + (item.price * item.quantity)))}',),
                               ],
                             ),
                             pw.Row(
@@ -188,7 +213,7 @@ class InvoicePdfGenerator {
                               children: [
                                 pw.Text('Jumlah Total: ',
                                     style: pw.TextStyle(fontWeight: pw.FontWeight.bold)),
-                                pw.Text('Rp ${cartItems.fold(0.0, (total, item) => total + (item.price * item.quantity)).toInt()}'),
+                                pw.Text('Rp ${formatCurrency(cartItems.fold(0, (total, item) => total + (item.price * item.quantity)))}',),
                               ],
                             ),
                           ],
