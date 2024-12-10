@@ -6,18 +6,32 @@ import 'package:tubes_pbp_gym/view/beranda/card_healthy_club/unlimited.dart';
 import 'package:tubes_pbp_gym/client/Healthy_clubClient.dart';
 import 'package:tubes_pbp_gym/entitiy/HealthyClub.dart';
 
-class HealthyClubView extends StatelessWidget {
-  HealthyClubView({super.key});
+class HealthyClubView extends StatefulWidget {
+  const HealthyClubView({super.key});
+
+  @override
+  _HealthyClubViewState createState() => _HealthyClubViewState();
+}
+
+class _HealthyClubViewState extends State<HealthyClubView> {
+  late Future<List<KelasOlahragas>> kelasOlahragasList;
+
+  @override
+  void initState() {
+    super.initState();
+    kelasOlahragasList = KelasOlahragaClient.fetchAll(); // Fetch data
+  }
 
   // Function to navigate to the appropriate page based on the title
-  void _navigateToPage(BuildContext context, KelasOlahragas kelasOlahraga) {
-    switch (kelasOlahraga.judul) {
+  void _navigateToPage(
+      BuildContext context, String title, KelasOlahragas kelasOlahraga) {
+    switch (title) {
       case "1 Sesi":
         Navigator.push(
           context,
           MaterialPageRoute(
             builder: (context) =>
-                HealthyClub1Sesi(kelasOlahraga: kelasOlahraga),
+                HealthyClub1Sesi(kelasOlahragaId: kelasOlahraga.idKelas),
           ),
         );
         break;
@@ -26,7 +40,7 @@ class HealthyClubView extends StatelessWidget {
           context,
           MaterialPageRoute(
             builder: (context) =>
-                HealthyClub4Sesi(kelasOlahraga: kelasOlahraga),
+                HealthyClub4Sesi(kelasOlahragaId: kelasOlahraga.idKelas),
           ),
         );
         break;
@@ -35,7 +49,7 @@ class HealthyClubView extends StatelessWidget {
           context,
           MaterialPageRoute(
             builder: (context) =>
-                HealthyClub8Sesi(kelasOlahraga: kelasOlahraga),
+                HealthyClub8Sesi(kelasOlahragaId: kelasOlahraga.idKelas),
           ),
         );
         break;
@@ -44,7 +58,7 @@ class HealthyClubView extends StatelessWidget {
           context,
           MaterialPageRoute(
             builder: (context) =>
-                HealthyClubUnlimited(kelasOlahraga: kelasOlahraga),
+                HealthyClubUnlimited(kelasOlahragaId: kelasOlahraga.idKelas),
           ),
         );
         break;
@@ -56,33 +70,28 @@ class HealthyClubView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return FutureBuilder<List<KelasOlahragas>>(
-      future: KelasOlahragaClient.fetchAll(), // Fetch data from the API
+      future: kelasOlahragasList,
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
-          return Center(
-              child: CircularProgressIndicator()); // Show loading spinner
+          return const Center(child: CircularProgressIndicator());
+        } else if (snapshot.hasError) {
+          return Center(child: Text('Error: ${snapshot.error}'));
+        } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
+          return const Center(child: Text('No classes available.'));
         }
 
-        if (snapshot.hasError) {
-          return Center(
-              child: Text('Error: ${snapshot.error}')); // Show error message
-        }
-
-        if (!snapshot.hasData || snapshot.data!.isEmpty) {
-          return Center(child: Text('No data available')); // Show if no data
-        }
-
-        final List<KelasOlahragas> kelasOlahragasList = snapshot.data!;
+        final kelasOlahragasList = snapshot.data!;
 
         return ListView.builder(
           padding: const EdgeInsets.symmetric(horizontal: 12),
           itemCount: kelasOlahragasList.length,
           itemBuilder: (context, index) {
-            final kelasOlahraga = kelasOlahragasList[index];
+            final kelas = kelasOlahragasList[index];
 
             return GestureDetector(
               onTap: () {
-                _navigateToPage(context, kelasOlahraga); // Pass the object here
+                _navigateToPage(
+                    context, kelas.judul, kelas); // Pass the selected kelas
               },
               child: Card(
                 color: Colors.grey[900],
@@ -96,8 +105,8 @@ class HealthyClubView extends StatelessWidget {
                     ClipRRect(
                       borderRadius:
                           const BorderRadius.all(Radius.circular(16.0)),
-                      child: Image.asset(
-                        kelasOlahraga.imagePath,
+                      child: Image.network(
+                        kelas.imagePath, // Assuming the imagePath is a URL
                         height: 180,
                         width: double.infinity,
                         fit: BoxFit.cover,
@@ -137,7 +146,7 @@ class HealthyClubView extends StatelessWidget {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Text(
-                                    kelasOlahraga.judul,
+                                    kelas.judul,
                                     style: const TextStyle(
                                       fontSize: 18,
                                       fontWeight: FontWeight.bold,
@@ -146,7 +155,8 @@ class HealthyClubView extends StatelessWidget {
                                   ),
                                   const SizedBox(height: 4),
                                   Text(
-                                    kelasOlahraga.deskripsi.join(", "),
+                                    kelas.deskripsi.join(
+                                        ', '), // Display deskripsi as a string
                                     style: const TextStyle(
                                       fontSize: 14,
                                       color: Colors.white70,
@@ -158,8 +168,8 @@ class HealthyClubView extends StatelessWidget {
                             // Direct Icon for Navigation
                             GestureDetector(
                               onTap: () {
-                                _navigateToPage(context,
-                                    kelasOlahraga); // Pass the object here
+                                _navigateToPage(context, kelas.judul,
+                                    kelas); // Pass the selected kelas
                               },
                               child: Container(
                                 width: 42,

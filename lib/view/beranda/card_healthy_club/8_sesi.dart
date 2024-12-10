@@ -1,29 +1,30 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import 'package:tubes_pbp_gym/models/items_cart.dart';
-import 'package:tubes_pbp_gym/providers/cart_provider.dart';
 import 'package:tubes_pbp_gym/entitiy/HealthyClub.dart';
+import 'package:tubes_pbp_gym/client/Healthy_clubClient.dart';
+import 'package:provider/provider.dart';
+import 'package:tubes_pbp_gym/providers/cart_provider.dart';
+import 'package:tubes_pbp_gym/models/items_cart.dart';
 import 'package:tubes_pbp_gym/view/beranda/cart/cart.dart';
 
 class HealthyClub8Sesi extends StatefulWidget {
-  final KelasOlahragas kelasOlahraga;
+  final int kelasOlahragaId;
 
-  HealthyClub8Sesi({required this.kelasOlahraga});
+  HealthyClub8Sesi({required this.kelasOlahragaId});
 
   @override
   _HealthyClub8SesiState createState() => _HealthyClub8SesiState();
 }
 
 class _HealthyClub8SesiState extends State<HealthyClub8Sesi> {
-  late String selectedClass;
+  late Future<KelasOlahragas> kelasOlahragasFuture;
 
   @override
   void initState() {
     super.initState();
-    selectedClass = widget.kelasOlahraga.kelas[0];
+    // Fetch data berdasarkan ID kelas olahraga
+    kelasOlahragasFuture = KelasOlahragaClient.find(widget.kelasOlahragaId);
   }
 
-  // Function to parse the price from string
   double parsePrice(String price) {
     String cleanPrice = price.replaceAll(RegExp(r'[^0-9]'), '');
     return double.tryParse(cleanPrice) ?? 0.0;
@@ -35,7 +36,7 @@ class _HealthyClub8SesiState extends State<HealthyClub8Sesi> {
       backgroundColor: Colors.black,
       appBar: AppBar(
         title: Text(
-          widget.kelasOlahraga.judul,
+          'Kelas Olahraga',
           style: TextStyle(color: Colors.white),
         ),
         leading: IconButton(
@@ -44,145 +45,148 @@ class _HealthyClub8SesiState extends State<HealthyClub8Sesi> {
         ),
         backgroundColor: Colors.black,
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: SingleChildScrollView(
-          child: Center(
-            child: Container(
-              width: double.infinity,
-              padding: EdgeInsets.all(16.0),
-              decoration: BoxDecoration(
-                color: Color(0xFF2B2B2B),
-                borderRadius: BorderRadius.circular(16),
-              ),
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  SizedBox(height: 16),
-                  ClipRRect(
+      body: FutureBuilder<KelasOlahragas>(
+        future: kelasOlahragasFuture,
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return Center(child: CircularProgressIndicator());
+          } else if (snapshot.hasError) {
+            return Center(child: Text('Error: ${snapshot.error}'));
+          } else if (!snapshot.hasData) {
+            return Center(child: Text('No data available'));
+          }
+
+          final kelasOlahragas = snapshot.data!;
+
+          return Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: SingleChildScrollView(
+              child: Center(
+                child: Container(
+                  width: double.infinity,
+                  padding: EdgeInsets.all(16.0),
+                  decoration: BoxDecoration(
+                    color: Color(0xFF2B2B2B),
                     borderRadius: BorderRadius.circular(16),
-                    child: Image.asset(
-                      widget.kelasOlahraga.imagePath,
-                      height: 150,
-                      width: double.infinity,
-                      fit: BoxFit.cover,
-                    ),
                   ),
-                  SizedBox(height: 16),
-                  Text(
-                    widget.kelasOlahraga.harga,
-                    style: TextStyle(
-                      fontSize: 24,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.white,
-                    ),
-                  ),
-                  Divider(color: Colors.grey),
-                  SizedBox(height: 8),
-                  // Display deskripsi (features) as a list
-                  for (var feature in widget.kelasOlahraga.deskripsi)
-                    FeatureItem(text: feature),
-                  SizedBox(height: 16),
-                  // Dropdown to select the class
-                  DropdownButtonFormField<String>(
-                    value: selectedClass,
-                    items: widget.kelasOlahraga.kelas.map((String value) {
-                      return DropdownMenuItem<String>(
-                        value: value,
-                        child: Text(
-                          value,
-                          style: TextStyle(color: Colors.white),
-                        ),
-                      );
-                    }).toList(),
-                    onChanged: (newValue) {
-                      setState(() {
-                        selectedClass = newValue!;
-                      });
-                    },
-                    dropdownColor: Color(0xFF2B2B2B),
-                    decoration: InputDecoration(
-                      filled: true,
-                      fillColor: Color(0xFF673296),
-                      contentPadding:
-                          EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-                      border: OutlineInputBorder(
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      SizedBox(height: 16),
+                      ClipRRect(
                         borderRadius: BorderRadius.circular(16),
-                        borderSide: BorderSide(color: Colors.white),
-                      ),
-                      enabledBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(16),
-                        borderSide: BorderSide(color: Colors.white),
-                      ),
-                      focusedBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(16),
-                        borderSide: BorderSide(color: Colors.white),
-                      ),
-                    ),
-                    iconEnabledColor:
-                        Colors.white, // Color of the dropdown icon
-                    style: TextStyle(
-                        color: Colors.white), // Text color in the dropdown
-                  ),
-                  SizedBox(height: 16),
-                  SizedBox(
-                    width: double.infinity,
-                    child: ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: Color(0xFF673296),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(16),
+                        child: Image.network(
+                          kelasOlahragas.imagePath,
+                          height: 150,
+                          width: double.infinity,
+                          fit: BoxFit.cover,
                         ),
                       ),
-                      onPressed: () {
-                        final cartItem = CartItem(
-                          title: selectedClass,
-                          price: parsePrice(widget.kelasOlahraga.harga),
-                          image: widget.kelasOlahraga.imagePath,
-                          membershipTitle:
-                              'Healthy Club 8 Sesi Kelas - $selectedClass',
-                          type: CartItemType.healthy_club,
-                        );
-
-                        // Add the item to the cart using CartProvider
-                        Provider.of<CartProvider>(context, listen: false)
-                            .addItem(cartItem);
-
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(
-                            content: Text(
-                              'Healthy Club 8 Sesi Kelas - $selectedClass berhasil ditambahkan ke keranjang!',
+                      SizedBox(height: 16),
+                      Text(
+                        kelasOlahragas.harga,
+                        style: TextStyle(
+                          fontSize: 24,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.white,
+                        ),
+                      ),
+                      Divider(color: Colors.grey),
+                      SizedBox(height: 8),
+                      for (var feature in kelasOlahragas.deskripsi)
+                        FeatureItem(text: feature),
+                      SizedBox(height: 16),
+                      DropdownButtonFormField<String>(
+                        value: kelasOlahragas.kelas.isNotEmpty
+                            ? kelasOlahragas.kelas[0]
+                            : null,
+                        items: kelasOlahragas.kelas.map((String value) {
+                          return DropdownMenuItem<String>(
+                            value: value,
+                            child: Text(
+                              value,
                               style: TextStyle(color: Colors.white),
                             ),
-                            backgroundColor: Colors.green,
-                            duration: Duration(seconds: 2),
-                            action: SnackBarAction(
-                              label: 'Lihat Keranjang',
-                              textColor: Colors.white,
-                              onPressed: () {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) => CartPage(),
-                                  ),
-                                );
-                              },
-                            ),
+                          );
+                        }).toList(),
+                        onChanged: (newValue) {
+                          // Handle perubahan kelas yang dipilih
+                        },
+                        dropdownColor: Color(0xFF2B2B2B),
+                        decoration: InputDecoration(
+                          filled: true,
+                          fillColor: Color(0xFF673296),
+                          contentPadding: EdgeInsets.symmetric(
+                              horizontal: 16, vertical: 12),
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(16),
+                            borderSide: BorderSide(color: Colors.white),
                           ),
-                        );
-                      },
-                      child: Text(
-                        'Masukan Keranjang',
+                        ),
+                        iconEnabledColor: Colors.white,
                         style: TextStyle(color: Colors.white),
                       ),
-                    ),
+                      SizedBox(height: 16),
+                      SizedBox(
+                        width: double.infinity,
+                        child: ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: Color(0xFF673296),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(16),
+                            ),
+                          ),
+                          onPressed: () {
+                            final selectedClass = kelasOlahragas.kelas[0];
+                            final cartItem = CartItem(
+                              title: selectedClass,
+                              price: parsePrice(kelasOlahragas.harga),
+                              image: kelasOlahragas.imagePath,
+                              membershipTitle:
+                                  'Healthy Club 8 Sesi Kelas - $selectedClass',
+                              type: CartItemType.healthy_club,
+                            );
+
+                            Provider.of<CartProvider>(context, listen: false)
+                                .addItem(cartItem);
+
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(
+                                content: Text(
+                                  'Healthy Club 8 Sesi Kelas - $selectedClass berhasil ditambahkan ke keranjang!',
+                                  style: TextStyle(color: Colors.white),
+                                ),
+                                backgroundColor: Colors.green,
+                                duration: Duration(seconds: 2),
+                                action: SnackBarAction(
+                                  label: 'Lihat Keranjang',
+                                  textColor: Colors.white,
+                                  onPressed: () {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) => CartPage(),
+                                      ),
+                                    );
+                                  },
+                                ),
+                              ),
+                            );
+                          },
+                          child: Text(
+                            'Masukan Keranjang',
+                            style: TextStyle(color: Colors.white),
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
-                ],
+                ),
               ),
             ),
-          ),
-        ),
+          );
+        },
       ),
     );
   }
@@ -204,10 +208,7 @@ class FeatureItem extends StatelessWidget {
           Expanded(
             child: Text(
               text,
-              style: TextStyle(
-                fontSize: 16,
-                color: Colors.white,
-              ),
+              style: TextStyle(fontSize: 16, color: Colors.white),
             ),
           ),
         ],

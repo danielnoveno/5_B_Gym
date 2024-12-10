@@ -20,14 +20,16 @@ class KelasOlahragas {
   factory KelasOlahragas.fromRawJson(String str) =>
       KelasOlahragas.fromJson(json.decode(str));
 
-  factory KelasOlahragas.fromJson(Map<String, dynamic> json) => KelasOlahragas(
-        idKelas: json["id_kelas"] ?? 0,
-        judul: json["judul"] ?? '',
-        harga: json["harga"] ?? '',
-        imagePath: json["image_path"] ?? '',
-        deskripsi: List<String>.from(json["deskripsi"] ?? []),
-        kelas: List<String>.from(json["kelas"] ?? []),
-      );
+  factory KelasOlahragas.fromJson(Map<String, dynamic> json) {
+    return KelasOlahragas(
+      idKelas: json["id_kelas"] ?? 0,
+      judul: json["judul"] ?? '',
+      harga: json["harga"] ?? '',
+      imagePath: json["image_path"] ?? '',
+      deskripsi: List<String>.from(json["deskripsi"] ?? []),
+      kelas: List<String>.from(json["kelas"] ?? []),
+    );
+  }
 
   String toRawJson() => json.encode(toJson());
 
