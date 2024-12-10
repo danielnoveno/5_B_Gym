@@ -101,15 +101,25 @@ class _HealthyClubViewState extends State<HealthyClubView> {
                 margin: const EdgeInsets.only(bottom: 16),
                 child: Stack(
                   children: [
-                    // Image
+                    // Image with error handling
                     ClipRRect(
                       borderRadius:
                           const BorderRadius.all(Radius.circular(16.0)),
-                      child: Image.network(
-                        kelas.imagePath, // Assuming the imagePath is a URL
+                      child: Image.asset(
+                        kelas.imagePath,
                         height: 180,
                         width: double.infinity,
                         fit: BoxFit.cover,
+                        // Error handling
+                        errorBuilder: (BuildContext context, Object error,
+                            StackTrace? stackTrace) {
+                          return Center(
+                            child: Text(
+                              'Failed to load image',
+                              style: TextStyle(color: Colors.red),
+                            ),
+                          );
+                        },
                       ),
                     ),
                     // Transparent Gradient

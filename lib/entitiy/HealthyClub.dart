@@ -41,4 +41,14 @@ class KelasOlahragas {
         "deskripsi": deskripsi,
         "kelas": kelas,
       };
+
+  String getImageUrl() {
+    if (imagePath.startsWith('http')) {
+      return imagePath;
+    } else if (imagePath.startsWith('file://')) {
+      return imagePath;
+    } else {
+      return 'assets/images/placeholder.png';
+    }
+  }
 }

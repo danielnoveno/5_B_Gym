@@ -76,7 +76,7 @@ class _HealthyClub1SesiState extends State<HealthyClub1Sesi> {
                       SizedBox(height: 16),
                       ClipRRect(
                         borderRadius: BorderRadius.circular(16),
-                        child: Image.network(
+                        child: Image.asset(
                           kelasOlahragas.imagePath,
                           height: 150,
                           width: double.infinity,
