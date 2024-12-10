@@ -170,6 +170,12 @@
       "languageVersion": "3.3"
     },
     {
+      "name": "flutter_dotenv",
+      "rootUri": "file:///C:/Users/ASUS/AppData/Local/Pub/Cache/hosted/pub.dev/flutter_dotenv-5.2.1",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
+    },
+    {
       "name": "flutter_facebook_auth",
       "rootUri": "file:///C:/Users/acer/AppData/Local/Pub/Cache/hosted/pub.dev/flutter_facebook_auth-7.1.1",
       "packageUri": "lib/",
@@ -273,7 +279,7 @@
     },
     {
       "name": "google_sign_in_android",
-      "rootUri": "file:///C:/Users/acer/AppData/Local/Pub/Cache/hosted/pub.dev/google_sign_in_android-6.1.33",
+      "rootUri": "file:///C:/Users/ASUS/AppData/Local/Pub/Cache/hosted/pub.dev/google_sign_in_android-6.1.34",
       "packageUri": "lib/",
       "languageVersion": "3.5"
     },
@@ -489,7 +495,7 @@
     },
     {
       "name": "path_provider_android",
-      "rootUri": "file:///C:/Users/acer/AppData/Local/Pub/Cache/hosted/pub.dev/path_provider_android-2.2.14",
+      "rootUri": "file:///C:/Users/ASUS/AppData/Local/Pub/Cache/hosted/pub.dev/path_provider_android-2.2.15",
       "packageUri": "lib/",
       "languageVersion": "3.5"
     },
@@ -794,10 +800,10 @@
       "languageVersion": "3.5"
     }
   ],
-  "generated": "2024-12-10T16:00:23.159527Z",
+  "generated": "2024-12-10T22:40:59.307889Z",
   "generator": "pub",
-  "generatorVersion": "3.5.3",
-  "flutterRoot": "file:///C:/flutter/src/flutter",
-  "flutterVersion": "3.24.3",
-  "pubCache": "file:///C:/Users/acer/AppData/Local/Pub/Cache"
+  "generatorVersion": "3.5.4",
+  "flutterRoot": "file:///D:/flutter/src/flutter",
+  "flutterVersion": "3.24.5",
+  "pubCache": "file:///C:/Users/ASUS/AppData/Local/Pub/Cache"
 }

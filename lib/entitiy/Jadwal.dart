@@ -3,7 +3,7 @@ import 'dart:convert';
 class Activity {
   int id;
   String activity;
-  String? finishAt; // Nullable, sesuai dengan `finish_at` yang bisa null
+  DateTime? finishAt;
   String date;
   DateTime createdAt;
   DateTime updatedAt;
@@ -24,7 +24,9 @@ class Activity {
   factory Activity.fromJson(Map<String, dynamic> json) => Activity(
         id: json["id"],
         activity: json["activity"],
-        finishAt: json["finish_at"],
+        finishAt: json["finish_at"] != null
+            ? DateTime.parse(json["finish_at"])
+            : null,
         date: json["date"],
         createdAt: DateTime.parse(json["created_at"]),
         updatedAt: DateTime.parse(json["updated_at"]),
@@ -36,7 +38,7 @@ class Activity {
   Map<String, dynamic> toJson() => {
         "id": id,
         "activity": activity,
-        "finish_at": finishAt,
+        "finish_at": finishAt != null ? finishAt!.toIso8601String() : null,
         "date": date,
         "created_at": createdAt.toIso8601String(),
         "updated_at": updatedAt.toIso8601String(),

@@ -4,6 +4,7 @@ import 'package:tubes_pbp_gym/view/register.dart';
 import 'package:tubes_pbp_gym/components/form_component.dart';
 import 'package:tubes_pbp_gym/service/directToLink.dart';
 import 'package:tubes_pbp_gym/api/auth_service.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class LoginView extends StatefulWidget {
   const LoginView({super.key});
@@ -12,7 +13,7 @@ class LoginView extends StatefulWidget {
   State<LoginView> createState() => _LoginViewState();
 }
 
-List<String> dropdownItems = ['Pengguna', 'Trainer'];
+// List<String> dropdownItems = ['Pengguna', 'Trainer'];
 
 class _LoginViewState extends State<LoginView> {
   final _formKey = GlobalKey<FormState>();
@@ -32,7 +33,7 @@ class _LoginViewState extends State<LoginView> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Padding(
-                  padding: const EdgeInsets.only(top: 20),
+                  padding: const EdgeInsets.only(top: 70),
                   child: Image.asset(
                     'images/gym.png',
                     height: 160,
@@ -70,83 +71,84 @@ class _LoginViewState extends State<LoginView> {
                     hintTxt: "Password",
                     helperTxt: "Inputkan Password yang telah didaftarkan",
                     iconData: Icons.password),
+                // Padding(
+                //   padding: const EdgeInsets.symmetric(vertical: 16.0),
+                //   child: SizedBox(
+                //     width: 350,
+                //     child: DropdownButtonHideUnderline(
+                //       child: DropdownButtonFormField<String>(
+                //         value: selectedValue,
+                //         dropdownColor: Color(0xFF636363),
+                //         items: dropdownItems.map((item) {
+                //           return DropdownMenuItem(
+                //             value: item,
+                //             child: Text(
+                //               item,
+                //               style: TextStyle(color: Colors.white),
+                //             ),
+                //           );
+                //         }).toList(),
+                //         onChanged: (value) {
+                //           setState(() {
+                //             selectedValue = value;
+                //           });
+                //         },
+                //         style: const TextStyle(color: Colors.white),
+                //         decoration: InputDecoration(
+                //           hintText: 'Peran',
+                //           hintStyle: const TextStyle(color: Colors.white),
+                //           helperText: 'Masukkan Peran Anda',
+                //           helperStyle: const TextStyle(color: Colors.white),
+                //           filled: true,
+                //           fillColor: Color(0xFF636363),
+                //           prefixIcon: Icon(Icons.person, color: Colors.white),
+                //           border: OutlineInputBorder(
+                //             borderRadius: BorderRadius.circular(20),
+                //           ),
+                //           focusedBorder: OutlineInputBorder(
+                //             borderRadius: BorderRadius.circular(20),
+                //             borderSide: BorderSide(color: Colors.white),
+                //           ),
+                //         ),
+                //         validator: (value) =>
+                //             value == null ? 'Peran harus dipilih' : null,
+                //       ),
+                //     ),
+                //   ),
+                // ),
                 Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 16.0),
-                  child: SizedBox(
-                    width: 350,
-                    child: DropdownButtonHideUnderline(
-                      child: DropdownButtonFormField<String>(
-                        value: selectedValue,
-                        dropdownColor: Color(0xFF636363),
-                        items: dropdownItems.map((item) {
-                          return DropdownMenuItem(
-                            value: item,
-                            child: Text(
-                              item,
-                              style: TextStyle(color: Colors.white),
-                            ),
-                          );
-                        }).toList(),
-                        onChanged: (value) {
-                          setState(() {
-                            selectedValue = value;
-                          });
-                        },
-                        style: const TextStyle(color: Colors.white),
-                        decoration: InputDecoration(
-                          hintText: 'Peran',
-                          hintStyle: const TextStyle(color: Colors.white),
-                          helperText: 'Masukkan Peran Anda',
-                          helperStyle: const TextStyle(color: Colors.white),
-                          filled: true,
-                          fillColor: Color(0xFF636363),
-                          prefixIcon: Icon(Icons.person, color: Colors.white),
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(20),
-                          ),
-                          focusedBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(20),
-                            borderSide: BorderSide(color: Colors.white),
-                          ),
-                        ),
-                        validator: (value) =>
-                            value == null ? 'Peran harus dipilih' : null,
-                      ),
-                    ),
-                  ),
-                ),
-                ElevatedButton(
-                  onPressed: () async {
-                    if (_formKey.currentState!.validate()) {
-                      final response = await AuthService.login(
-                        email: emailController.text,
-                        password: passwordController.text,
-                        role: selectedValue,
-                      );
+                  padding: const EdgeInsets.only(top: 20), // This adds a gap of 20 pixels at the top
+                  child: ElevatedButton(
+                    onPressed: () async {
+                      if (_formKey.currentState!.validate()) {
+                        final response = await AuthService.login(
+                          email: emailController.text,
+                          password: passwordController.text,
+                          role: selectedValue,
+                        );
 
-                      if (response['status'] == 'success') {
-                        // Save token (optional: use a secure storage package)
-                        // Navigate to the home page
-                        Navigator.pushReplacement(
-                          context,
-                          MaterialPageRoute(builder: (_) => const HomeView()),
-                        );
-                      } else {
-                        // Show error message
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(content: Text(response['message'])),
-                        );
+                        if (response['status'] == 'success') {
+                          // Save token (optional: use a secure storage package)
+                          // Navigate to the home page
+                          Navigator.pushReplacement(
+                            context,
+                            MaterialPageRoute(builder: (_) => const HomeView()),
+                          );
+                        } else {
+                          // Show error message
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(content: Text(response['message'])),
+                          );
+                        }
                       }
-                    }
-                  },
-                  child: const Text('Masuk',
-                      style: TextStyle(color: Colors.white)),
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: const Color.fromARGB(175, 194, 73, 255),
-                    padding: const EdgeInsets.symmetric(
-                        vertical: 10, horizontal: 135),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(14),
+                    },
+                    child: const Text('Masuk', style: TextStyle(color: Colors.white)),
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: const Color.fromARGB(175, 194, 73, 255),
+                      padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 135),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(14),
+                      ),
                     ),
                   ),
                 ),
@@ -160,37 +162,36 @@ class _LoginViewState extends State<LoginView> {
                         color: Colors.white),
                   ),
                 ),
-                Row(
+               Center(
+                child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     ElevatedButton.icon(
-                      icon: Icon(Icons.g_mobiledata, size: 24),
+                      icon: FaIcon(FontAwesomeIcons.google, size: 24), // Google icon
                       label: Text(''),
                       onPressed: () {
-                        Direct.launchURL(
-                            'https://g.co/kgs/R9fTeVW'); // Google login link
+                        Direct.launchURL('https://g.co/kgs/R9fTeVW'); // Google login link
                       },
                     ),
                     SizedBox(width: 10),
                     ElevatedButton.icon(
-                      icon: Icon(Icons.apple, size: 24),
+                      icon: FaIcon(FontAwesomeIcons.apple, size: 24), // Apple icon
                       label: Text(''),
                       onPressed: () {
-                        Direct.launchURL(
-                            'https://www.apple.com/id/'); // Apple login link
+                        Direct.launchURL('https://www.apple.com/id/'); // Apple login link
                       },
                     ),
                     SizedBox(width: 10),
                     ElevatedButton.icon(
-                      icon: Icon(Icons.facebook, size: 24),
+                      icon: FaIcon(FontAwesomeIcons.facebook, size: 24), // Facebook icon
                       label: Text(''),
                       onPressed: () {
-                        Direct.launchURL(
-                            'https://www.facebook.com/?locale=id_ID'); // Facebook login link
+                        Direct.launchURL('https://www.facebook.com/?locale=id_ID'); // Facebook login link
                       },
                     ),
                   ],
                 ),
+              ),
                 TextButton(
                   onPressed: () => pushRegister(context),
                   child: const Text('Belum punya akun? Daftar disini'),

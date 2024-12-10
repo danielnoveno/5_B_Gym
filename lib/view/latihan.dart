@@ -61,13 +61,14 @@ class _TrainingPageState extends State<TrainingPage> {
         children: [
           _buildSection(
             title: 'Membership',
-            subtitle: 'Paket tidak ditemukan',
-            content: _buildEmptyCardWithImage(
-              context: context,
-              title: 'Membership',
-              subtitle: 'Mulai Sekarang',
-              imagePath: 'images/logo-dumbel.png',
-              buttonText: 'Pilih Paket',
+            subtitle: 'Group - 24 Bulan',
+            price: 'Rp19.200.000',
+            content: _buildProgressCard(
+              title: 'Custom Workout',
+              subtitle: 'Lose Weight - Balanced',
+              membershipInfo: 'Membership: 24 Bulan',
+              remainingMonths: 'Sisa 8 Bulan',
+              progressValue: 8 / 24,
             ),
           ),
           _buildSection(
@@ -237,6 +238,113 @@ class _TrainingPageState extends State<TrainingPage> {
                   color: Colors.white,
                   fontSize: 12,
                   fontWeight: FontWeight.bold,
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildProgressCard({
+    required String title,
+    required String subtitle,
+    required String membershipInfo,
+    required String remainingMonths,
+    required double progressValue,
+  }) {
+    return Card(
+      color: Colors.grey[900],
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+      child: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
+              children: [
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        title,
+                        style: const TextStyle(
+                            color: Color(0xFF673296),
+                            fontSize: 16,
+                            fontWeight: FontWeight.bold),
+                      ),
+                      Text(
+                        subtitle,
+                        style:
+                            const TextStyle(color: Colors.grey, fontSize: 14),
+                      ),
+                    ],
+                  ),
+                ),
+                IconButton(
+                  onPressed: () {},
+                  icon: const Icon(Icons.more_vert, color: Color(0xFF673296)),
+                )
+              ],
+            ),
+            _MembershipCard(
+                membershipInfo: membershipInfo,
+                remainingMonths: remainingMonths,
+                progressValue: progressValue),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _MembershipCard({
+    required String membershipInfo,
+    required String remainingMonths,
+    required double progressValue,
+  }) {
+    return Card(
+      color: Colors.grey[850],
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(12),
+      ),
+      child: Padding(
+        padding:
+            const EdgeInsets.all(16), // Padding untuk seluruh konten dalam Card
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              membershipInfo,
+              style: const TextStyle(
+                color: Colors.white,
+                fontSize: 14,
+              ),
+            ),
+            const SizedBox(height: 8), // Jarak antara teks
+            Text(
+              remainingMonths,
+              style: const TextStyle(
+                color: Colors.white,
+                fontSize: 14,
+              ),
+            ),
+            const SizedBox(height: 12), // Jarak sebelum LinearProgressIndicator
+            Container(
+              height: 10, // Tinggi LinearProgressIndicator
+              decoration: BoxDecoration(
+                color: Colors.grey[800], // Warna latar belakang
+                borderRadius: BorderRadius.circular(10), // Border radius
+              ),
+              child: ClipRRect(
+                borderRadius:
+                    BorderRadius.circular(10), // Membatasi area indikator
+                child: LinearProgressIndicator(
+                  value: progressValue,
+                  color: const Color(0xFF673296),
+                  backgroundColor:
+                      Colors.transparent, // Sesuaikan agar mengikuti container
                 ),
               ),
             ),

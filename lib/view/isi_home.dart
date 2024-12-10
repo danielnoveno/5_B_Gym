@@ -5,6 +5,9 @@ import 'package:tubes_pbp_gym/view/beranda/healthy_club.dart';
 import 'package:tubes_pbp_gym/view/beranda/alat_gym.dart';
 import 'package:tubes_pbp_gym/view/beranda/notifikasi.dart';
 import 'package:tubes_pbp_gym/view/beranda/cart/cart.dart';
+import 'package:tubes_pbp_gym/entitiy/Pelanggan.dart';
+import 'package:tubes_pbp_gym/client/PelangganClient.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class HomeViewContent extends StatefulWidget {
   final int initialMenuIndex; // Menyimpan nilai menu awal
@@ -17,12 +20,24 @@ class HomeViewContent extends StatefulWidget {
 
 class _HomeViewContentState extends State<HomeViewContent> {
   late int _activeMenuIndex;
+  late Future<Pelanggan> _pelangganFuture; // Future for fetching Pelanggan
 
   @override
   void initState() {
     super.initState();
-    _activeMenuIndex =
-        widget.initialMenuIndex; // Menggunakan nilai dari konstruktor
+    _activeMenuIndex = widget.initialMenuIndex; // Menggunakan nilai dari konstruktor
+    _pelangganFuture = _fetchPelanggan(); // Fetch Pelanggan data
+  }
+
+  Future<Pelanggan> _fetchPelanggan() async {
+    final prefs = await SharedPreferences.getInstance();
+    int? userId = prefs.getInt('userId');
+
+    if (userId == null) {
+      throw Exception('User  not logged in');
+    }
+
+    return await PelangganClient.find(userId);
   }
 
   Widget _getViewForActiveMenu() {
@@ -56,55 +71,70 @@ class _HomeViewContentState extends State<HomeViewContent> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
+                  FutureBuilder<Pelanggan>(
+                    future: _pelangganFuture,
+                    builder: (context, snapshot) {
+                      if (snapshot.connectionState == ConnectionState.waiting) {
+                        return const Center(child: CircularProgressIndicator());
+                      } else if (snapshot.hasError) {
+                        return Center(child: Text('Error: ${snapshot.error}'));
+                      } else if (!snapshot.hasData) {
+                        return const Center(child: Text('No data available'));
+                      }
+
+                      Pelanggan pelanggan = snapshot.data!;
+
+                      return Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          const Text(
-                            "Halo, Mariwow!",
-                            style: TextStyle(
-                              fontSize: 24,
-                              color: Colors.white,
-                              fontWeight: FontWeight.bold,
-                            ),
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                "Halo, ${pelanggan.nama}!", // Display username
+                                style: const TextStyle(
+                                  fontSize: 24,
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                              const SizedBox(height: 4),
+                              Text(
+                                "Anda berada di: ${[
+                                  'Membership',
+                                  'Personal Trainer',
+                                  'Healthy Club',
+                                  'Alat Gym'
+                                ][_activeMenuIndex]}",
+                                style: const TextStyle(
+                                  fontSize: 14,
+                                  color: Colors.white70,
+                                ),
+                              ),
+                            ],
                           ),
-                          const SizedBox(height: 4),
-                          Text(
-                            "Anda berada di: ${[
-                              'Membership',
-                              'Personal Trainer',
-                              'Healthy Club',
-                              'Alat Gym'
-                            ][_activeMenuIndex]}",
-                            style: const TextStyle(
-                              fontSize: 14,
-                              color: Colors.white70,
-                            ),
+                          Row(
+                            children: [
+                              _buildCircleIcon(Icons.notifications, () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => NotificationScreen()),
+                                );
+                              }),
+                              const SizedBox(width: 10),
+                              _buildCircleIcon(Icons.shopping_cart, () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => CartPage()),
+                                );
+                              }),
+                            ],
                           ),
                         ],
-                      ),
-                      Row(
-                        children: [
-                          _buildCircleIcon(Icons.notifications, () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => NotificationScreen()),
-                            );
-                          }),
-                          const SizedBox(width: 10),
-                          _buildCircleIcon(Icons.shopping_cart, () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => CartPage()),
-                            );
-                          }),
-                        ],
-                      ),
-                    ],
+                      );
+                    },
                   ),
                   const SizedBox(height: 16),
                   Container(
