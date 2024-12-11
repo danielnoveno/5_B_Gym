@@ -59,7 +59,14 @@ class _CartPageState extends State<CartPage> {
                   ),
                 ),
               Expanded(
-                child: ListView.builder(
+                child: cartProvider.cartItems.isEmpty
+                    ? Center(
+                        child: Text(
+                          "Keranjang masih kosong!",
+                          style: TextStyle(color: Colors.white, fontSize: 16),
+                        ),
+                      )
+                : ListView.builder(
                   itemCount: cartProvider.cartItems.length,
                   itemBuilder: (context, index) {
                     return CartItemWidget(

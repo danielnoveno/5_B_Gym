@@ -5,8 +5,6 @@ import 'package:tubes_pbp_gym/entitiy/Pelanggan.dart';
 import 'package:tubes_pbp_gym/client/PelangganClient.dart';
 import 'package:tubes_pbp_gym/view/login.dart';
 
-//fix register
-
 class RegisterView extends StatefulWidget {
   const RegisterView({super.key});
 
@@ -153,51 +151,6 @@ class _RegisterViewState extends State<RegisterView> {
                   helperTxt: "Masukkan Alamat Anda",
                   iconData: Icons.location_on,
                 ),
-                // Padding(
-                //   padding: const EdgeInsets.symmetric(vertical: 16.0),
-                //   child: SizedBox(
-                //     width: 350,
-                //     child: DropdownButtonHideUnderline(
-                //       child: DropdownButtonFormField<String>(
-                //         value: selectedValue,
-                //         dropdownColor: Color(0xFF636363),
-                //         items: dropdownItems.map((item) {
-                //           return DropdownMenuItem(
-                //             value: item,
-                //             child: Text(
-                //               item,
-                //               style: TextStyle(color: Colors.white),
-                //             ),
-                //           );
-                //         }).toList(),
-                //         onChanged: (value) {
-                //           setState(() {
-                //             selectedValue = value;
-                //           });
-                //         },
-                //         style: const TextStyle(color: Colors.white),
-                //         decoration: InputDecoration(
-                //           hintText: 'Peran',
-                //           hintStyle: const TextStyle(color: Colors.white),
-                //           helperText: 'Masukkan Peran Anda',
-                //           helperStyle: const TextStyle(color: Colors.white),
-                //           filled: true,
-                //           fillColor: Color(0xFF636363),
-                //           prefixIcon: Icon(Icons.person, color: Colors.white),
-                //           border: OutlineInputBorder(
-                //             borderRadius: BorderRadius.circular(20),
-                //           ),
-                //           focusedBorder: OutlineInputBorder(
-                //             borderRadius: BorderRadius.circular(20),
-                //             borderSide: BorderSide(color: Colors.white),
-                //           ),
-                //         ),
-                //         validator: (value) =>
-                //             value == null ? 'Please select an option' : null,
-                //       ),
-                //     ),
-                //   ),
-                // ),
                 ElevatedButton(
                   onPressed: () async {
                     if (_formKey.currentState!.validate()) {
@@ -239,12 +192,24 @@ class _RegisterViewState extends State<RegisterView> {
                         // Send data to the API
                         var response = await PelangganClient.create(pelanggan);
                         if (response.statusCode == 201) {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (_) => LoginView(),
+                          // Show success snack bar
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(
+                              content: const Text('Akun berhasil didaftarkan'),
+                              duration: const Duration(seconds: 1),
+                              backgroundColor: Colors.green,
                             ),
                           );
+
+                          // Navigate to login screen after a brief delay
+                          Future.delayed(const Duration(seconds: 1), () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (_) => LoginView(),
+                              ),
+                            );
+                          });
                         } else {
                           ScaffoldMessenger.of(context).showSnackBar(
                             SnackBar(content: Text('Error: ${response.body}')),
