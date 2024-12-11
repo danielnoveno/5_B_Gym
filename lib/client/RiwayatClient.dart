@@ -3,7 +3,7 @@ import 'package:http/http.dart' as http;
 import 'package:tubes_pbp_gym/entitiy/Riwayat.dart';
 
 class RiwayatClient {
-  static const String url = '10.0.2.2:8000'; // Base URL
+  static const String url = 'gym5api-production.up.railway.app'; // Base URL
   static const String endpoint = '/api/riwayat'; // Base endpoint
 
   // Fetch all riwayat
@@ -21,7 +21,6 @@ class RiwayatClient {
       return Future.error(e.toString());
     }
   }
-
 
   // Fetch a single riwayat by ID
   static Future<Riwayat> find(int id) async {

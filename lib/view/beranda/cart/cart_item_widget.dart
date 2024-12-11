@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:tubes_pbp_gym/models/items_cart.dart';
+import 'package:tubes_pbp_gym/entitiy/Cart.dart';
 import 'package:intl/intl.dart';
+import 'package:tubes_pbp_gym/client/CartClient.dart';
 
 class CartItemWidget extends StatelessWidget {
   final CartItem item;
@@ -33,12 +34,15 @@ class CartItemWidget extends StatelessWidget {
         children: [
           Checkbox(
             value: item.isSelected,
-            onChanged: onCheckboxChanged,
+            onChanged: (bool? value) {
+              onCheckboxChanged(value);
+              _updateCartItemSelection(value);
+            },
           ),
           ClipRRect(
             borderRadius: BorderRadius.circular(8.0),
-            child: Image.asset(
-              item.image,
+            child: Image.network(
+              item.getImageUrl(),
               width: 50,
               height: 50,
               fit: BoxFit.cover,
@@ -77,6 +81,7 @@ class CartItemWidget extends StatelessWidget {
                       onPressed: item.quantity > 0
                           ? () {
                               onQuantityChanged(item.quantity - 1);
+                              _updateCartItemQuantity(item.quantity - 1);
                             }
                           : null,
                     ),
@@ -87,6 +92,7 @@ class CartItemWidget extends StatelessWidget {
                       icon: Icon(Icons.add, color: Colors.black),
                       onPressed: () {
                         onQuantityChanged(item.quantity + 1);
+                        _updateCartItemQuantity(item.quantity + 1);
                       },
                     ),
                   ],
@@ -127,6 +133,7 @@ class CartItemWidget extends StatelessWidget {
             TextButton(
               onPressed: () {
                 onRemoveItem(); // Menghapus item tersebut
+                _deleteCartItem(item.id); // Delete item from server
                 Navigator.of(context).pop(); // Menutup dialog
               },
               child: Text('Hapus'),
@@ -135,5 +142,22 @@ class CartItemWidget extends StatelessWidget {
         );
       },
     );
+  }
+
+  // Update Cart Item quantity and selection
+  void _updateCartItemQuantity(int newQuantity) async {
+    item.quantity = newQuantity;
+    await CartItemClient.update(item); // Update item in server
+  }
+
+  // Update Cart Item selection status
+  void _updateCartItemSelection(bool? value) async {
+    item.isSelected = value ?? false;
+    await CartItemClient.update(item); // Update item selection status in server
+  }
+
+  // Delete the item from the cart
+  void _deleteCartItem(int id) async {
+    await CartItemClient.destroy(id);
   }
 }

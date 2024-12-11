@@ -1,8 +1,11 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:tubes_pbp_gym/entitiy/Cart.dart';
+// import 'package:tubes_pbp_gym/models/items_cart.dart';
 import 'package:tubes_pbp_gym/view/Payment/invoice.dart';
 import 'package:tubes_pbp_gym/providers/cart_provider.dart';
+// import 'package:tubes_pbp_gym/entitiy/Cart.dart';
 
 class PaymentMenunggu extends StatelessWidget {
   final String totalFormatted;
@@ -263,8 +266,7 @@ class _PaymentState extends State<Payment> {
                                   style: ElevatedButton.styleFrom(
                                     backgroundColor: Color(0xFF9F96A5),
                                     shape: RoundedRectangleBorder(
-                                        borderRadius:
-                                            BorderRadius.circular(8)),
+                                        borderRadius: BorderRadius.circular(8)),
                                   ),
                                   onPressed: () {},
                                   child: Row(
@@ -297,15 +299,21 @@ class _PaymentState extends State<Payment> {
                               shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(8),
                               ),
-                              padding: const EdgeInsets.symmetric(
-                                  vertical: 16),
+                              padding: const EdgeInsets.symmetric(vertical: 16),
                             ),
                             onPressed: () {
-                              final cartProvider = Provider.of<CartProvider>(context, listen: false);
+                              final cartProvider = Provider.of<CartProvider>(
+                                  context,
+                                  listen: false);
+
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                  builder: (c) => PdfInvoicePage(cartItems: cartProvider.cartItems)),
+                                  builder: (c) => PdfInvoicePage(
+                                    cartItems: convertToCartItems(
+                                        cartProvider.cartItems),
+                                  ),
+                                ),
                               );
                             },
                             child: Text(
@@ -330,3 +338,5 @@ class _PaymentState extends State<Payment> {
     );
   }
 }
+
+convertToCartItems(List<CartItem> cartItems) {}

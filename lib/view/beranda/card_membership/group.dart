@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:tubes_pbp_gym/models/items_cart.dart';
+import 'package:tubes_pbp_gym/entitiy/JenisMembership.dart';
 import 'package:tubes_pbp_gym/providers/cart_provider.dart';
 import 'package:tubes_pbp_gym/view/beranda/cart/cart.dart';
-import 'package:tubes_pbp_gym/entitiy/JenisMembership.dart';
 import 'package:tubes_pbp_gym/client/Jenis_membershipClient.dart';
+import 'package:tubes_pbp_gym/entitiy/Cart.dart';
 
 class GroupPage extends StatefulWidget {
   @override
@@ -117,12 +117,21 @@ class PackageCard extends StatelessWidget {
             SizedBox(height: 16),
             ElevatedButton(
               onPressed: () {
+                // final cartItem = CartItem(
+                //   title: membership.membershipTitle,
+                //   price: membership.price,
+                //   image: 'images/home-image/membership/group.png',
+                //   membershipTitle: 'Membership - ${membership.membershipTitle}',
+                //   type: CartItemType.membership,
+                // );
+
                 final cartItem = CartItem(
-                  title: membership.membershipTitle,
-                  price: membership.price,
+                  id: membership.idJenisMembership,
+                  membershipTitle: membership.membershipTitle,
                   image: 'images/home-image/membership/group.png',
-                  membershipTitle: 'Membership - ${membership.membershipTitle}',
-                  type: CartItemType.membership,
+                  price: (membership.price).toInt(),
+                  quantity: 1,
+                  isSelected: false,
                 );
 
                 Provider.of<CartProvider>(context, listen: false)

@@ -52,8 +52,8 @@ class GymEquipment {
         "quantity": quantity,
       };
 
-  String getImageUrl() {
-    if (imagePath == null) return 'assets/images/placeholder.png';
-    return 'http://127.0.0.1:8000/storage/app/public/images/$imagePath'; // Menyesuaikan URL berdasarkan image
-  }
+  // String getImageUrl() {
+  //   if (imagePath == null) return 'assets/images/placeholder.png';
+  //   return 'http://127.0.0.1:8000/storage/app/public/images/$imagePath'; // Menyesuaikan URL berdasarkan image
+  // }
 }

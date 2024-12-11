@@ -3,9 +3,9 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:tubes_pbp_gym/view/beranda/review_trainer/index_review.dart';
 import 'package:tubes_pbp_gym/entitiy/Trainers.dart';
 import 'package:tubes_pbp_gym/client/TrainerClient.dart';
-import 'package:tubes_pbp_gym/models/personal_trainer.dart';
+// import 'package:tubes_pbp_gym/models/personal_trainer.dart';
 import 'package:tubes_pbp_gym/view/beranda/cart/cart.dart';
-import 'package:tubes_pbp_gym/models/items_cart.dart';
+import 'package:tubes_pbp_gym/entitiy/Cart.dart';
 import 'package:tubes_pbp_gym/providers/cart_provider.dart';
 import 'package:provider/provider.dart';
 
@@ -29,7 +29,8 @@ class PersonalTrainerView extends StatelessWidget {
             itemCount: trainers.length,
             itemBuilder: (context, index) {
               final trainer = trainers[index];
-              return PersonalTrainerCard(trainer: trainer);  // Tidak perlu casting
+              return PersonalTrainerCard(
+                  trainer: trainer); // Tidak perlu casting
             },
           );
         }
@@ -37,7 +38,6 @@ class PersonalTrainerView extends StatelessWidget {
     );
   }
 }
-
 
 class PersonalTrainerCard extends StatefulWidget {
   final Trainers trainer;
@@ -71,7 +71,8 @@ class _PersonalTrainerCardState extends State<PersonalTrainerCard> {
                   ClipRRect(
                     borderRadius: BorderRadius.circular(50.0),
                     child: Image.asset(
-                      widget.trainer.imagePath ?? 'images/home-image/personal-trainer/Trainer1.png',  // Gambar default jika imagePath null
+                      widget.trainer.imagePath ??
+                          'images/home-image/personal-trainer/Trainer1.png', // Gambar default jika imagePath null
                       height: 60,
                       width: 60,
                       fit: BoxFit.cover,
@@ -209,13 +210,24 @@ class _PersonalTrainerCardState extends State<PersonalTrainerCard> {
                       }
 
                       // Membuat item keranjang
+                      // final cartItem = CartItem(
+                      //   title: widget.trainer.title,
+                      //   price: totalPrice,
+                      //   image: widget.trainer.imagePath ??
+                      //       'images/home-image/personal-trainer/Trainer1.png', // Gambar default jika imagePath null,
+                      //   membershipTitle:
+                      //       'Trainer - ${widget.trainer.title} ($selectedSession)',
+                      //   type: CartItemType.trainer,
+                      // );
+
                       final cartItem = CartItem(
-                        title: widget.trainer.title,
-                        price: totalPrice,
-                        image: widget.trainer.imagePath ?? 'images/home-image/personal-trainer/Trainer1.png',  // Gambar default jika imagePath null, 
-                        membershipTitle:
-                            'Trainer - ${widget.trainer.title} ($selectedSession)',
-                        type: CartItemType.trainer,
+                        id: widget.trainer.idTrainer,
+                        membershipTitle: widget.trainer.title,
+                        image: widget.trainer.imagePath ??
+                            'images/home-image/personal-trainer/Trainer1.png',
+                        price: (totalPrice).toInt(),
+                        quantity: 1,
+                        isSelected: false,
                       );
 
                       // Menambahkan item ke keranjang menggunakan CartProvider

@@ -64,8 +64,7 @@ class _GymEquipmentViewState extends State<GymEquipmentView> {
                         ),
                         child: ListTile(
                           leading: Image.asset(
-                            gymEquipment.imagePath ??
-                                'assets/images/placeholder.png',
+                            gymEquipment.imagePath,
                             width: 50,
                             height: 50,
                           ),

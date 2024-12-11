@@ -3,10 +3,10 @@ import 'package:tubes_pbp_gym/entitiy/Trainers.dart';
 import 'package:http/http.dart' as http;
 
 class TrainerClient {
-  static const String url = '10.0.2.2:8000'; // Base URL
+  static const String url = 'gym5api-production.up.railway.app'; // Base URL
   static const String endpoint = '/api/trainer'; // Base endpoint
 
-    // Fetch all trainers
+  // Fetch all trainers
   static Future<List<Trainers>> fetchAll() async {
     try {
       var response = await http.get(
@@ -32,8 +32,7 @@ class TrainerClient {
     try {
       final response = await http.get(Uri.http(url, '$endpoint/$id'));
 
-      if (response.statusCode == 404)
-        throw Exception("Trainer not found");
+      if (response.statusCode == 404) throw Exception("Trainer not found");
       if (response.statusCode != 200) throw Exception(response.reasonPhrase);
 
       final decodedResponse = json.decode(response.body);
@@ -47,7 +46,7 @@ class TrainerClient {
     }
   }
 
-    // Create Trainers baru
+  // Create Trainers baru
   static Future<http.Response> create(Trainers trainers) async {
     try {
       final response = await http.post(
@@ -73,8 +72,7 @@ class TrainerClient {
         body: trainers.toRawJson(),
       );
 
-      if (response.statusCode == 404)
-        throw Exception("Trainer not found");
+      if (response.statusCode == 404) throw Exception("Trainer not found");
       if (response.statusCode != 200) throw Exception(response.reasonPhrase);
 
       return response;
@@ -88,8 +86,7 @@ class TrainerClient {
     try {
       final response = await http.delete(Uri.http(url, '$endpoint/$id'));
 
-      if (response.statusCode == 404)
-        throw Exception("Trainer not found");
+      if (response.statusCode == 404) throw Exception("Trainer not found");
       if (response.statusCode != 200) throw Exception(response.reasonPhrase);
 
       return response;

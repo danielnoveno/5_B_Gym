@@ -11,16 +11,24 @@ import 'package:tubes_pbp_gym/models/items_cart.dart';
 import 'package:intl/intl.dart';
 import 'package:tubes_pbp_gym/client/RiwayatClient.dart';
 import 'package:tubes_pbp_gym/entitiy/Riwayat.dart';
+// import 'package:tubes_pbp_gym/entitiy/JenisMembership.dart';
 
 String _formatDate(DateTime date) {
   final months = [
-    "Jan", "Feb", "Mar", "Apr", "May", "Jun",
-    "Jul", "Agu", "Sep", "Okt", "Nov", "Des"
+    "Jan",
+    "Feb",
+    "Mar",
+    "Apr",
+    "May",
+    "Jun",
+    "Jul",
+    "Agu",
+    "Sep",
+    "Okt",
+    "Nov",
+    "Des"
   ];
-  final days = [
-    "Minggu", "Senin", "Selasa", "Rabu",
-    "Kamis", "Jumat", "Sabtu"
-  ];
+  final days = ["Minggu", "Senin", "Selasa", "Rabu", "Kamis", "Jumat", "Sabtu"];
 
   String dayName = days[date.weekday % 7];
   String day = date.day.toString().padLeft(2, '0');
@@ -35,9 +43,9 @@ String formatCurrency(double amount) {
   return formatter.format(amount.round()).replaceAll(',', '.');
 }
 
-
 class InvoicePdfGenerator {
-  Future<Uint8List> generateInvoice(Pelanggan pelanggan, List<CartItem> cartItems) async {
+  Future<Uint8List> generateInvoice(
+      Pelanggan pelanggan, List<CartItem> cartItems) async {
     final pdf = pw.Document();
 
     final ByteData bytes = await rootBundle.load('images/gym.png');
@@ -94,7 +102,8 @@ class InvoicePdfGenerator {
                         pw.Column(
                           crossAxisAlignment: pw.CrossAxisAlignment.start,
                           children: [
-                            pw.Text('Tanggal Nota: ${_formatDate(DateTime.now())}'),
+                            pw.Text(
+                                'Tanggal Nota: ${_formatDate(DateTime.now())}'),
                             pw.Text('Jatuh Tempo: -'),
                           ],
                         ),
@@ -162,12 +171,12 @@ class InvoicePdfGenerator {
                             _tableHeader('Total'),
                           ],
                         ),
-                        ...cartItems.map((item ) {
+                        ...cartItems.map((item) {
                           return _buildTableRow(
                             item.membershipTitle,
                             item.quantity.toString(),
-                            item.title,
-                            'Rp ${formatCurrency(item.price * item.quantity)}',
+                            item.membershipTitle,
+                            'Rp ${formatCurrency((item.price * item.quantity).toDouble())}',
                           );
                         }).toList(),
                         pw.TableRow(
@@ -175,7 +184,8 @@ class InvoicePdfGenerator {
                             pw.Padding(
                               padding: const pw.EdgeInsets.all(8),
                               child: pw.Text('Jumlah Total',
-                                  style: pw.TextStyle(fontWeight: pw.FontWeight.bold)),
+                                  style: pw.TextStyle(
+                                      fontWeight: pw.FontWeight.bold)),
                             ),
                             pw.SizedBox(),
                             pw.SizedBox(),
@@ -184,7 +194,8 @@ class InvoicePdfGenerator {
                               padding: const pw.EdgeInsets.all(8),
                               child: pw.Text(
                                 'Rp ${formatCurrency(cartItems.fold(0, (total, item) => total + (item.price * item.quantity)))}',
-                                style: pw.TextStyle(fontWeight: pw.FontWeight.bold),
+                                style: pw.TextStyle(
+                                    fontWeight: pw.FontWeight.bold),
                               ),
                             ),
                           ],
@@ -201,8 +212,11 @@ class InvoicePdfGenerator {
                             pw.Row(
                               children: [
                                 pw.Text('Jumlah Total: ',
-                                    style: pw.TextStyle(fontWeight: pw.FontWeight.bold)),
-                                pw.Text('Rp ${formatCurrency(cartItems.fold(0, (total, item) => total + (item.price * item.quantity)))}',),
+                                    style: pw.TextStyle(
+                                        fontWeight: pw.FontWeight.bold)),
+                                pw.Text(
+                                  'Rp ${formatCurrency(cartItems.fold(0, (total, item) => total + (item.price * item.quantity)))}',
+                                ),
                               ],
                             ),
                             pw.Row(
@@ -214,8 +228,11 @@ class InvoicePdfGenerator {
                             pw.Row(
                               children: [
                                 pw.Text('Jumlah Total: ',
-                                    style: pw.TextStyle(fontWeight: pw.FontWeight.bold)),
-                                pw.Text('Rp ${formatCurrency(cartItems.fold(0, (total, item) => total + (item.price * item.quantity)))}',),
+                                    style: pw.TextStyle(
+                                        fontWeight: pw.FontWeight.bold)),
+                                pw.Text(
+                                  'Rp ${formatCurrency(cartItems.fold(0, (total, item) => total + (item.price * item.quantity)))}',
+                                ),
                               ],
                             ),
                           ],
@@ -243,17 +260,16 @@ class InvoicePdfGenerator {
         },
       ),
     );
-    
-    int ID = pelanggan.idPelanggan; 
+
+    int ID = pelanggan.idPelanggan;
 
     for (var item in cartItems) {
-      
       Riwayat riwayat = Riwayat(
         idRiwayat: 0, // Assuming the ID will be generated by the server
         idPelanggan: ID, // Set the idPelanggan
         tanggalRiwayat: DateTime.now(),
         jenisLayanan: item.membershipTitle,
-        totalHarga: item.price,
+        totalHarga: item.price.toDouble(),
         imagePath: item.image, // Assuming each item has an associated image
       );
 
@@ -266,7 +282,6 @@ class InvoicePdfGenerator {
       }
     }
 
-
     return pdf.save();
   }
 
@@ -277,8 +292,8 @@ class InvoicePdfGenerator {
     );
   }
 
-  pw.TableRow _buildTableRow(String layanan, String jumlah,
-      String durasi, String total) {
+  pw.TableRow _buildTableRow(
+      String layanan, String jumlah, String durasi, String total) {
     return pw.TableRow(
       children: [
         pw.Padding(
@@ -306,6 +321,7 @@ class PdfInvoicePage extends StatelessWidget {
   final List<CartItem> cartItems;
 
   PdfInvoicePage({required this.cartItems});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -325,7 +341,8 @@ class PdfInvoicePage extends StatelessWidget {
             Pelanggan pelanggan = snapshot.data!;
 
             return FutureBuilder<Uint8List>(
-              future: InvoicePdfGenerator().generateInvoice(pelanggan, cartItems),
+              future:
+                  InvoicePdfGenerator().generateInvoice(pelanggan, cartItems),
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
                   return Center(child: CircularProgressIndicator());
@@ -345,15 +362,15 @@ class PdfInvoicePage extends StatelessWidget {
       ),
     );
   }
+}
 
-  Future<Pelanggan> _fetchProfile() async {
-    final prefs = await SharedPreferences.getInstance();
-    int? userId = prefs.getInt('userId');
+Future<Pelanggan> _fetchProfile() async {
+  final prefs = await SharedPreferences.getInstance();
+  int? userId = prefs.getInt('userId');
 
-    if (userId == null) {
-      throw Exception('User  not logged in');
-    }
-
-    return await PelangganClient.find(userId);
+  if (userId == null) {
+    throw Exception('User  not logged in');
   }
+
+  return await PelangganClient.find(userId);
 }

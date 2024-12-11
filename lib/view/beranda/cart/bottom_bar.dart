@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:tubes_pbp_gym/models/items_cart.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:tubes_pbp_gym/providers/cart_provider.dart';
 import 'package:tubes_pbp_gym/view/Payment/paymentMethod.dart';
+import 'package:tubes_pbp_gym/client/CartClient.dart';
+import 'package:tubes_pbp_gym/entitiy/Cart.dart';
 
 class BottomBar extends StatelessWidget {
   final List<CartItem> cartItems;
@@ -88,7 +89,8 @@ class BottomBar extends StatelessWidget {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (c) => PaymentPage(totalFormatted: totalFormatted),
+                        builder: (c) =>
+                            PaymentPage(totalFormatted: totalFormatted),
                       ),
                     );
                   },
@@ -166,13 +168,17 @@ class BottomBar extends StatelessWidget {
     );
   }
 
-// Fungsi untuk menghapus item dari cart berdasarkan indeks
+  // Fungsi untuk menghapus item dari cart berdasarkan indeks
   void _removeItemFromCart(BuildContext context, CartItem item) {
-    // Akses provider untuk menghapus item dari cart berdasarkan indeks
-    final cartProvider = Provider.of<CartProvider>(context, listen: false);
-    int index = cartProvider.cartItems.indexOf(item); // Menemukan indeks item
-    if (index != -1) {
-      cartProvider.removeItem(index); // Hapus item menggunakan indeks
-    }
+    // Panggil API untuk menghapus item dari server
+    CartItemClient.destroy(item.id).then((response) {
+      // Setelah item dihapus dari server, hapus dari provider dan UI
+      final cartProvider = Provider.of<CartProvider>(context, listen: false);
+      cartProvider.removeItemById(item.id); // Hapus item berdasarkan ID
+    }).catchError((e) {
+      // Tampilkan error jika gagal menghapus item
+      ScaffoldMessenger.of(context)
+          .showSnackBar(SnackBar(content: Text('Gagal menghapus item')));
+    });
   }
 }

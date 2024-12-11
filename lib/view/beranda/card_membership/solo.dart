@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 // import 'package:tubes_pbp_gym/data/membership_data.dart';
-import 'package:tubes_pbp_gym/models/items_cart.dart';
+import 'package:tubes_pbp_gym/entitiy/Cart.dart';
 import 'package:tubes_pbp_gym/providers/cart_provider.dart';
 import 'package:tubes_pbp_gym/view/beranda/cart/cart.dart';
 import 'package:tubes_pbp_gym/entitiy/JenisMembership.dart';
@@ -117,12 +117,21 @@ class PackageCard extends StatelessWidget {
             ElevatedButton(
               onPressed: () {
                 // Add the item to the cart and show the snack bar
+                // final cartItem = CartItem(
+                //   title: membership.membershipTitle,
+                //   price: membership.price,
+                //   image: 'images/home-image/membership/solo.png',
+                //   membershipTitle: 'Membership - ${membership.membershipTitle}',
+                //   type: CartItemType.membership,
+                // );
+
                 final cartItem = CartItem(
-                  title: membership.membershipTitle,
-                  price: membership.price,
-                  image: 'images/home-image/membership/solo.png',
-                  membershipTitle: 'Membership - ${membership.membershipTitle}',
-                  type: CartItemType.membership,
+                  id: membership.idJenisMembership,
+                  membershipTitle: membership.membershipTitle,
+                  image: 'images/home-image/membership/group.png',
+                  price: (membership.price).toInt(),
+                  quantity: 1,
+                  isSelected: false,
                 );
 
                 Provider.of<CartProvider>(context, listen: false)
