@@ -1,32 +1,46 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:tubes_pbp_gym/view/beranda/review_trainer/index_review.dart';
-import 'package:tubes_pbp_gym/data/trainer_data.dart';
-import 'package:tubes_pbp_gym/models/personal_trainer.dart';
+import 'package:tubes_pbp_gym/entitiy/Trainers.dart';
+import 'package:tubes_pbp_gym/client/TrainerClient.dart';
+// import 'package:tubes_pbp_gym/models/personal_trainer.dart';
 import 'package:tubes_pbp_gym/view/beranda/cart/cart.dart';
-import 'package:tubes_pbp_gym/models/items_cart.dart';
+import 'package:tubes_pbp_gym/entitiy/Cart.dart';
 import 'package:tubes_pbp_gym/providers/cart_provider.dart';
 import 'package:provider/provider.dart';
 
 class PersonalTrainerView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return ListView.builder(
-      padding: const EdgeInsets.symmetric(horizontal: 5),
-      itemCount: trainers.length,
-      itemBuilder: (context, index) {
-        final Trainer trainer = trainers[index];
+    return FutureBuilder<List<Trainers>>(
+      future: TrainerClient.fetchAll(),
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return Center(child: CircularProgressIndicator());
+        } else if (snapshot.hasError) {
+          return Center(child: Text('Error: ${snapshot.error}'));
+        } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
+          return Center(child: Text('No trainers available'));
+        } else {
+          final trainers = snapshot.data!;
 
-        return PersonalTrainerCard(
-          trainer: trainer,
-        );
+          return ListView.builder(
+            padding: const EdgeInsets.symmetric(horizontal: 5),
+            itemCount: trainers.length,
+            itemBuilder: (context, index) {
+              final trainer = trainers[index];
+              return PersonalTrainerCard(
+                  trainer: trainer); // Tidak perlu casting
+            },
+          );
+        }
       },
     );
   }
 }
 
 class PersonalTrainerCard extends StatefulWidget {
-  final Trainer trainer;
+  final Trainers trainer;
 
   PersonalTrainerCard({required this.trainer});
 
@@ -57,7 +71,8 @@ class _PersonalTrainerCardState extends State<PersonalTrainerCard> {
                   ClipRRect(
                     borderRadius: BorderRadius.circular(50.0),
                     child: Image.asset(
-                      widget.trainer.imagePath,
+                      widget.trainer.imagePath ??
+                          'images/home-image/personal-trainer/Trainer1.png', // Gambar default jika imagePath null
                       height: 60,
                       width: 60,
                       fit: BoxFit.cover,
@@ -195,13 +210,24 @@ class _PersonalTrainerCardState extends State<PersonalTrainerCard> {
                       }
 
                       // Membuat item keranjang
+                      // final cartItem = CartItem(
+                      //   title: widget.trainer.title,
+                      //   price: totalPrice,
+                      //   image: widget.trainer.imagePath ??
+                      //       'images/home-image/personal-trainer/Trainer1.png', // Gambar default jika imagePath null,
+                      //   membershipTitle:
+                      //       'Trainer - ${widget.trainer.title} ($selectedSession)',
+                      //   type: CartItemType.trainer,
+                      // );
+
                       final cartItem = CartItem(
-                        title: widget.trainer.title,
-                        price: totalPrice,
-                        image: widget.trainer.imagePath,
-                        membershipTitle:
-                            'Trainer - ${widget.trainer.title} ($selectedSession)',
-                        type: CartItemType.trainer,
+                        id: widget.trainer.idTrainer,
+                        membershipTitle: widget.trainer.title,
+                        image: widget.trainer.imagePath ??
+                            'images/home-image/personal-trainer/Trainer1.png',
+                        price: (totalPrice).toInt(),
+                        quantity: 1,
+                        isSelected: false,
                       );
 
                       // Menambahkan item ke keranjang menggunakan CartProvider

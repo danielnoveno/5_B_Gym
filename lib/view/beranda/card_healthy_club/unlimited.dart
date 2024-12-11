@@ -3,7 +3,7 @@ import 'package:tubes_pbp_gym/entitiy/HealthyClub.dart';
 import 'package:tubes_pbp_gym/client/Healthy_clubClient.dart';
 import 'package:provider/provider.dart';
 import 'package:tubes_pbp_gym/providers/cart_provider.dart';
-import 'package:tubes_pbp_gym/models/items_cart.dart';
+import 'package:tubes_pbp_gym/entitiy/Cart.dart';
 import 'package:tubes_pbp_gym/view/beranda/cart/cart.dart';
 
 class HealthyClubUnlimited extends StatefulWidget {
@@ -107,12 +107,17 @@ class _HealthyClubUnlimitedState extends State<HealthyClubUnlimited> {
                             ),
                           ),
                           onPressed: () {
+                            final selectedClass = kelasOlahragas.kelas
+                                .firstWhere(
+                                    (item) => item == kelasOlahragas.kelas[3]);
                             final cartItem = CartItem(
-                              title: 'Unlimited',
-                              price: parsePrice(kelasOlahragas.harga),
+                              id: kelasOlahragas.idKelas,
+                              membershipTitle:
+                                  'Healthy Club Unlimited Sesi Kelas - $selectedClass',
                               image: kelasOlahragas.imagePath,
-                              membershipTitle: 'Healthy Club Unlimited',
-                              type: CartItemType.healthy_club,
+                              price: parsePrice(kelasOlahragas.harga).toInt(),
+                              quantity: 1,
+                              isSelected: false,
                             );
 
                             Provider.of<CartProvider>(context, listen: false)
