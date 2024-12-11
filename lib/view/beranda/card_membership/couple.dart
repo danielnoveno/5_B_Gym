@@ -1,36 +1,69 @@
 import 'package:flutter/material.dart';
-import 'package:tubes_pbp_gym/data/membership_data.dart';
-import 'package:tubes_pbp_gym/models/membership_package.dart';
-import 'package:tubes_pbp_gym/view/beranda/cart/cart.dart';
-import 'package:tubes_pbp_gym/models/items_cart.dart';
 import 'package:provider/provider.dart';
+import 'package:tubes_pbp_gym/models/items_cart.dart';
 import 'package:tubes_pbp_gym/providers/cart_provider.dart';
+import 'package:tubes_pbp_gym/view/beranda/cart/cart.dart';
+import 'package:tubes_pbp_gym/entitiy/JenisMembership.dart';
+import 'package:tubes_pbp_gym/client/Jenis_membershipClient.dart';
 
-class CouplePage extends StatelessWidget {
+class CouplePage extends StatefulWidget {
+  @override
+  _CouplePageState createState() => _CouplePageState();
+}
+
+class _CouplePageState extends State<CouplePage> {
+  late Future<List<JenisMembership>> _futureMemberships;
+
+  @override
+  void initState() {
+    super.initState();
+    _futureMemberships = JenisMembershipClient.fetchAll();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.black, // Set background color to black
+      backgroundColor: Colors.black,
       appBar: AppBar(
-        title: Text(
-          "COUPLE",
-          style: TextStyle(color: Colors.white), // Set title color to white
-        ),
+        title: Text("COUPLE", style: TextStyle(color: Colors.white)),
         centerTitle: true,
-        backgroundColor: Colors.black, // Set the app bar background to black
-        iconTheme:
-            IconThemeData(color: Colors.white), // Set icon color to white
+        backgroundColor: Colors.black,
+        iconTheme: IconThemeData(color: Colors.white),
       ),
       body: Padding(
         padding: EdgeInsets.all(16.0),
-        child: SingleChildScrollView(
-          child: Column(
-            children: couplePackages.map((package) {
-              return PackageCard(
-                package: package,
+        child: FutureBuilder<List<JenisMembership>>(
+          future: _futureMemberships,
+          builder: (context, snapshot) {
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return Center(child: CircularProgressIndicator());
+            } else if (snapshot.hasError) {
+              return Center(child: Text("Error: ${snapshot.error}"));
+            } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
+              return Center(child: Text("Tidak ada data"));
+            } else {
+              final coupleMemberships = snapshot.data!
+                  .where((membership) =>
+                      membership.membershipTitle.toLowerCase() == "couple")
+                  .toList();
+
+              if (coupleMemberships.isEmpty) {
+                return Center(
+                    child: Text(
+                  "Jenis membership COUPLE yang ditemukan",
+                  style: TextStyle(color: Colors.white),
+                ));
+              }
+
+              return SingleChildScrollView(
+                child: Column(
+                  children: coupleMemberships.map((membership) {
+                    return PackageCard(membership: membership);
+                  }).toList(),
+                ),
               );
-            }).toList(),
-          ),
+            }
+          },
         ),
       ),
     );
@@ -38,17 +71,12 @@ class CouplePage extends StatelessWidget {
 }
 
 class PackageCard extends StatelessWidget {
-  final MembershipPackage package;
+  final JenisMembership membership;
 
-  PackageCard({required this.package});
+  PackageCard({required this.membership});
 
   @override
   Widget build(BuildContext context) {
-    double parsePrice(String price) {
-      String cleanPrice = price.replaceAll(RegExp(r'[^0-9]'), '');
-      return double.tryParse(cleanPrice) ?? 0.0;
-    }
-
     return Card(
       color: Color(0xFF2B2B2B),
       margin: EdgeInsets.symmetric(vertical: 8.0),
@@ -58,7 +86,7 @@ class PackageCard extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              package.title,
+              membership.type,
               style: TextStyle(
                   fontSize: 20,
                   fontWeight: FontWeight.bold,
@@ -66,18 +94,18 @@ class PackageCard extends StatelessWidget {
             ),
             SizedBox(height: 8),
             Text(
-              package.price,
+              "Harga: \Rp ${membership.price.toStringAsFixed(2)}/bulan",
               style: TextStyle(fontSize: 16, color: Colors.grey[400]),
             ),
             SizedBox(height: 8),
-            ...package.description.map((detail) => ListTile(
+            ...membership.features.map((feature) => ListTile(
                   leading: Icon(Icons.check_circle_outline,
                       color: Color(0xFF673296)),
-                  title: Text(detail, style: TextStyle(color: Colors.white)),
+                  title: Text(feature, style: TextStyle(color: Colors.white)),
                 )),
             SizedBox(height: 8),
             Text(
-              "Total Harga: ${package.total}",
+              "Total: ${membership.total}",
               style: TextStyle(
                   fontSize: 16,
                   fontWeight: FontWeight.bold,
@@ -86,24 +114,21 @@ class PackageCard extends StatelessWidget {
             SizedBox(height: 16),
             ElevatedButton(
               onPressed: () {
-                final totalPrice = parsePrice(package.total);
                 final cartItem = CartItem(
-                  title: package.title,
-                  price: totalPrice,
+                  title: membership.membershipTitle,
+                  price: membership.price,
                   image: 'images/home-image/membership/couple.png',
-                  membershipTitle: 'Membership - Couple ${package.title}',
+                  membershipTitle: 'Membership - ${membership.membershipTitle}',
                   type: CartItemType.membership,
                 );
 
-                // Add the item to the cart using CartProvider
                 Provider.of<CartProvider>(context, listen: false)
                     .addItem(cartItem);
 
-                // Show Snackbar
                 ScaffoldMessenger.of(context).showSnackBar(
                   SnackBar(
                     content: Text(
-                      'Membership Couple ${package.title} berhasil ditambahkan ke keranjang!',
+                      'Membership ${membership.membershipTitle} berhasil ditambahkan ke keranjang!',
                       style: TextStyle(color: Colors.white),
                     ),
                     backgroundColor: Colors.green,

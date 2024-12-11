@@ -7,21 +7,21 @@ class RiwayatClient {
   static const String endpoint = '/api/riwayat'; // Base endpoint
 
   // Fetch all riwayat
-  static Future<List<Riwayat>> fetchAll() async {
+  static Future<List<Riwayat>> fetchByPelanggan(int idPelanggan) async {
     try {
       var response = await http.get(
-        Uri.http(url, endpoint),
+        Uri.http(url, endpoint, {"idPelanggan": idPelanggan.toString()}),
       );
 
       if (response.statusCode != 200) throw Exception(response.reasonPhrase);
 
-      Iterable list =
-          json.decode(response.body); // Laravel returns plain JSON array
+      Iterable list = json.decode(response.body);
       return list.map((e) => Riwayat.fromJson(e)).toList();
     } catch (e) {
       return Future.error(e.toString());
     }
   }
+
 
   // Fetch a single riwayat by ID
   static Future<Riwayat> find(int id) async {
