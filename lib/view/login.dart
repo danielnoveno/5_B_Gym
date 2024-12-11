@@ -126,7 +126,6 @@ class _LoginViewState extends State<LoginView> {
                           password: passwordController.text,
                           role: selectedValue,
                         );
-
                         if (response['status'] == 'success') {
                           // Save token (optional: use a secure storage package)
                           // Navigate to the home page
@@ -137,7 +136,7 @@ class _LoginViewState extends State<LoginView> {
                         } else {
                           // Show error message
                           ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(content: Text(response['message'])),
+                            SnackBar(content: Text("Invalid Email or Password!")),
                           );
                         }
                       }

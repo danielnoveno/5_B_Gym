@@ -85,6 +85,26 @@ class BottomBar extends StatelessWidget {
                       });
                     }
                   }
+                : total > 0
+                    ? () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (c) =>
+                                PaymentPage(totalFormatted: totalFormatted),
+                          ),
+                        );
+                      }
+                    : () {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(
+                            content: Text(
+                              "Masukkan sesuatu ke dalam keranjang terlebih dahulu!",
+                            ),
+                            backgroundColor: Colors.red,
+                          ),
+                        );
+                      },
                 : () {
                     Navigator.push(
                       context,
@@ -109,7 +129,6 @@ class BottomBar extends StatelessWidget {
     return 'Rp ${formatCurrency.format(amount)}';
   }
 
-  // Konfirmasi untuk menghapus semua item yang dipilih
   void _showDeleteAllConfirmationDialog(BuildContext context) {
     showDialog(
       context: context,
@@ -138,7 +157,6 @@ class BottomBar extends StatelessWidget {
     );
   }
 
-  // Konfirmasi untuk menghapus item individu
   void _showDeleteConfirmationDialog(BuildContext context, CartItem item) {
     showDialog(
       context: context,
@@ -156,7 +174,6 @@ class BottomBar extends StatelessWidget {
             ),
             TextButton(
               onPressed: () {
-                // Panggil fungsi untuk menghapus item ini
                 _removeItemFromCart(context, item);
                 Navigator.of(context).pop(); // Menutup dialog
               },

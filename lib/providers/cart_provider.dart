@@ -71,6 +71,10 @@ class CartProvider with ChangeNotifier {
     }
   }
 
+  double getTotal() {
+    return _cartItems.fold(0.0, (total, item) => total + (item.price * item.quantity));
+  }
+
   // Update quantity of an item
   void updateQuantity(int index, int newQuantity) {
     _cartItems[index].quantity = newQuantity;
