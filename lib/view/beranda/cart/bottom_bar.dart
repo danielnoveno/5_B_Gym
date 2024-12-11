@@ -85,26 +85,6 @@ class BottomBar extends StatelessWidget {
                       });
                     }
                   }
-                : total > 0
-                    ? () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (c) =>
-                                PaymentPage(totalFormatted: totalFormatted),
-                          ),
-                        );
-                      }
-                    : () {
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(
-                            content: Text(
-                              "Masukkan sesuatu ke dalam keranjang terlebih dahulu!",
-                            ),
-                            backgroundColor: Colors.red,
-                          ),
-                        );
-                      },
                 : () {
                     Navigator.push(
                       context,
