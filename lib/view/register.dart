@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:tubes_pbp_gym/view/datadiri/jeniskelamin.dart';
+// import 'package:tubes_pbp_gym/view/datadiri/jeniskelamin.dart';
 import 'package:tubes_pbp_gym/entitiy/Pelanggan.dart';
 import 'package:tubes_pbp_gym/client/PelangganClient.dart';
 import 'package:tubes_pbp_gym/view/login.dart';
